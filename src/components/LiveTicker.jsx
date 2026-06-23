@@ -1,61 +1,58 @@
-import { useEffect, useState } from "react";
-import { LANGUAGE_COUNT } from "../lib/languages";
 import { motion, useReducedMotion } from "framer-motion";
 
-const stats = [
-  { label: "Calls with memory", value: 2847193, suffix: "+" },
-  { label: "Reconnect time", value: 0.8, suffix: "s" },
-  { label: "Regional languages", value: LANGUAGE_COUNT, suffix: "" },
-  { label: "Uptime", value: 99.9, suffix: "%" },
+const items = [
+  "Caller Memory",
+  "Auto-Redial",
+  "Caller Gender Detection",
+  "Campaign Engine",
+  "Native Scheduling",
+  "BYOP",
+  "Live Command Center",
+  "Indian Telephony",
+  "Vapi · Bolna · Retell don't have this",
 ];
 
-function format(n, suffix) {
-  if (suffix === "s") return `${n.toFixed(1)}s`;
-  if (suffix === "%") return `${n.toFixed(1)}%`;
-  if (suffix === "ms") return `${Math.round(n)}ms`;
-  if (suffix === "+") {
-    if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
-    if (n >= 1e3) return `${(n / 1e3).toFixed(0)}K`;
-    return String(n);
-  }
-  return String(n);
+function TickerTrack() {
+  const content = [...items, ...items];
+  return (
+    <div className="flex shrink-0 items-center gap-8 pr-8">
+      {content.map((item, i) => (
+        <span key={`${item}-${i}`} className="flex shrink-0 items-center gap-8 whitespace-nowrap">
+          <span className="font-mono text-[11px] uppercase tracking-wider text-[#71717a]">
+            {item}
+          </span>
+          <span className="text-[#3f3f46]">·</span>
+        </span>
+      ))}
+    </div>
+  );
 }
 
 export default function LiveTicker() {
-  const [tick, setTick] = useState(0);
   const reduce = useReducedMotion();
 
-  useEffect(() => {
-    if (reduce) return;
-    const id = setInterval(() => setTick((t) => t + 1), 3000);
-    return () => clearInterval(id);
-  }, [reduce]);
+  if (reduce) {
+    return (
+      <div className="border-b border-[#27272a] bg-black px-6 py-4">
+        <p className="text-center font-mono text-[10px] uppercase tracking-wider text-[#52525b]">
+          {items.join(" · ")}
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="grid grid-cols-2 gap-px bg-[#27272a] md:grid-cols-4">
-      {stats.map((stat, i) => {
-        const display =
-          stat.suffix === "+"
-            ? `${format(stat.value + tick * 47, "+")}+`
-            : format(stat.value, stat.suffix);
-
-        return (
-          <motion.div
-            key={stat.label}
-            className="group relative overflow-hidden bg-black px-6 py-5"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#FF9933]/0 to-[#14B8A6]/0 transition-all duration-500 group-hover:from-[#FF9933]/5 group-hover:to-[#14B8A6]/5" />
-            <p className="relative font-mono text-2xl font-medium text-white tabular-nums">
-              {display}
-            </p>
-            <p className="relative mt-1 text-xs text-[#52525b]">{stat.label}</p>
-          </motion.div>
-        );
-      })}
+    <div className="relative overflow-hidden border-b border-[#27272a] bg-black py-4">
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-black to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-black to-transparent" />
+      <motion.div
+        className="flex w-max"
+        animate={{ x: ["0%", "-50%"] }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      >
+        <TickerTrack />
+        <TickerTrack />
+      </motion.div>
     </div>
   );
 }

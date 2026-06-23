@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import SnapServeLogo from "./SnapServeLogo";
-import { APP_URL } from "../lib/links";
+import { SIGNUP_URL } from "../lib/links";
 
 const links = [
-  { label: "Memory / CRM", href: "#memory-crm" },
-  { label: "Smart Reconnect", href: "#smart-reconnect" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Contact", href: APP_URL },
+  { label: "Features", href: "#features" },
+  { label: "Compare", href: "#compare" },
+  { label: "Pricing", href: "#pricing" },
 ];
 
 export default function Sidebar() {
@@ -34,6 +33,16 @@ export default function Sidebar() {
               {link.label}
             </motion.a>
           ))}
+          <motion.a
+            href={SIGNUP_URL}
+            className="mt-2 text-sm font-medium text-[#14B8A6] transition-colors hover:text-[#2dd4bf]"
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.35 }}
+            rel="noopener noreferrer"
+          >
+            Get started →
+          </motion.a>
         </nav>
       </div>
 

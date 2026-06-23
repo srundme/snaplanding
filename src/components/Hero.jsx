@@ -1,91 +1,68 @@
 import { motion } from "framer-motion";
 import GlowButton from "./GlowButton";
-import { APP_URL, SIGNUP_URL } from "../lib/links";
+import { SIGNUP_URL } from "../lib/links";
 import HeroVisual from "./graphics/HeroVisual";
-import { HERO_LANGUAGE_LINE, LANGUAGE_TAGLINE } from "../lib/languages";
 
 const ease = [0.22, 1, 0.36, 1];
 
 export default function Hero() {
   return (
     <div className="grid lg:grid-cols-2">
-      {/* Copy — clean, breathable */}
       <div className="flex flex-col justify-center border-b border-[#27272a] px-8 py-14 md:px-12 md:py-16 lg:border-b-0 lg:border-r lg:px-14 lg:py-20">
-        <motion.p
-          className="label mb-5"
+        <motion.span
+          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-[#FF9933]/30 bg-[#FF9933]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-[#FF9933]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease }}
         >
-          Voice AI that doesn't start from zero
-        </motion.p>
+          <span className="h-1.5 w-1.5 rounded-full bg-[#FF9933]" />
+          Beta · Now live
+        </motion.span>
 
         <motion.h1
-          className="headline-xl max-w-[22rem] sm:max-w-lg"
+          className="headline-xl max-w-xl"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease }}
         >
-          Voice agents that{" "}
-          <span className="brand-gradient-text">remember</span> every caller.
+          Everything Vapi, Bolna, and Retell{" "}
+          <span className="brand-gradient-text">skip.</span>
         </motion.h1>
 
         <motion.p
-          className="mt-2 font-display text-xl font-medium brand-gradient-text sm:text-2xl"
+          className="body-text mt-5 max-w-md text-[#a1a1aa]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.14, ease }}
+          transition={{ duration: 0.7, delay: 0.16, ease }}
         >
-          {HERO_LANGUAGE_LINE}
-        </motion.p>
-
-        <motion.p
-          className="mt-3 text-sm leading-relaxed text-[#71717a]"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.17, ease }}
-        >
-          {LANGUAGE_TAGLINE}
-        </motion.p>
-
-        <motion.p
-          className="body-text mt-5 max-w-md"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease }}
-        >
-          SnapServe orchestrates enterprise voice AI for India — persistent caller
-          memory, native support for every regional language, and Smart Reconnect
-          when networks drop.
+          Caller memory. Auto-redial. Built-in campaigns and scheduling. One platform
+          — works with any provider you already use.
         </motion.p>
 
         <motion.div
           className="mt-9 flex flex-wrap items-center gap-3"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.28, ease }}
+          transition={{ duration: 0.7, delay: 0.24, ease }}
         >
-          <GlowButton>Open dashboard</GlowButton>
-          <a href={SIGNUP_URL} className="outline-btn" rel="noopener noreferrer">
-            Sign up
+          <GlowButton href={SIGNUP_URL} hoverText="Get started →">
+            Start building free
+          </GlowButton>
+          <a href="#compare" className="outline-btn">
+            See what&apos;s different
           </a>
         </motion.div>
 
-        <motion.div
-          className="mt-8 flex flex-wrap gap-x-4 gap-y-2 font-mono text-[10px] text-[#52525b]"
+        <motion.p
+          className="mt-6 font-mono text-[10px] text-[#52525b]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.36 }}
         >
-          <span>IRDAI · DPDP · TRAI</span>
-          <span className="text-[#3f3f46]">·</span>
-          <span>1+ year in production</span>
-          <span className="text-[#3f3f46]">·</span>
-          <span>Insurance &amp; EdTech</span>
-        </motion.div>
+          $5 free credit · No card required
+        </motion.p>
       </div>
 
-      {/* Visual — lightweight, not cramped CRM */}
       <div className="relative min-h-[380px] overflow-hidden lg:min-h-0">
         <HeroVisual />
       </div>
