@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import SnapServeLogo from "./SnapServeLogo";
 
 const links = [
   { label: "Memory / CRM", href: "#memory-crm" },
@@ -11,25 +12,13 @@ export default function Sidebar() {
   return (
     <aside className="fixed top-0 left-0 z-50 hidden h-screen w-[200px] flex-col justify-between py-8 pl-8 pr-4 lg:flex">
       <div>
-        <motion.a
-          href="#"
-          className="group flex items-center gap-2"
+        <motion.div
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="transition-transform group-hover:scale-110">
-            <defs>
-              <linearGradient id="logo-grad" x1="0" y1="0" x2="20" y2="20">
-                <stop stopColor="#FF9933" />
-                <stop offset="1" stopColor="#14B8A6" />
-              </linearGradient>
-            </defs>
-            <path d="M4 10c0-4.5 2.8-8 6-8s6 3.5 6 8-2.8 8-6 8" stroke="url(#logo-grad)" strokeWidth="2" strokeLinecap="round" />
-            <circle cx="10" cy="10" r="2.5" fill="url(#logo-grad)" />
-          </svg>
-          <span className="text-sm font-bold tracking-[0.12em] text-white">SNAPSERVE</span>
-        </motion.a>
+          <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
+        </motion.div>
 
         <nav className="mt-16 flex flex-col items-end gap-5">
           {links.map((link, i) => (
@@ -41,7 +30,6 @@ export default function Sidebar() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 + i * 0.06 }}
             >
-              <span className="absolute -right-3 top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-[#14B8A6] opacity-0 transition-opacity group-hover:opacity-100" />
               {link.label}
             </motion.a>
           ))}

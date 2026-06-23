@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import SiteFooter from "./SiteFooter";
+import SnapServeLogo from "./SnapServeLogo";
 
 function Section({ title, children }) {
   return (
@@ -25,18 +26,7 @@ export default function LegalLayout({ title, lastUpdated, children, crossLink })
     <div className="dot-bg min-h-screen">
       <header className="border-b border-[#27272a] px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden>
-              <path
-                d="M4 10c0-4.5 2.8-8 6-8s6 3.5 6 8"
-                stroke="#14B8A6"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <circle cx="10" cy="10" r="2.5" fill="#FF9933" />
-            </svg>
-            <span className="text-xs font-bold tracking-[0.12em] text-white">SNAPSERVE</span>
-          </Link>
+          <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
           <Link to="/" className="text-sm text-[#71717a] transition-colors hover:text-[#14B8A6]">
             ← Back to home
           </Link>

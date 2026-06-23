@@ -16,6 +16,7 @@ import ComparisonChart from "../components/graphics/ComparisonChart";
 import PlatformMockup from "../components/graphics/PlatformMockup";
 import GlowButton from "../components/GlowButton";
 import SiteFooter from "../components/SiteFooter";
+import SnapServeLogo from "../components/SnapServeLogo";
 import { Reveal, Stagger, StaggerItem, DrawBorder } from "../components/motion/Reveal";
 
 const insurers = [
@@ -74,13 +75,7 @@ export default function LandingPage() {
       <Sidebar />
 
       <header className="flex items-center justify-between border-b border-[#27272a] px-6 py-4 lg:hidden">
-        <a href="#" className="flex items-center gap-2">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-            <path d="M4 10c0-4.5 2.8-8 6-8s6 3.5 6 8" stroke="#14B8A6" strokeWidth="2" strokeLinecap="round" />
-            <circle cx="10" cy="10" r="2.5" fill="#FF9933" />
-          </svg>
-          <span className="text-xs font-bold tracking-[0.12em]">SNAPSERVE</span>
-        </a>
+        <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
         <a href="#cta" className="text-sm text-[#a1a1aa]">Book a demo</a>
       </header>
 
