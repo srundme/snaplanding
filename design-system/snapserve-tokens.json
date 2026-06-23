@@ -1,0 +1,60 @@
+{
+  "fonts": {
+    "sans": "\"Inter\", system-ui, -apple-system, sans-serif",
+    "display": "\"Plus Jakarta Sans\", \"Inter\", system-ui, sans-serif",
+    "mono": "\"JetBrains Mono\", ui-monospace, monospace",
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
+  },
+  "brand": {
+    "saffron": "#FF9933",
+    "teal": "#14B8A6",
+    "indigo": "#6366f1"
+  },
+  "background": {
+    "page": "#080808",
+    "base": "#0a0a0a",
+    "raised": "#111111",
+    "card": "#111111",
+    "elevated": "#141414",
+    "crm": "#0b0f14",
+    "crmSurface": "#0d1219",
+    "crmCard": "#111820",
+    "crmMuted": "#1a2535"
+  },
+  "border": {
+    "default": "#27272a",
+    "subtle": "#1c1c1c",
+    "strong": "#3f3f46",
+    "crm": "#1e2a3a"
+  },
+  "text": {
+    "primary": "#fafafa",
+    "secondary": "#a1a1aa",
+    "muted": "#71717a",
+    "faint": "#52525b",
+    "disabled": "#3f3f46",
+    "crmAccent": "#5b9fd4",
+    "crmLabel": "#5a6a7e"
+  },
+  "semantic": {
+    "success": "#22c55e",
+    "error": "#ef4444",
+    "warning": "#FF9933",
+    "info": "#3b82f6",
+    "star": "#fbbf24"
+  },
+  "gradient": {
+    "brand": "linear-gradient(135deg, #FF9933 0%, #14B8A6 50%, #6366f1 100%)"
+  },
+  "radius": {
+    "sm": "8px",
+    "md": "12px",
+    "lg": "16px",
+    "xl": "24px",
+    "full": "9999px"
+  },
+  "shadow": {
+    "glowBrand": "0 0 24px rgba(255, 153, 51, 0.2), 0 0 48px rgba(20, 184, 166, 0.12)",
+    "card": "0 32px 80px rgba(0, 0, 0, 0.5)"
+  }
+}

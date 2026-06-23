@@ -1,0 +1,39 @@
+/**
+ * SnapServe — Tailwind CSS v4 theme
+ * Add to your app: @import "./snapserve-tokens.css"; @import "./tailwind-theme.css";
+ * Or paste the @theme block into your existing index.css
+ */
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-brand-saffron: #ff9933;
+  --color-brand-teal: #14b8a6;
+  --color-brand-indigo: #6366f1;
+
+  --color-surface-page: #080808;
+  --color-surface-base: #0a0a0a;
+  --color-surface-raised: #111111;
+  --color-surface-card: #111111;
+
+  --color-crm-bg: #0b0f14;
+  --color-crm-surface: #0d1219;
+  --color-crm-card: #111820;
+  --color-crm-border: #1e2a3a;
+  --color-crm-accent: #5b9fd4;
+
+  --color-border: #27272a;
+  --color-border-strong: #3f3f46;
+
+  --color-ink: #fafafa;
+  --color-ink-secondary: #a1a1aa;
+  --color-ink-muted: #71717a;
+  --color-ink-faint: #52525b;
+
+  --color-success: #22c55e;
+  --color-error: #ef4444;
+  --color-warning: #ff9933;
+  --color-info: #3b82f6;
+}
