@@ -8,7 +8,7 @@ RUN apt-get update \
   && npm install -g npm@11.6.2
 
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --include=optional
 
 COPY . .
 RUN npm run build && npm prune --omit=dev
