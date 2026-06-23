@@ -35,7 +35,7 @@ export default function MemoryArchitecture() {
             that compounds with each conversation. Transparent injection, zero re-architecture.
           </p>
           <div className="mt-8">
-            <GlowButton href="#how-it-works">See the stack</GlowButton>
+            <GlowButton>Open dashboard</GlowButton>
           </div>
         </Reveal>
         <div className="relative min-h-[280px] md:min-h-[360px] md:border-l md:border-[#27272a]">

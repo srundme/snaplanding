@@ -76,7 +76,7 @@ export default function MemoryCRMSection() {
       </Stagger>
 
       <div className="border-t border-[#27272a] px-8 py-8 text-center md:px-14">
-        <GlowButton href="#cta">See your caller memory live</GlowButton>
+        <GlowButton>Open dashboard</GlowButton>
       </div>
     </div>
   );

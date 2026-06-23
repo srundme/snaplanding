@@ -60,7 +60,7 @@ export default function SmartReconnectSection() {
           </div>
 
           <Reveal delay={0.2} className="mt-8">
-            <GlowButton href="#cta">See it live on a demo call</GlowButton>
+            <GlowButton>Open dashboard</GlowButton>
           </Reveal>
         </div>
 

@@ -15,6 +15,7 @@ import WaveformGrid from "../components/graphics/WaveformGrid";
 import ComparisonChart from "../components/graphics/ComparisonChart";
 import PlatformMockup from "../components/graphics/PlatformMockup";
 import GlowButton from "../components/GlowButton";
+import { APP_URL, SIGNUP_URL } from "../lib/links";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
 import { Reveal, Stagger, StaggerItem, DrawBorder } from "../components/motion/Reveal";
@@ -76,7 +77,9 @@ export default function LandingPage() {
 
       <header className="flex items-center justify-between border-b border-[#27272a] px-6 py-4 lg:hidden">
         <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
-        <a href="#cta" className="text-sm text-[#a1a1aa]">Book a demo</a>
+        <a href={APP_URL} className="text-sm text-[#a1a1aa]" rel="noopener noreferrer">
+          Open dashboard
+        </a>
       </header>
 
       <div className="lg:pl-[200px]">
@@ -265,7 +268,7 @@ export default function LandingPage() {
                     natively, and interact in real time.
                   </p>
                   <div className="mt-6">
-                    <GlowButton>Book a demo</GlowButton>
+                    <GlowButton>Open dashboard</GlowButton>
                   </div>
                 </Reveal>
               </Cell>
@@ -419,8 +422,10 @@ export default function LandingPage() {
                   natively, and never ask the same question twice.
                 </p>
                 <div className="relative mt-8 flex flex-wrap items-center justify-center gap-3">
-                  <GlowButton href="mailto:hello@aitel.in?subject=SnapServe%20Demo">Book a demo</GlowButton>
-                  <a href="mailto:founder@aitel.in" className="outline-btn">Talk to the founder</a>
+                  <GlowButton>Open dashboard</GlowButton>
+                  <a href={SIGNUP_URL} className="outline-btn" rel="noopener noreferrer">
+                    Sign up
+                  </a>
                 </div>
               </Reveal>
             </Cell>

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import GlowButton from "./GlowButton";
+import { APP_URL, SIGNUP_URL } from "../lib/links";
 import HeroVisual from "./graphics/HeroVisual";
 import { HERO_LANGUAGE_LINE, LANGUAGE_TAGLINE } from "../lib/languages";
 
@@ -64,8 +65,10 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.28, ease }}
         >
-          <GlowButton>Book a demo</GlowButton>
-          <a href="#memory-crm" className="outline-btn">See caller memory</a>
+          <GlowButton>Open dashboard</GlowButton>
+          <a href={SIGNUP_URL} className="outline-btn" rel="noopener noreferrer">
+            Sign up
+          </a>
         </motion.div>
 
         <motion.div

@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import SnapServeLogo from "./SnapServeLogo";
+import { APP_URL } from "../lib/links";
 
 const links = [
   { label: "Memory / CRM", href: "#memory-crm" },
   { label: "Smart Reconnect", href: "#smart-reconnect" },
   { label: "How it works", href: "#how-it-works" },
-  { label: "Contact", href: "#cta" },
+  { label: "Contact", href: APP_URL },
 ];
 
 export default function Sidebar() {
