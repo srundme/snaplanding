@@ -155,6 +155,30 @@ body {
   color: #a1a1aa;
 }
 
+.legal-prose {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #a1a1aa;
+}
+
+.legal-prose p + p {
+  margin-top: 1rem;
+}
+
+.legal-prose a {
+  color: #14b8a6;
+  text-decoration: none;
+}
+
+.legal-prose a:hover {
+  text-decoration: underline;
+}
+
+.legal-prose strong {
+  color: #fafafa;
+  font-weight: 600;
+}
+
 .brand-gradient-text {
   background: linear-gradient(135deg, #FF9933, #14B8A6, #6366f1);
   background-size: 200% auto;
