@@ -1,24 +1,13 @@
 import { Reveal } from "./motion/Reveal";
 import SmartReconnect from "./graphics/SmartReconnect";
 import GlowButton from "./GlowButton";
+import { SIGNUP_URL } from "../lib/links";
 
 const traits = [
-  {
-    title: "Detects disconnects",
-    desc: "Network drops, signal loss, abrupt hangups — SnapServe knows the difference.",
-  },
-  {
-    title: "Calls back in < 1 second",
-    desc: "Outbound callback fires automatically. No queue. No human handoff.",
-  },
-  {
-    title: "Opens with context",
-    desc: '"Sorry, we got disconnected due to network" — then continues the exact thread.',
-  },
-  {
-    title: "Never re-asks",
-    desc: "Policy numbers, preferences, dispositions — already in memory. Zero repetition.",
-  },
+  { title: "Detects disconnects", desc: "Network drops, signal loss, abrupt hangups." },
+  { title: "Calls back in < 1s", desc: "Outbound callback fires automatically." },
+  { title: "Opens with context", desc: "Apologizes, then continues the exact thread." },
+  { title: "Never re-asks", desc: "Preferences already in memory. Zero repetition." },
 ];
 
 export default function SmartReconnectSection() {
@@ -28,23 +17,17 @@ export default function SmartReconnectSection() {
         <div className="flex flex-col justify-center p-8 md:p-12 lg:p-14 lg:border-r lg:border-[#27272a]">
           <Reveal>
             <p className="label mb-4">
-              <span className="rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-2.5 py-0.5 text-[#14B8A6]">
-                Flagship
+              <span className="rounded-full border border-[#FF9933]/30 bg-[#FF9933]/10 px-2.5 py-0.5 text-[#FF9933]">
+                Auto-Redial
               </span>
             </p>
             <h2 className="headline-lg">
-              Network drops.{" "}
-              <span className="brand-gradient-text">SnapServe calls back.</span>
+              Call drops mid-conversation?{" "}
+              <span className="brand-gradient-text">We redial.</span>
             </h2>
             <p className="body-text mt-6 max-w-lg">
-              When a call disconnects due to network issues, SnapServe doesn't wait for the
-              caller to dial again. Within a second, it initiates an outbound callback —
-              apologizes for the disconnect, and resumes exactly where the conversation left off.
-            </p>
-            <p className="mt-4 text-[15px] leading-relaxed text-white">
-              This isn't a system-prompt trick. It's orchestration with memory and intent —
-              the agent <em>knows</em> to call back if they asked, and <em>knows</em> what to
-              say without asking the same details again.
+              SnapServe detects the disconnect in under 200ms and calls back automatically.
+              The caller resumes exactly where they left off — no re-intro, no repeated questions.
             </p>
           </Reveal>
 
@@ -60,11 +43,13 @@ export default function SmartReconnectSection() {
           </div>
 
           <Reveal delay={0.2} className="mt-8">
-            <GlowButton>Open dashboard</GlowButton>
+            <GlowButton href={SIGNUP_URL} hoverText="Get started →">
+              Start building free
+            </GlowButton>
           </Reveal>
         </div>
 
-        <Reveal delay={0.1} className="relative">
+        <Reveal delay={0.1} className="relative min-h-[420px]">
           <SmartReconnect />
         </Reveal>
       </div>

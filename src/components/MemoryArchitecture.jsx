@@ -1,22 +1,23 @@
 import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
 import MemoryCloud from "./graphics/MemoryCloud";
 import GlowButton from "./GlowButton";
+import { SIGNUP_URL } from "../lib/links";
 
 const layers = [
   {
     label: "Layer 1",
-    title: "Raw Transcripts",
-    desc: "Every word, every call — stored and searchable. The foundation your agents build context from.",
+    title: "Facts",
+    desc: "Budget, intent, product interest — structured per call.",
   },
   {
     label: "Layer 2",
-    title: "Episode Summaries",
-    desc: "Condensed narratives of each conversation. What happened, what was promised, what comes next.",
+    title: "Episodes",
+    desc: "AI summary of each conversation — the story, not the transcript.",
   },
   {
     label: "Layer 3",
-    title: "Extracted Facts",
-    desc: "Structured data pulled automatically — policy numbers, preferences, dispositions, callbacks.",
+    title: "Sentences",
+    desc: "Verbatim quotes preserved word-for-word.",
   },
 ];
 
@@ -35,7 +36,9 @@ export default function MemoryArchitecture() {
             that compounds with each conversation. Transparent injection, zero re-architecture.
           </p>
           <div className="mt-8">
-            <GlowButton>Open dashboard</GlowButton>
+            <GlowButton href={SIGNUP_URL} hoverText="Get started →">
+              Start building free
+            </GlowButton>
           </div>
         </Reveal>
         <div className="relative min-h-[280px] md:min-h-[360px] md:border-l md:border-[#27272a]">

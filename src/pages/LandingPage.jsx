@@ -4,14 +4,18 @@ import CursorGlow from "../components/CursorGlow";
 import LiveTicker from "../components/LiveTicker";
 import Hero from "../components/Hero";
 import FeaturesSection from "../components/FeaturesSection";
-import MemoryLayersSection from "../components/MemoryLayersSection";
+import MemoryCRMSection from "../components/MemoryCRMSection";
+import SmartReconnectSection from "../components/SmartReconnectSection";
+import MemoryArchitecture from "../components/MemoryArchitecture";
+import StatsBar from "../components/StatsBar";
+import PlatformSection from "../components/PlatformSection";
 import CompareSection from "../components/CompareSection";
 import PricingSection from "../components/PricingSection";
 import GlowButton from "../components/GlowButton";
 import { SIGNUP_URL } from "../lib/links";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
-import { Reveal } from "../components/motion/Reveal";
+import { Reveal, DrawBorder } from "../components/motion/Reveal";
 
 function Cell({ children, className = "", border = true, id }) {
   return (
@@ -47,8 +51,19 @@ export default function LandingPage() {
           <div className="overflow-hidden rounded-3xl border border-[#27272a] bg-black shadow-[0_0_80px_rgba(20,184,166,0.04)]">
             <Hero />
             <LiveTicker />
+
             <FeaturesSection />
-            <MemoryLayersSection />
+            <DrawBorder className="mx-8 md:mx-12" />
+
+            <MemoryCRMSection />
+            <SmartReconnectSection />
+
+            <MemoryArchitecture />
+            <StatsBar />
+
+            <DrawBorder className="mx-8 md:mx-12" />
+
+            <PlatformSection />
             <CompareSection />
             <PricingSection />
 

@@ -2,6 +2,7 @@ import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
 import MemoryCRMDashboard from "./graphics/MemoryCRMDashboard";
 import CallLogViewer from "./graphics/CallLogViewer";
 import GlowButton from "./GlowButton";
+import { SIGNUP_URL } from "../lib/links";
 
 const layers = [
   {
@@ -76,7 +77,9 @@ export default function MemoryCRMSection() {
       </Stagger>
 
       <div className="border-t border-[#27272a] px-8 py-8 text-center md:px-14">
-        <GlowButton>Open dashboard</GlowButton>
+        <GlowButton href={SIGNUP_URL} hoverText="Get started →">
+          Start building free
+        </GlowButton>
       </div>
     </div>
   );

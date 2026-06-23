@@ -4,6 +4,7 @@ import { SIGNUP_URL } from "../lib/links";
 
 const links = [
   { label: "Features", href: "#features" },
+  { label: "Memory", href: "#memory-crm" },
   { label: "Compare", href: "#compare" },
   { label: "Pricing", href: "#pricing" },
 ];
