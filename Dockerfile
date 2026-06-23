@@ -18,4 +18,4 @@ ENV HOST=0.0.0.0
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "exec serve -s dist -l ${PORT:-3000}"]
+CMD ["npm", "start"]
