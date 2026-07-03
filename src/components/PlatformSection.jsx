@@ -5,17 +5,17 @@ import { SIGNUP_URL } from "../lib/links";
 
 export default function PlatformSection() {
   return (
-    <section className="bento-border border-b bg-[#0a0a0a]">
+    <section id="how" className="bento-border border-b bg-[#0a0a0a]">
       <div className="bento-border border-b p-8 text-center md:p-12 lg:p-14">
         <Reveal>
-          <p className="label">Live Command Center</p>
+          <p className="label">One dashboard</p>
           <h2 className="headline-lg mx-auto mt-3 max-w-2xl">
-            One console.{" "}
-            <span className="brand-gradient-text">Any provider.</span>
+            Run your calls{" "}
+            <span className="brand-gradient-text">from one screen.</span>
           </h2>
           <p className="body-text mx-auto mt-4 max-w-xl">
-            Memory, campaigns, latency, and scheduling — orchestrated in real time.
-            Bring your own keys from Vapi, Bolna, Retell, or any stack.
+            See every call, customer, and campaign in real time. Launch outbound, track
+            bookings, and watch your AI team work — no technical setup, no spreadsheets.
           </p>
         </Reveal>
       </div>

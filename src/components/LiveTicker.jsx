@@ -1,15 +1,14 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const items = [
-  "Caller Memory",
-  "Auto-Redial",
-  "Caller Gender Detection",
-  "Campaign Engine",
-  "Native Scheduling",
-  "BYOP",
-  "Live Command Center",
-  "Indian Telephony",
-  "Vapi · Bolna · Retell don't have this",
+  "Calls Your Leads",
+  "Remembers Every Customer",
+  "Every Indian Language",
+  "Auto-Redial on Drop",
+  "Books Meetings",
+  "Runs Campaigns",
+  "No Code Setup",
+  "Live Dashboard",
 ];
 
 function TickerTrack() {

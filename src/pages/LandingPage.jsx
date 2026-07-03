@@ -9,7 +9,7 @@ import SmartReconnectSection from "../components/SmartReconnectSection";
 import MemoryArchitecture from "../components/MemoryArchitecture";
 import StatsBar from "../components/StatsBar";
 import PlatformSection from "../components/PlatformSection";
-import CompareSection from "../components/CompareSection";
+import IndustriesSection from "../components/IndustriesSection";
 import PricingSection from "../components/PricingSection";
 import GlowButton from "../components/GlowButton";
 import { SIGNUP_URL } from "../lib/links";
@@ -64,25 +64,26 @@ export default function LandingPage() {
             <DrawBorder className="mx-8 md:mx-12" />
 
             <PlatformSection />
-            <CompareSection />
+            <IndustriesSection />
             <PricingSection />
 
             <Cell id="cta" className="relative overflow-hidden bg-black text-center" border={false}>
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,153,51,0.06)_0%,transparent_60%)]" />
               <Reveal>
                 <h2 className="headline-xl relative mx-auto max-w-2xl">
-                  Switch in a <span className="brand-gradient-text">weekend.</span>
+                  Put your calls on{" "}
+                  <span className="brand-gradient-text">autopilot.</span>
                 </h2>
                 <p className="body-text relative mx-auto mt-5 max-w-lg">
-                  Full memory, campaigns, and scheduling — layered on top of whatever
-                  provider you already use.
+                  Let SnapServe call your leads, remember every customer, and book your
+                  meetings — while you run your business.
                 </p>
                 <div className="relative mt-8 flex flex-col items-center gap-3">
                   <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-                    Start building free
+                    Start free
                   </GlowButton>
                   <p className="font-mono text-[10px] text-[#52525b]">
-                    $5 free credit · No credit card · Takes 2 minutes
+                    No code · Set up in minutes · Talk to us anytime
                   </p>
                 </div>
               </Reveal>

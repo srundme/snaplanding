@@ -16,7 +16,7 @@ export default function Hero() {
           transition={{ duration: 0.6, ease }}
         >
           <span className="h-1.5 w-1.5 rounded-full bg-[#FF9933]" />
-          Beta · Now live
+          Voice AI for Indian business
         </motion.span>
 
         <motion.h1
@@ -25,8 +25,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease }}
         >
-          Everything Vapi, Bolna, and Retell{" "}
-          <span className="brand-gradient-text">skip.</span>
+          Turn every lead into a{" "}
+          <span className="brand-gradient-text">conversation that converts.</span>
         </motion.h1>
 
         <motion.p
@@ -35,8 +35,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.16, ease }}
         >
-          Caller memory. Auto-redial. Built-in campaigns and scheduling. One platform
-          — works with any provider you already use.
+          Outbound campaigns, follow-ups, and bookings — on autopilot. SnapServe
+          remembers who called, what they want, and calls back if the line drops.
         </motion.p>
 
         <motion.div
@@ -46,10 +46,10 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.24, ease }}
         >
           <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-            Start building free
+            Start free
           </GlowButton>
-          <a href="#compare" className="outline-btn">
-            See what&apos;s different
+          <a href="#how" className="outline-btn">
+            See it live
           </a>
         </motion.div>
 
@@ -59,7 +59,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.36 }}
         >
-          $5 free credit · No card required
+          Meta leads · Website forms · Bulk CSV
         </motion.p>
       </div>
 

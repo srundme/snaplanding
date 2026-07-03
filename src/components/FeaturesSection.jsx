@@ -6,26 +6,26 @@ const features = [
   {
     n: "01",
     tag: "Memory",
-    title: "Your agent never forgets a caller.",
-    desc: "Every call builds a structured profile — facts, episode summaries, verbatim quotes. The next call starts with full context.",
+    title: "Remembers every customer.",
+    desc: "Past conversations, preferences, and promises — recalled automatically. No customer ever repeats themselves.",
     accent: "#14B8A6",
     span: "lg:col-span-2 lg:row-span-2",
     visual: "memory",
   },
   {
     n: "02",
-    tag: "Resilience",
-    title: "Call drops? We redial.",
-    desc: "Disconnect detected in under 200ms. Auto-callback resumes exactly where you left off.",
+    tag: "Auto-Redial",
+    title: "Call drops? It calls back.",
+    desc: "Network cut out mid-call? SnapServe redials in under a second and picks up exactly where it left off.",
     accent: "#FF9933",
     span: "",
     visual: "reconnect",
   },
   {
     n: "03",
-    tag: "Identity",
-    title: "AI knows who it's speaking with.",
-    desc: "Real-time caller gender detection shapes tone and vocabulary on every call.",
+    tag: "Caller ID",
+    title: "Knows who's on the line.",
+    desc: "Detects the caller's gender in real time and adapts its tone and language to sound natural, not robotic.",
     accent: "#6366f1",
     span: "",
     visual: "identity",
@@ -33,8 +33,8 @@ const features = [
   {
     n: "04",
     tag: "Campaigns",
-    title: "Leads come in. Calls go out.",
-    desc: "Meta ad forms, website forms, and bulk CSV — auto-dialed with DNC filtering and live queue monitoring.",
+    title: "Turns leads into calls, automatically.",
+    desc: "Leads from your Meta ads and website get dialed instantly. Upload a CSV and run thousands of calls — no spreadsheets, no manual dialing.",
     accent: "#22c55e",
     span: "lg:col-span-2",
     visual: "campaigns",
@@ -42,8 +42,8 @@ const features = [
   {
     n: "05",
     tag: "Scheduling",
-    title: "Agent books the meeting mid-call.",
-    desc: "Google Calendar sync, availability windows, double-booking prevention — no Cal.com, no Zapier.",
+    title: "Books the meeting for you.",
+    desc: "Syncs with your calendar and books appointments mid-call — no back-and-forth, no double-booking.",
     accent: "#a855f7",
     span: "lg:col-span-2",
     visual: "schedule",
@@ -167,13 +167,14 @@ export default function FeaturesSection() {
     <section id="features" className="bento-border border-b bg-[#0a0a0a]">
       <div className="bento-border border-b p-8 md:p-12 lg:p-14">
         <Reveal>
-          <p className="label">Exclusive features</p>
+          <p className="label">What it does</p>
           <h2 className="headline-lg mt-3 max-w-2xl">
-            5 things Vapi, Bolna &amp; Retell{" "}
-            <span className="brand-gradient-text">don&apos;t have</span>
+            Everything you need to{" "}
+            <span className="brand-gradient-text">turn calls into customers.</span>
           </h2>
           <p className="body-text mt-3 max-w-xl">
-            Built from scratch. Not on a roadmap. Shipped today.
+            Your whole calling operation — follow-ups, campaigns, and bookings — running
+            on autopilot, in every language your customers speak.
           </p>
         </Reveal>
       </div>

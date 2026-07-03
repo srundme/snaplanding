@@ -13,7 +13,7 @@ export default function SiteFooter({ compact = false }) {
             <nav className="flex flex-wrap gap-6">
               {[
                 { label: "Features", href: "/#features" },
-                { label: "Compare", href: "/#compare" },
+                { label: "Industries", href: "/#industries" },
                 { label: "Pricing", href: "/#pricing" },
                 { label: "Contact", href: "mailto:support@snapserve.ai" },
               ].map((l) => (
