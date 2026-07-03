@@ -71,19 +71,19 @@ export default function LandingPage() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,153,51,0.06)_0%,transparent_60%)]" />
               <Reveal>
                 <h2 className="headline-xl relative mx-auto max-w-2xl">
-                  Put your calls on{" "}
-                  <span className="brand-gradient-text">autopilot.</span>
+                  Start orchestrating{" "}
+                  <span className="brand-gradient-text">voice AI.</span>
                 </h2>
                 <p className="body-text relative mx-auto mt-5 max-w-lg">
-                  Let SnapServe call your leads, remember every customer, and book your
-                  meetings — while you run your business.
+                  Memory, campaigns, and scheduling — on the orchestration layer built
+                  for Indian business.
                 </p>
                 <div className="relative mt-8 flex flex-col items-center gap-3">
                   <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-                    Start free
+                    Get started
                   </GlowButton>
                   <p className="font-mono text-[10px] text-[#52525b]">
-                    No code · Set up in minutes · Talk to us anytime
+                    Provider-agnostic · Every Indian language · $5 free credit
                   </p>
                 </div>
               </Reveal>

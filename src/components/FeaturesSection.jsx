@@ -6,8 +6,8 @@ const features = [
   {
     n: "01",
     tag: "Memory",
-    title: "Remembers every customer.",
-    desc: "Past conversations, preferences, and promises — recalled automatically. No customer ever repeats themselves.",
+    title: "Persistent caller memory.",
+    desc: "Facts, episodes, and verbatim quotes — injected into every turn automatically. Callers never start from zero.",
     accent: "#14B8A6",
     span: "lg:col-span-2 lg:row-span-2",
     visual: "memory",
@@ -15,8 +15,8 @@ const features = [
   {
     n: "02",
     tag: "Auto-Redial",
-    title: "Call drops? It calls back.",
-    desc: "Network cut out mid-call? SnapServe redials in under a second and picks up exactly where it left off.",
+    title: "Auto-redial on drop.",
+    desc: "Detects disconnects in under 200ms and orchestrates an outbound callback — same context, no repeated questions.",
     accent: "#FF9933",
     span: "",
     visual: "reconnect",
@@ -24,8 +24,8 @@ const features = [
   {
     n: "03",
     tag: "Caller ID",
-    title: "Knows who's on the line.",
-    desc: "Detects the caller's gender in real time and adapts its tone and language to sound natural, not robotic.",
+    title: "Real-time caller intelligence.",
+    desc: "Gender detection and tone adaptation on every call — so agents sound natural, not scripted.",
     accent: "#6366f1",
     span: "",
     visual: "identity",
@@ -33,8 +33,8 @@ const features = [
   {
     n: "04",
     tag: "Campaigns",
-    title: "Turns leads into calls, automatically.",
-    desc: "Leads from your Meta ads and website get dialed instantly. Upload a CSV and run thousands of calls — no spreadsheets, no manual dialing.",
+    title: "Outbound campaign orchestration.",
+    desc: "Meta ad forms, website forms, and bulk CSV — leads auto-dialed with DNC filtering and live queue monitoring.",
     accent: "#22c55e",
     span: "lg:col-span-2",
     visual: "campaigns",
@@ -42,8 +42,8 @@ const features = [
   {
     n: "05",
     tag: "Scheduling",
-    title: "Books the meeting for you.",
-    desc: "Syncs with your calendar and books appointments mid-call — no back-and-forth, no double-booking.",
+    title: "In-call scheduling orchestration.",
+    desc: "Google Calendar sync, availability windows, and double-booking prevention — booked before the call ends.",
     accent: "#a855f7",
     span: "lg:col-span-2",
     visual: "schedule",
@@ -167,14 +167,14 @@ export default function FeaturesSection() {
     <section id="features" className="bento-border border-b bg-[#0a0a0a]">
       <div className="bento-border border-b p-8 md:p-12 lg:p-14">
         <Reveal>
-          <p className="label">What it does</p>
+          <p className="label">Orchestration</p>
           <h2 className="headline-lg mt-3 max-w-2xl">
-            Everything you need to{" "}
-            <span className="brand-gradient-text">turn calls into customers.</span>
+            One layer.{" "}
+            <span className="brand-gradient-text">Every call capability.</span>
           </h2>
           <p className="body-text mt-3 max-w-xl">
-            Your whole calling operation — follow-ups, campaigns, and bookings — running
-            on autopilot, in every language your customers speak.
+            Memory, resilience, campaigns, and scheduling — orchestrated automatically
+            across every conversation, in every Indian language.
           </p>
         </Reveal>
       </div>

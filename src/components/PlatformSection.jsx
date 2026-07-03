@@ -8,14 +8,14 @@ export default function PlatformSection() {
     <section id="how" className="bento-border border-b bg-[#0a0a0a]">
       <div className="bento-border border-b p-8 text-center md:p-12 lg:p-14">
         <Reveal>
-          <p className="label">One dashboard</p>
+          <p className="label">Orchestration Console</p>
           <h2 className="headline-lg mx-auto mt-3 max-w-2xl">
-            Run your calls{" "}
-            <span className="brand-gradient-text">from one screen.</span>
+            Configure, deploy, and monitor{" "}
+            <span className="brand-gradient-text">from one console.</span>
           </h2>
           <p className="body-text mx-auto mt-4 max-w-xl">
-            See every call, customer, and campaign in real time. Launch outbound, track
-            bookings, and watch your AI team work — no technical setup, no spreadsheets.
+            Memory injection, campaign queues, latency traces, and provider routing —
+            the full orchestration layer, visible in real time.
           </p>
         </Reveal>
       </div>

@@ -1,14 +1,14 @@
 import { motion, useReducedMotion } from "framer-motion";
 
 const items = [
-  "Calls Your Leads",
-  "Remembers Every Customer",
-  "Every Indian Language",
-  "Auto-Redial on Drop",
-  "Books Meetings",
-  "Runs Campaigns",
-  "No Code Setup",
-  "Live Dashboard",
+  "Voice Orchestration",
+  "Caller Memory",
+  "Auto-Redial",
+  "Campaign Engine",
+  "Native Scheduling",
+  "Provider-Agnostic",
+  "Indian Telephony",
+  "Live Monitoring",
 ];
 
 function TickerTrack() {

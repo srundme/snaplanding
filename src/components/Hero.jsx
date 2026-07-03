@@ -10,13 +10,13 @@ export default function Hero() {
     <div className="grid lg:grid-cols-2">
       <div className="flex flex-col justify-center border-b border-[#27272a] px-8 py-14 md:px-12 md:py-16 lg:border-b-0 lg:border-r lg:px-14 lg:py-20">
         <motion.span
-          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-[#FF9933]/30 bg-[#FF9933]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-[#FF9933]"
+          className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-[#14B8A6]/30 bg-[#14B8A6]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-[#14B8A6]"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease }}
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#FF9933]" />
-          Voice AI for Indian business
+          <span className="h-1.5 w-1.5 rounded-full bg-[#14B8A6]" />
+          AI Voice Orchestrator
         </motion.span>
 
         <motion.h1
@@ -25,8 +25,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08, ease }}
         >
-          Turn every lead into a{" "}
-          <span className="brand-gradient-text">conversation that converts.</span>
+          Voice AI orchestration for{" "}
+          <span className="brand-gradient-text">Indian business.</span>
         </motion.h1>
 
         <motion.p
@@ -35,8 +35,9 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.16, ease }}
         >
-          Outbound campaigns, follow-ups, and bookings — on autopilot. SnapServe
-          remembers who called, what they want, and calls back if the line drops.
+          The layer between your providers and your agents — caller memory, auto-redial,
+          campaigns, and scheduling orchestrated on every call. Provider-agnostic.
+          Built for Indian telephony.
         </motion.p>
 
         <motion.div
@@ -46,10 +47,10 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.24, ease }}
         >
           <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-            Start free
+            Get started
           </GlowButton>
           <a href="#how" className="outline-btn">
-            See it live
+            View platform
           </a>
         </motion.div>
 
@@ -59,7 +60,7 @@ export default function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.36 }}
         >
-          Meta leads · Website forms · Bulk CSV
+          Memory · Auto-Redial · Campaigns · Every Indian language
         </motion.p>
       </div>
 
