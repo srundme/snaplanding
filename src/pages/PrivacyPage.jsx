@@ -58,6 +58,7 @@ export default function PrivacyPage() {
             "We never sell your Google user data to third parties.",
             "We never use your Google data for advertising or marketing purposes.",
             "We never share your Google data with unauthorized third parties.",
+            "We never send Google API user data to third-party AI providers (including OpenAI, Anthropic, or other LLM services).",
             "Access is limited to the minimum scope required: calendar access is only used when you explicitly connect your calendar, and OAuth data is only used during sign-in.",
           ]}
         />
@@ -101,7 +102,7 @@ export default function PrivacyPage() {
             "Google Calendar API: For reading availability and creating calendar events.",
             "Google Meet API: For generating video conference links.",
             "Telephony Providers (Twilio, Plivo, Vobiz): For making and receiving voice calls. You bring your own provider keys.",
-            "AI Providers (OpenAI, Anthropic, Google, DeepSeek, etc.): For speech-to-text, language model, and text-to-speech processing. You bring your own provider keys.",
+            "AI Providers (OpenAI, Anthropic, Google, etc.): For speech-to-text, language model, and text-to-speech processing. You bring your own provider keys.",
             "Payment Processor: For handling wallet top-ups and billing.",
           ]}
         />
