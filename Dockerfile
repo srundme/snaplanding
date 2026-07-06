@@ -11,6 +11,10 @@ COPY package.json package-lock.json ./
 RUN npm ci --include=optional
 
 COPY . .
+
+ARG VITE_META_PIXEL_ID=985387470976266
+ENV VITE_META_PIXEL_ID=$VITE_META_PIXEL_ID
+
 RUN npm run build && npm prune --omit=dev
 
 ENV NODE_ENV=production
