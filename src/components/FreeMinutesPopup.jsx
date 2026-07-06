@@ -36,16 +36,17 @@ export default function FreeMinutesPopup() {
             onClick={dismiss}
           />
 
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="free-minutes-title"
-            className="fixed inset-x-4 top-1/2 z-[101] mx-auto max-w-md -translate-y-1/2 md:inset-x-auto"
-            initial={{ opacity: 0, y: reduce ? 0 : 24, scale: reduce ? 1 : 0.96 }}
-            animate={{ opacity: 1, y: "-50%", scale: 1 }}
-            exit={{ opacity: 0, y: reduce ? "-50%" : 16, scale: reduce ? 1 : 0.98 }}
-            transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-          >
+          <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none">
+            <motion.div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="free-minutes-title"
+              className="pointer-events-auto w-full max-w-md"
+              initial={{ opacity: 0, y: reduce ? 0 : 20, scale: reduce ? 1 : 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: reduce ? 0 : 12, scale: reduce ? 1 : 0.98 }}
+              transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+            >
             <div className="relative overflow-hidden rounded-2xl border border-[#14B8A6]/30 bg-[#0a0a0a] shadow-[0_0_80px_rgba(20,184,166,0.15)]">
               <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#FF9933]/20 blur-3xl" />
               <div className="pointer-events-none absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-[#14B8A6]/20 blur-3xl" />
@@ -99,7 +100,8 @@ export default function FreeMinutesPopup() {
                 </div>
               </div>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>
