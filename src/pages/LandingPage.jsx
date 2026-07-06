@@ -14,6 +14,7 @@ import PricingSection from "../components/PricingSection";
 import GlowButton from "../components/GlowButton";
 import { SIGNUP_URL } from "../lib/links";
 import SiteFooter from "../components/SiteFooter";
+import FreeMinutesPopup from "../components/FreeMinutesPopup";
 import SnapServeLogo from "../components/SnapServeLogo";
 import { Reveal, DrawBorder } from "../components/motion/Reveal";
 
@@ -31,6 +32,7 @@ function Cell({ children, className = "", border = true, id }) {
 export default function LandingPage() {
   return (
     <div className="dot-bg min-h-screen">
+      <FreeMinutesPopup />
       <CursorGlow />
       <ScrollProgress />
       <Sidebar />
