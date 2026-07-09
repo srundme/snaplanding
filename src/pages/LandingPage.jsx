@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import Sidebar from "../components/Sidebar";
 import ScrollProgress from "../components/ScrollProgress";
 import CursorGlow from "../components/CursorGlow";
@@ -11,8 +12,15 @@ import StatsBar from "../components/StatsBar";
 import PlatformSection from "../components/PlatformSection";
 import IndustriesSection from "../components/IndustriesSection";
 import PricingSection from "../components/PricingSection";
+import FAQSection from "../components/FAQSection";
+import BlogPreviewSection from "../components/BlogPreviewSection";
+import AeoBlock from "../components/AeoBlock";
+import AlternativesSection from "../components/AlternativesSection";
+import Seo from "../components/Seo";
 import GlowButton from "../components/GlowButton";
 import { SIGNUP_URL } from "../lib/links";
+import { homepageFaqs } from "../data/keywords";
+import { buildHomeGraph } from "../lib/seo";
 import SiteFooter from "../components/SiteFooter";
 import FreeMinutesPopup from "../components/FreeMinutesPopup";
 import SnapServeLogo from "../components/SnapServeLogo";
@@ -30,8 +38,11 @@ function Cell({ children, className = "", border = true, id }) {
 }
 
 export default function LandingPage() {
+  const jsonLd = useMemo(() => [buildHomeGraph(homepageFaqs)], []);
+
   return (
     <div className="dot-bg min-h-screen">
+      <Seo pathname="/" jsonLd={jsonLd} />
       <FreeMinutesPopup />
       <CursorGlow />
       <ScrollProgress />
@@ -68,6 +79,10 @@ export default function LandingPage() {
             <PlatformSection />
             <IndustriesSection />
             <PricingSection />
+            <AeoBlock />
+            <AlternativesSection />
+            <FAQSection faqs={homepageFaqs} />
+            <BlogPreviewSection />
 
             <Cell id="cta" className="relative overflow-hidden bg-black text-center" border={false}>
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,153,51,0.06)_0%,transparent_60%)]" />

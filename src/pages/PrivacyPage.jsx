@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 import LegalLayout, { Section, BulletList } from "../components/LegalLayout";
 
 export default function PrivacyPage() {
   return (
-    <LegalLayout
+    <>
+      <Seo
+        title="Privacy Policy | SnapServe"
+        description="SnapServe privacy policy — how we collect, use, and protect your data on our AI voice agent platform."
+        pathname="/privacy"
+        noindex={false}
+      />
+      <LegalLayout
       title="Privacy Policy"
       lastUpdated="June 2026"
       crossLink={
@@ -145,5 +153,6 @@ export default function PrivacyPage() {
         </p>
       </Section>
     </LegalLayout>
+    </>
   );
 }

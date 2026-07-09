@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import SnapServeLogo from "./SnapServeLogo";
 import { SIGNUP_URL } from "../lib/links";
@@ -7,6 +8,7 @@ const links = [
   { label: "Memory", href: "#memory-crm" },
   { label: "Industries", href: "#industries" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Blog", href: "/blog", route: true },
 ];
 
 export default function Sidebar() {
@@ -22,18 +24,34 @@ export default function Sidebar() {
         </motion.div>
 
         <nav className="mt-16 flex flex-col items-end gap-5">
-          {links.map((link, i) => (
-            <motion.a
-              key={link.href}
-              href={link.href}
-              className="relative text-sm text-[#a1a1aa] transition-colors hover:text-white"
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + i * 0.06 }}
-            >
-              {link.label}
-            </motion.a>
-          ))}
+          {links.map((link, i) =>
+            link.route ? (
+              <motion.div
+                key={link.href}
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.06 }}
+              >
+                <Link
+                  to={link.href}
+                  className="relative text-sm text-[#a1a1aa] transition-colors hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
+            ) : (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                className="relative text-sm text-[#a1a1aa] transition-colors hover:text-white"
+                initial={{ opacity: 0, x: -8 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 + i * 0.06 }}
+              >
+                {link.label}
+              </motion.a>
+            ),
+          )}
           <motion.a
             href={SIGNUP_URL}
             className="mt-2 text-sm font-medium text-[#14B8A6] transition-colors hover:text-[#2dd4bf]"

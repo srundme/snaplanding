@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
 import LegalLayout, { Section, BulletList } from "../components/LegalLayout";
 
 export default function TermsPage() {
   return (
-    <LegalLayout
+    <>
+      <Seo
+        title="Terms of Service | SnapServe"
+        description="SnapServe terms of service for the AI voice agent orchestration platform."
+        pathname="/terms"
+      />
+      <LegalLayout
       title="Terms of Service"
       lastUpdated="June 2026"
       crossLink={
@@ -179,5 +186,6 @@ export default function TermsPage() {
         </p>
       </Section>
     </LegalLayout>
+    </>
   );
 }
