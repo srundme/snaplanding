@@ -4,9 +4,19 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Plus Jakarta Sans", Georgia, serif;
   --color-brand-saffron: #FF9933;
   --color-brand-teal: #14B8A6;
   --color-brand-indigo: #6366f1;
+  /* shadcn-compatible tokens for ui components */
+  --color-background: #0a0a0a;
+  --color-foreground: #fafafa;
+  --color-primary: #14b8a6;
+  --color-primary-foreground: #0a0a0a;
+  --color-muted-foreground: #71717a;
+  --color-card: #18181b;
+  --color-card-foreground: #fafafa;
+  --color-border: #27272a;
 }
 
 * {
