@@ -26,7 +26,7 @@ export default function LegalLayout({ title, lastUpdated, children, crossLink })
     <div className="dot-bg min-h-screen">
       <header className="border-b border-[#27272a] px-6 py-4">
         <div className="mx-auto flex max-w-3xl items-center justify-between">
-          <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
+          <SnapServeLogo variant="full" size="sm" asLink href="/" />
           <Link to="/" className="text-sm text-[#71717a] transition-colors hover:text-[#14B8A6]">
             ← Back to home
           </Link>
@@ -40,7 +40,11 @@ export default function LegalLayout({ title, lastUpdated, children, crossLink })
         {crossLink && <div className="legal-prose mt-10 border-t border-[#27272a] pt-8">{crossLink}</div>}
       </main>
 
-      <SiteFooter compact />
+      <div className="border-t border-line bg-surface-0 px-6 py-6 md:px-10">
+        <div className="mx-auto max-w-3xl">
+          <SiteFooter compact />
+        </div>
+      </div>
     </div>
   );
 }

@@ -34,7 +34,7 @@ export default function BlogPostPage() {
           <div className="not-prose mt-12 space-y-8">
             <FunnelCTA
               title="Ready to launch your AI voice agents?"
-              subtitle="Start with 100 free minutes — caller memory, campaigns, and auto-redial included."
+              subtitle="Start with $5 free credit — caller memory, campaigns, and auto-redial included."
             />
 
             {post.funnelSlug && (

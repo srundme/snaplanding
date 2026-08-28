@@ -1,27 +1,34 @@
 import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
 
-export default function FAQSection({ faqs, id = "faq" }) {
+export default function FAQSection({
+  faqs,
+  id = "faq",
+  eyebrow = "FAQ",
+  title = (
+    <>
+      Questions teams ask before{" "}
+      <span className="brand-gradient-text">they switch.</span>
+    </>
+  ),
+  description = "Straight answers on platforms, pricing, and what SnapServe adds beyond a voice API.",
+}) {
   return (
-    <section id={id} className="bento-border border-b bg-[#0a0a0a] p-8 md:p-12 lg:p-14">
+    <section id={id} className="border-t border-[#27272a] pt-10">
       <Reveal>
-        <p className="label">FAQ</p>
-        <h2 className="headline-lg mt-3 max-w-2xl">
-          Questions about{" "}
-          <span className="brand-gradient-text">AI voice agents in India.</span>
-        </h2>
-        <p className="body-text mt-3 max-w-xl">
-          Straight answers for teams evaluating voice AI platforms, pricing, and alternatives.
-        </p>
+        <p className="label">{eyebrow}</p>
+        <h2 className="headline-lg mt-3 max-w-2xl">{title}</h2>
+        <p className="body-text mt-3 max-w-xl">{description}</p>
       </Reveal>
 
-      <Stagger className="mt-10 space-y-4" stagger={0.05}>
+      <Stagger className="mt-8 divide-y divide-[#27272a] border-t border-[#27272a]" stagger={0.04}>
         {faqs.map((item) => (
-          <StaggerItem
-            key={item.question}
-            className="rounded-xl border border-[#27272a] bg-black/50 p-6 md:p-7"
-          >
-            <h3 className="text-base font-semibold text-white">{item.question}</h3>
-            <p className="mt-3 text-sm leading-relaxed text-[#71717a]">{item.answer}</p>
+          <StaggerItem key={item.question} className="py-6">
+            <h3 className="text-[15.5px] font-semibold tracking-[-0.02em] text-white">
+              {item.question}
+            </h3>
+            <p className="aeo-answer mt-3 max-w-3xl text-sm leading-relaxed text-[#8b929d]">
+              {item.answer}
+            </p>
           </StaggerItem>
         ))}
       </Stagger>

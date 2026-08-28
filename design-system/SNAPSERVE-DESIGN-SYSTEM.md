@@ -572,4 +572,4 @@ export default function RootLayout({ children }) {
 
 ---
 
-*SnapServe by AITEL — design tokens from landing page v1*
+*SnapServe — design tokens from landing page v1*

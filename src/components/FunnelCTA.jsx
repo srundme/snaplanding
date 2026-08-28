@@ -2,8 +2,8 @@ import GlowButton from "./GlowButton";
 import { SIGNUP_URL } from "../lib/links";
 
 export default function FunnelCTA({
-  title = "Start orchestrating voice AI.",
-  subtitle = "100 free minutes · No credit card · Set up in minutes",
+  title = "Put SnapServe on every important call.",
+  subtitle = "$5 free credit · No card required · Live in minutes",
   className = "",
 }) {
   return (
@@ -17,8 +17,8 @@ export default function FunnelCTA({
         <GlowButton href={SIGNUP_URL} hoverText="Get started →">
           Get started free
         </GlowButton>
-        <p className="font-mono text-[10px] text-[#52525b]">
-          AI voice agent platform · Every Indian language
+        <p className="text-[11px] tracking-wide text-[#52525b]">
+          Pay per minute · BYOP or managed · Multilingual
         </p>
       </div>
     </div>

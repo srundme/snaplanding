@@ -6,7 +6,7 @@ export function Reveal({
   children,
   className = "",
   delay = 0,
-  y = 28,
+  y = 20,
   once = true,
 }) {
   const reduce = useReducedMotion();
@@ -21,7 +21,7 @@ export function Reveal({
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, margin: "-60px" }}
-      transition={{ duration: 0.75, delay, ease }}
+      transition={{ duration: 0.62, delay, ease }}
     >
       {children}
     </motion.div>
@@ -51,19 +51,24 @@ export function Stagger({ children, className = "", stagger = 0.1 }) {
   );
 }
 
-export function StaggerItem({ children, className = "" }) {
+export function StaggerItem({ children, className = "", style }) {
   const reduce = useReducedMotion();
 
   if (reduce) {
-    return <div className={className}>{children}</div>;
+    return (
+      <div className={className} style={style}>
+        {children}
+      </div>
+    );
   }
 
   return (
     <motion.div
       className={className}
+      style={style}
       variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
+        hidden: { opacity: 0, y: 16 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.56, ease } },
       }}
     >
       {children}

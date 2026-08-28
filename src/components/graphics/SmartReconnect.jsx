@@ -1,167 +1,307 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+﻿import { useEffect, useRef, useState, useCallback } from "react";
+import { Phone, PhoneOff } from "lucide-react";
+import { useInView, useReducedMotion } from "framer-motion";
 
-const STEPS = [
+/*
+  In-call phone — mid-cut, then auto-redial.
+  Clips in /public/audio/redial/
+*/
+
+const PHASES = [
   {
-    id: "active",
-    status: "On call · 02:14",
-    statusColor: "#22c55e",
-    lines: [
-      { role: "Agent", text: "Your ICICI policy IL-28491 renews March 15. Shall I send the payment link?" },
-      { role: "Caller", text: "Yes, but network is bad here. Call me back if we drop." },
-      { role: "Agent", text: "Noted. I'll continue right where we left off." },
+    id: "live",
+    label: "mobile",
+    tone: "live",
+    startSeconds: 134,
+    cut: true,
+    clips: [
+      {
+        who: "agent",
+        text: "Priya, your policy IL-28491 renews on 15th March. I can send the payment link on WhatsApp",
+        audio: "/audio/redial/en-live-01-agent.mp3?v=2",
+      },
+      {
+        who: "caller",
+        text: "Yes, send it… wait, my signal is going—",
+        audio: "/audio/redial/en-live-02-caller.mp3?v=2",
+      },
     ],
   },
   {
     id: "drop",
-    status: "Network lost",
-    statusColor: "#ef4444",
+    label: "call ended",
+    tone: "drop",
     lines: [],
-    alert: "Signal dropped — call disconnected",
+    system: "Call disconnected",
+    hold: 650,
   },
   {
-    id: "reconnect",
-    status: "Auto-callback · 0.8s",
-    statusColor: "#FF9933",
+    id: "dial",
+    label: "calling…",
+    tone: "dial",
+    startSeconds: 0,
     lines: [],
-    alert: "SnapServe initiated outbound callback",
-    timer: "< 1s",
+    system: "Calling +91 98401 22841",
+    hold: 950,
   },
   {
-    id: "resume",
-    status: "Reconnected · same context",
-    statusColor: "#14B8A6",
-    lines: [
-      { role: "Agent", text: "Sorry — we got disconnected due to network issues." },
-      { role: "Agent", text: "Picking up where we left off: your IL-28491 renewal on March 15. Sending that payment link now." },
-      { role: "Caller", text: "Wow, you didn't ask me anything again." },
+    id: "back",
+    label: "mobile",
+    tone: "live",
+    startSeconds: 0,
+    clips: [
+      {
+        who: "agent",
+        text: "Sorry Priya, the call dropped — looks like a network issue on your side. I’m continuing from where we left. Shall I send the IL-28491 payment link on WhatsApp?",
+        audio: "/audio/redial/en-back-01-agent.mp3?v=2",
+      },
+      {
+        who: "caller",
+        text: "Can you speak in Malayalam, ma’am?",
+        audio: "/audio/redial/en-back-02-caller.mp3?v=2",
+      },
+      {
+        who: "agent",
+        text: "ശരി Priya, network issue ആയതുകൊണ്ടാണ് call cut ആയത്. ഞാൻ അവിടെ നിന്ന് തന്നെ continue ചെയ്യാം. IL-28491-ന്റെ payment link WhatsApp-il അയച്ചു തരട്ടെ?",
+        audio: "/audio/redial/en-back-03-agent-ml.mp3?v=2",
+      },
+      {
+        who: "caller",
+        text: "ആ, അയച്ചോ. ആദ്യം മുതൽ ഒന്നും വീണ്ടും ചോദിക്കല്ല.",
+        audio: "/audio/redial/en-back-04-caller-ml.mp3?v=2",
+      },
     ],
-    badge: "No re-introduction. No repeated questions.",
   },
 ];
 
+const CLIP_FALLBACK_MS = 2200;
+const ALL_CLIPS = PHASES.flatMap((p) => p.clips?.map((c) => c.audio) || []);
+
+function formatCallClock(total) {
+  const safe = Math.max(0, Math.floor(total));
+  const m = String(Math.floor(safe / 60)).padStart(2, "0");
+  const s = String(safe % 60).padStart(2, "0");
+  return `${m}:${s}`;
+}
+
+function phaseLines(phase) {
+  if (phase.clips) return phase.clips;
+  return phase.lines || [];
+}
+
 export default function SmartReconnect() {
-  const [step, setStep] = useState(0);
+  const rootRef = useRef(null);
+  const audioRef = useRef(null);
+  const holdRef = useRef(null);
+  const phaseRef = useRef(0);
+  const clipRef = useRef(0);
   const reduce = useReducedMotion();
-  const current = STEPS[step];
+  const inView = useInView(rootRef, { amount: 0.4 });
+
+  const [phase, setPhase] = useState(0);
+  const [clipIdx, setClipIdx] = useState(0);
+  const [elapsed, setElapsed] = useState(PHASES[0].startSeconds);
+  const current = PHASES[phase];
+  const lines = phaseLines(current);
+  const activeClip = current.clips?.[clipIdx];
+
+  phaseRef.current = phase;
+  clipRef.current = clipIdx;
+
+  const clearHold = () => {
+    if (holdRef.current) {
+      clearTimeout(holdRef.current);
+      holdRef.current = null;
+    }
+  };
+
+  const pauseAudio = () => {
+    audioRef.current?.pause();
+  };
+
+  const advance = useCallback(() => {
+    const p = phaseRef.current;
+    const c = clipRef.current;
+    const step = PHASES[p];
+
+    if (step.clips && c < step.clips.length - 1) {
+      setClipIdx(c + 1);
+      return;
+    }
+
+    setClipIdx(0);
+    setPhase((i) => (i + 1) % PHASES.length);
+  }, []);
+
+  const scheduleAdvance = (ms) => {
+    clearHold();
+    holdRef.current = setTimeout(advance, ms);
+  };
+
+  const playClip = useCallback(async (src) => {
+    const audio = audioRef.current;
+    if (!audio || !src) return false;
+
+    if (audio.dataset.src !== src) {
+      audio.src = src;
+      audio.dataset.src = src;
+      audio.load();
+    } else {
+      audio.currentTime = 0;
+    }
+
+    audio.volume = 1;
+    try {
+      await audio.play();
+      return true;
+    } catch {
+      return false;
+    }
+  }, []);
+
+  // Preload every clip up front — no HEAD probe delay
+  useEffect(() => {
+    ALL_CLIPS.forEach((url) => {
+      const pre = new Audio();
+      pre.preload = "auto";
+      pre.src = url;
+    });
+  }, []);
 
   useEffect(() => {
-    if (reduce) return;
-    const id = setInterval(() => setStep((s) => (s + 1) % STEPS.length), 4200);
-    return () => clearInterval(id);
-  }, [reduce]);
+    if (reduce) return undefined;
+
+    if (!inView) {
+      pauseAudio();
+      clearHold();
+      return undefined;
+    }
+
+    const audio = audioRef.current;
+    clearHold();
+
+    if (current.hold) {
+      pauseAudio();
+      scheduleAdvance(current.hold);
+      return () => clearHold();
+    }
+
+    const src = activeClip?.audio;
+    if (!src) {
+      scheduleAdvance(CLIP_FALLBACK_MS);
+      return () => clearHold();
+    }
+
+    const onEnded = () => {
+      clearHold();
+      advance();
+    };
+
+    audio?.addEventListener("ended", onEnded);
+
+    void playClip(src).then((ok) => {
+      if (!ok) scheduleAdvance(CLIP_FALLBACK_MS);
+    });
+
+    return () => {
+      audio?.removeEventListener("ended", onEnded);
+      clearHold();
+    };
+  }, [phase, clipIdx, inView, reduce, current.hold, activeClip?.audio, advance, playClip]);
+
+  useEffect(() => {
+    if (typeof current.startSeconds === "number") {
+      setElapsed(current.startSeconds);
+    }
+  }, [phase, current.startSeconds]);
+
+  useEffect(() => {
+    if (reduce || !inView || current.tone !== "live") return undefined;
+    const id = window.setInterval(() => {
+      setElapsed((n) => n + 1);
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [phase, inView, reduce, current.tone]);
+
+  useEffect(() => () => clearHold(), []);
 
   return (
-    <div className="relative min-h-[420px] overflow-hidden bg-black">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,153,51,0.07)_0%,transparent_50%),radial-gradient(ellipse_at_70%_80%,rgba(20,184,166,0.08)_0%,transparent_50%)]" />
+    <div ref={rootRef} className="relative overflow-hidden bg-surface-0">
+      <audio ref={audioRef} preload="auto" playsInline />
 
-      {/* Phone frame */}
-      <div className="relative mx-auto max-w-sm p-6 pt-8">
-        <div className="overflow-hidden rounded-[28px] border border-[#27272a] bg-[#0a0a0a] shadow-[0_24px_80px_rgba(0,0,0,0.6)]">
-          <div className="flex items-center justify-between border-b border-[#27272a] px-5 py-3">
-            <div className="flex items-center gap-2">
-              <motion.span
-                className="h-2 w-2 rounded-full"
-                animate={{ backgroundColor: current.statusColor }}
-                transition={{ duration: 0.3 }}
-              />
-              <motion.span
-                key={current.status}
-                className="font-mono text-[11px] text-[#a1a1aa]"
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                {current.status}
-              </motion.span>
-            </div>
-            <span className="font-mono text-[10px] text-[#52525b]">SnapServe</span>
+      <div className="relative mx-auto flex max-w-[21.5rem] justify-center px-6 py-8">
+        <div
+          className="phone-redial"
+          aria-label="Phone call with auto-redial after disconnect"
+        >
+          <div className="phone-redial-status">
+            <span>Jio</span>
+            <span className="phone-redial-clock">7:41 PM</span>
+            <span>5G</span>
           </div>
 
-          <div className="relative min-h-[280px] p-5">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-3"
-              >
-                {current.alert && (
-                  <motion.div
-                    className={`rounded-xl border px-4 py-3 text-center text-sm ${
-                      current.id === "drop"
-                        ? "border-red-500/30 bg-red-500/10 text-red-300"
-                        : "border-[#FF9933]/30 bg-[#FF9933]/10 text-[#FF9933]"
-                    }`}
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                  >
-                    {current.alert}
-                    {current.timer && (
-                      <p className="mt-1 font-mono text-2xl font-semibold text-white">{current.timer}</p>
-                    )}
-                  </motion.div>
-                )}
+          <div className="phone-redial-head">
+            <p className="phone-redial-label">{current.label}</p>
+            <h3 className="phone-redial-name">Priya Nayar</h3>
+            <p className="phone-redial-meta">+91 98401 22841</p>
+            <p
+              className={`phone-redial-timer phone-redial-timer--${current.tone}`}
+            >
+              {formatCallClock(elapsed)}
+            </p>
+          </div>
 
-                {current.lines.map((line, i) => (
-                  <motion.div
-                    key={`${current.id}-${i}`}
-                    initial={{ opacity: 0, x: line.role === "Agent" ? -12 : 12 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.15 + i * 0.2 }}
-                    className={`max-w-[90%] rounded-2xl px-4 py-2.5 text-[13px] leading-relaxed ${
-                      line.role === "Agent"
-                        ? "mr-auto bg-[#111] text-[#d4d4d8] border border-[#27272a]"
-                        : "ml-auto bg-[#14B8A6]/15 text-[#a7f3d0] border border-[#14B8A6]/20"
-                    }`}
-                  >
-                    <span className="mb-1 block font-mono text-[9px] uppercase tracking-wider text-[#52525b]">
-                      {line.role}
-                    </span>
+          <div className="phone-redial-body">
+            {current.system ? (
+              <p
+                className={`phone-redial-system phone-redial-system--${current.tone}`}
+              >
+                {current.system}
+              </p>
+            ) : null}
+
+            {lines.map((line, i) => {
+              const isActive = current.clips && i === clipIdx;
+              const isPast = current.clips && i < clipIdx;
+              if (current.clips && !isActive && !isPast) return null;
+
+              return (
+                <div
+                  key={`${current.id}-${i}`}
+                  className={`phone-redial-line phone-redial-line--${line.who}${
+                    isActive ? " phone-redial-line--active" : ""
+                  }`}
+                >
+                  <p>
                     {line.text}
-                  </motion.div>
-                ))}
-
-                {current.badge && (
-                  <motion.p
-                    className="pt-2 text-center font-mono text-[10px] text-[#14B8A6]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.8 }}
-                  >
-                    {current.badge}
-                  </motion.p>
-                )}
-              </motion.div>
-            </AnimatePresence>
+                    {current.cut &&
+                    i === lines.length - 1 &&
+                    isActive ? (
+                      <span className="phone-redial-cut" aria-hidden="true" />
+                    ) : null}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Step indicators */}
-          <div className="flex justify-center gap-1.5 border-t border-[#27272a] py-3">
-            {STEPS.map((s, i) => (
-              <button
-                key={s.id}
-                type="button"
-                onClick={() => setStep(i)}
-                className={`h-1 rounded-full transition-all ${
-                  i === step ? "w-6 bg-[#14B8A6]" : "w-2 bg-[#27272a] hover:bg-[#3f3f46]"
+          <div className="phone-redial-controls">
+            {current.tone === "dial" ? (
+              <div className="phone-redial-end phone-redial-end--dial" aria-hidden="true">
+                <Phone className="h-5 w-5" strokeWidth={1.8} />
+              </div>
+            ) : (
+              <div
+                className={`phone-redial-end${
+                  current.tone === "drop" ? " phone-redial-end--dead" : ""
                 }`}
-                aria-label={`Step ${i + 1}`}
-              />
-            ))}
+                aria-hidden="true"
+              >
+                <PhoneOff className="h-5 w-5" strokeWidth={1.8} />
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Floating intelligence badge */}
-        <motion.div
-          className="absolute -right-2 top-16 hidden rounded-xl border border-[#27272a] bg-black/90 px-3 py-2 backdrop-blur-md md:block"
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          <p className="font-mono text-[9px] text-[#52525b]">INTENT</p>
-          <p className="text-xs text-white">Callback requested</p>
-        </motion.div>
       </div>
     </div>
   );

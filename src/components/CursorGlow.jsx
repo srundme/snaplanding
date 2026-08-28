@@ -1,42 +1,60 @@
-import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
+
+const GLOW =
+  "radial-gradient(circle, rgba(20,184,166,0.08) 0%, rgba(255,153,51,0.03) 40%, transparent 70%)";
 
 export default function CursorGlow() {
-  const [pos, setPos] = useState({ x: -200, y: -200 });
-  const [visible, setVisible] = useState(false);
-  const reduce = useReducedMotion();
+  const glowRef = useRef(null);
+  const hostRef = useRef(null);
+  const pos = useRef({ x: 90, y: 260 });
+  const frame = useRef(0);
 
   useEffect(() => {
-    if (reduce) return;
+    const host = hostRef.current?.parentElement;
+    const glow = glowRef.current;
+    if (!host || !glow) return;
 
-    const move = (e) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      setVisible(true);
+    const paint = () => {
+      glow.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
     };
-    const leave = () => setVisible(false);
 
-    window.addEventListener("mousemove", move, { passive: true });
-    window.addEventListener("mouseleave", leave);
+    const onMove = (e) => {
+      const r = host.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+
+      if (x < 0 || x > r.width || y < 0 || y > r.height) {
+        glow.style.opacity = "0";
+        return;
+      }
+
+      glow.style.opacity = "1";
+      pos.current = { x, y };
+      if (frame.current) return;
+      frame.current = requestAnimationFrame(() => {
+        frame.current = 0;
+        paint();
+      });
+    };
+
+    const onLeave = () => {
+      glow.style.opacity = "0";
+    };
+
+    paint();
+    host.addEventListener("pointermove", onMove, { passive: true });
+    host.addEventListener("pointerleave", onLeave);
+
     return () => {
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseleave", leave);
+      host.removeEventListener("pointermove", onMove);
+      host.removeEventListener("pointerleave", onLeave);
+      cancelAnimationFrame(frame.current);
     };
-  }, [reduce]);
-
-  if (reduce) return null;
+  }, []);
 
   return (
-    <motion.div
-      className="pointer-events-none fixed z-[100] h-[400px] w-[400px] rounded-full opacity-0 mix-blend-screen lg:opacity-100"
-      style={{
-        left: pos.x - 200,
-        top: pos.y - 200,
-        background:
-          "radial-gradient(circle, rgba(20,184,166,0.06) 0%, rgba(255,153,51,0.03) 40%, transparent 70%)",
-      }}
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
-      aria-hidden="true"
-    />
+    <div ref={hostRef} className="side-rail-glow-layer" aria-hidden="true">
+      <div ref={glowRef} className="side-rail-glow" style={{ background: GLOW }} />
+    </div>
   );
 }

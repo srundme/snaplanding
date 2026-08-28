@@ -1,226 +1,17 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ArrowRight, Play } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { PixelCanvas } from "@/components/ui/pixel-canvas";
+import BlurText from "@/components/ui/text-animations/BlurText";
+import CountUp from "@/components/ui/text-animations/CountUp";
 
-/* -----------------------------------------------------------------------------
- * TRUST LOGOS — provider ecosystem SnapServe orchestrates
- * -------------------------------------------------------------------------- */
-
-const BRAND_LOGOS = [
-  () => (
-    <span className="font-mono text-sm font-semibold tracking-tight text-foreground/75 opacity-60 transition-opacity duration-300 hover:opacity-100 md:text-base">
-      Twilio
-    </span>
-  ),
-  () => (
-    <span className="font-mono text-sm font-semibold tracking-tight text-foreground/75 opacity-60 transition-opacity duration-300 hover:opacity-100 md:text-base">
-      OpenAI
-    </span>
-  ),
-  () => (
-    <span className="font-mono text-sm font-semibold tracking-tight text-foreground/75 opacity-60 transition-opacity duration-300 hover:opacity-100 md:text-base">
-      Meta
-    </span>
-  ),
-  () => (
-    <span className="font-mono text-sm font-semibold tracking-tight text-foreground/75 opacity-60 transition-opacity duration-300 hover:opacity-100 md:text-base">
-      Plivo
-    </span>
-  ),
+const TEAL_PIXEL_COLORS = [
+  "rgba(20, 184, 166, 0.16)",
+  "rgba(45, 212, 191, 0.22)",
+  "rgba(13, 148, 136, 0.12)",
+  "rgba(94, 234, 212, 0.18)",
+  "rgba(148, 163, 184, 0.14)",
 ];
-
-/* -----------------------------------------------------------------------------
- * CANVAS STAGGERED PHYSICS ENGINE
- * -------------------------------------------------------------------------- */
-
-type Pixel = {
-  x: number;
-  y: number;
-  color: string;
-  ctx: CanvasRenderingContext2D;
-  speed: number;
-  size: number;
-  sizeStep: number;
-  minSize: number;
-  maxSizeInt: number;
-  maxSize: number;
-  delay: number;
-  counter: number;
-  counterStep: number;
-  isIdle: boolean;
-  isReverse: boolean;
-  isShimmer: boolean;
-  draw: () => void;
-  appear: () => void;
-  disappear: () => void;
-  shimmer: () => void;
-};
-
-function createPixel(
-  ctx: CanvasRenderingContext2D,
-  canvas: HTMLCanvasElement,
-  x: number,
-  y: number,
-  color: string,
-  baseSpeed: number,
-  delay: number,
-): Pixel {
-  const rand = (min: number, max: number) => Math.random() * (max - min) + min;
-
-  const p: Pixel = {
-    x,
-    y,
-    color,
-    ctx,
-    speed: rand(0.08, 0.4) * baseSpeed,
-    size: 0,
-    sizeStep: rand(0.12, 0.28),
-    minSize: 0.5,
-    maxSizeInt: 2,
-    maxSize: rand(0.5, 2),
-    delay,
-    counter: 0,
-    counterStep: rand(1.8, 3.2) + (canvas.width + canvas.height) * 0.008,
-    isIdle: false,
-    isReverse: false,
-    isShimmer: false,
-    draw() {
-      const offset = p.maxSizeInt * 0.5 - p.size * 0.5;
-      ctx.fillStyle = p.color;
-      ctx.fillRect(p.x + offset, p.y + offset, p.size, p.size);
-    },
-    appear() {
-      p.isIdle = false;
-      if (p.counter <= p.delay) {
-        p.counter += p.counterStep;
-        return;
-      }
-      if (p.size >= p.maxSize) p.isShimmer = true;
-      if (p.isShimmer) p.shimmer();
-      else p.size += p.sizeStep;
-      p.draw();
-    },
-    disappear() {
-      p.isShimmer = false;
-      p.counter = 0;
-      if (p.size <= 0) {
-        p.isIdle = true;
-        return;
-      }
-      p.size -= 0.1;
-      p.draw();
-    },
-    shimmer() {
-      if (p.size >= p.maxSize) p.isReverse = true;
-      else if (p.size <= p.minSize) p.isReverse = false;
-      if (p.isReverse) p.size -= p.speed;
-      else p.size += p.speed;
-    },
-  };
-
-  return p;
-}
-
-type PixelCanvasProps = {
-  colors: string[];
-  gap?: number;
-  speed?: number;
-};
-
-function PixelCanvas({ colors, gap = 5, speed = 30 }: PixelCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const pixelsRef = useRef<Pixel[]>([]);
-  const animationRef = useRef<number>(0);
-  const lastFrameRef = useRef(performance.now());
-  const reducedMotionRef = useRef(false);
-
-  const init = useCallback(() => {
-    const canvas = canvasRef.current;
-    const wrap = wrapRef.current;
-    if (!canvas || !wrap || colors.length === 0) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const { width, height } = wrap.getBoundingClientRect();
-    const w = Math.floor(width);
-    const h = Math.floor(height);
-    canvas.width = w;
-    canvas.height = h;
-    canvas.style.width = `${w}px`;
-    canvas.style.height = `${h}px`;
-
-    const effectiveSpeed = reducedMotionRef.current ? 0 : Math.min(speed, 100) * 0.001;
-    const pixels: Pixel[] = [];
-
-    for (let x = 0; x < w; x += gap) {
-      for (let y = 0; y < h; y += gap) {
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const dx = x - w / 2;
-        const dy = y - h / 2;
-        const delay = reducedMotionRef.current ? 0 : Math.sqrt(dx * dx + dy * dy) * 0.65;
-        pixels.push(createPixel(ctx, canvas, x, y, color, effectiveSpeed, delay));
-      }
-    }
-
-    pixelsRef.current = pixels;
-  }, [colors, gap, speed]);
-
-  const animate = useCallback((mode: "appear" | "disappear") => {
-    cancelAnimationFrame(animationRef.current);
-    const frameInterval = 1000 / 60;
-
-    const loop = () => {
-      animationRef.current = requestAnimationFrame(loop);
-
-      const now = performance.now();
-      const elapsed = now - lastFrameRef.current;
-      if (elapsed < frameInterval) return;
-      lastFrameRef.current = now - (elapsed % frameInterval);
-
-      const canvas = canvasRef.current;
-      const ctx = canvas?.getContext("2d");
-      if (!canvas || !ctx) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const pixels = pixelsRef.current;
-      for (const pixel of pixels) pixel[mode]();
-
-      if (pixels.every((p) => p.isIdle)) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-
-    animationRef.current = requestAnimationFrame(loop);
-  }, []);
-
-  useEffect(() => {
-    reducedMotionRef.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    init();
-
-    const resizeObserver = new ResizeObserver(() => init());
-    if (wrapRef.current) resizeObserver.observe(wrapRef.current);
-
-    animate("appear");
-
-    return () => {
-      resizeObserver.disconnect();
-      cancelAnimationFrame(animationRef.current);
-    };
-  }, [init, animate]);
-
-  return (
-    <div ref={wrapRef} className="absolute inset-0 overflow-hidden">
-      <canvas ref={canvasRef} className="block h-full w-full" />
-    </div>
-  );
-}
-
-/* -----------------------------------------------------------------------------
- * HERO COMPONENT
- * -------------------------------------------------------------------------- */
 
 export interface PixelHeroProps {
   className?: string;
@@ -229,149 +20,196 @@ export interface PixelHeroProps {
   description?: string;
   primaryCta?: string;
   primaryCtaMobile?: string;
+  primaryHref?: string;
   secondaryCta?: string;
   secondaryCtaMobile?: string;
   secondaryHref?: string;
   trustLabel?: string;
   onPrimaryClick?: () => void;
   onSecondaryClick?: () => void;
+  stackContent?: ReactNode;
 }
 
 export function PixelHero({
   className,
-  word1 = "Silent",
-  word2 = "Precision.",
-  description = "Minimalist interfaces driven by refined motion. Every calculated detail delivers an elevated digital experience.",
-  primaryCta = "Explore Design",
-  primaryCtaMobile = "Explore",
-  secondaryCta = "View Demo",
-  secondaryCtaMobile = "Demo",
-  secondaryHref = "#how",
-  trustLabel = "Works with your stack",
+  word1 = "Voice AI",
+  word2 = "Orchestration.",
+  description = "The layer between your providers and your agents — caller memory, auto-redial, campaigns, and scheduling on every call. Built for Indian telephony.",
+  primaryCta = "Get started free",
+  primaryCtaMobile = "Get started",
+  primaryHref,
+  secondaryCta = "View platform",
+  secondaryCtaMobile = "View platform",
+  secondaryHref = "#differentiator",
+  trustLabel = ":: WORKS WITH YOUR STACK ::",
   onPrimaryClick,
   onSecondaryClick,
+  stackContent,
 }: PixelHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [themeColors, setThemeColors] = useState<string[]>([]);
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
-
-    const div = document.createElement("div");
-    document.body.appendChild(div);
-    div.className = "text-muted-foreground";
-    const muted = getComputedStyle(div).color;
-    div.className = "text-primary";
-    const primary = getComputedStyle(div).color;
-    document.body.removeChild(div);
-
-    setThemeColors([muted, muted, muted, muted, primary]);
-
-    const loadTimer = setTimeout(() => setIsLoaded(true), 50);
-    return () => clearTimeout(loadTimer);
+    setThemeColors(TEAL_PIXEL_COLORS);
+    const loadTimer = window.setTimeout(() => setIsLoaded(true), 50);
+    return () => window.clearTimeout(loadTimer);
   }, []);
+
+  const PrimaryTag = primaryHref ? "a" : "button";
 
   return (
     <div
       className={cn(
-        "relative isolate flex min-h-[100dvh] w-full select-none flex-col overflow-hidden bg-background px-2 py-8 sm:px-6 md:py-10",
+        "pixel-hero relative isolate w-full select-none bg-[#050505] p-3 sm:p-4 md:p-6",
         className,
       )}
     >
       <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0%); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-marquee {
-          animation: marquee 25s linear infinite;
-        }
-        .tahoe-glass-text {
-            color: transparent;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 25%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.9) 55%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 1) 100%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3);
-            filter: drop-shadow(0 15px 35px rgba(0,0,0,0.4)) drop-shadow(0 5px 10px rgba(0,0,0,0.2));
-            animation: shimmer 8s linear infinite;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% center; }
-            100% { background-position: 0% center; }
+        .pixel-hero-chrome {
+          color: transparent;
+          background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0.45) 25%,
+            rgba(255, 255, 255, 0.12) 45%,
+            rgba(255, 255, 255, 0.92) 55%,
+            rgba(255, 255, 255, 0.25) 75%,
+            rgba(255, 255, 255, 1) 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-stroke: 1.25px rgba(255, 255, 255, 0.28);
+          text-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
         }
       `}</style>
 
-      <div className="pointer-events-none absolute inset-0 z-0">
-        {themeColors.length > 0 && <PixelCanvas colors={themeColors} gap={6} speed={30} />}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--color-background)_100%)] opacity-80" />
-      </div>
-
-      <div className="pointer-events-none relative z-10 flex flex-1 flex-col items-center justify-center px-1 text-center">
-        <div className="mt-20 sm:mt-0">
-          <h1 className="tahoe-glass-text flex w-full flex-row flex-wrap items-center justify-center gap-1.5 px-1 text-[2.8rem] leading-none sm:gap-4 sm:text-6xl md:text-8xl lg:gap-6 lg:text-9xl">
-            <span className="font-serif font-medium italic">{word1}</span>
-            <span className="font-sans font-extrabold tracking-tighter">{word2}</span>
-          </h1>
+      {/* Rounded frame — border line from reference */}
+      <div className="relative flex min-h-[min(100dvh,820px)] w-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-background md:rounded-[36px] lg:min-h-[780px]">
+        {/* Background pixel matrix + center glow + vignette */}
+        <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+          {themeColors.length > 0 && (
+            <PixelCanvas colors={themeColors} gap={8} speed={24} />
+          )}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.05)_0%,transparent_48%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_18%,rgba(0,0,0,0.92)_100%)] opacity-95" />
         </div>
 
-        <p className="mt-6 max-w-[95%] px-1 text-sm leading-relaxed font-light text-foreground/85 sm:max-w-md sm:text-lg md:mt-8 md:max-w-xl md:text-xl">
-          {description}
-        </p>
-      </div>
-
-      <div
-        className={cn(
-          "relative z-10 mt-auto flex w-full flex-col items-center gap-8 px-1 pb-2 md:gap-10 md:pb-4",
-          isLoaded ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
-          "transition-all duration-1000",
-        )}
-        style={{ transitionDelay: "450ms" }}
-      >
-        <div className="pointer-events-auto flex flex-row items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={onPrimaryClick}
-            className="relative inline-flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-b from-primary/90 to-primary px-4 text-xs font-semibold text-primary-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.3),0_2px_4px_rgba(0,0,0,0.15),0_12px_24px_rgba(0,0,0,0.15)] ring-1 ring-primary/20 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] md:h-12 md:gap-2 md:px-8 md:text-sm"
-          >
-            <span className="inline md:hidden">{primaryCtaMobile}</span>
-            <span className="hidden md:inline">{primaryCta}</span>
-            <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </button>
-          <a
-            href={secondaryHref}
-            onClick={onSecondaryClick}
-            className="relative inline-flex h-10 cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-gradient-to-b from-card/80 to-card px-4 text-xs font-semibold text-card-foreground shadow-[inset_0_1px_1px_rgba(255,255,255,0.1),0_2px_4px_rgba(0,0,0,0.05),0_12px_24px_rgba(0,0,0,0.05)] ring-1 ring-border/50 backdrop-blur-md transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98] md:h-12 md:gap-2 md:px-8 md:text-sm"
-          >
-            <Play className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            <span className="inline md:hidden">{secondaryCtaMobile}</span>
-            <span className="hidden md:inline">{secondaryCta}</span>
-          </a>
-        </div>
-
+        {/* Bottom fade into solid background */}
         <div
-          className="pointer-events-auto flex w-full flex-col items-center gap-4"
-          style={{ transitionDelay: "600ms" }}
-        >
-          <span className="text-[11px] font-medium tracking-wider text-muted-foreground/80 uppercase select-none md:text-xs">
-            {trustLabel}
-          </span>
-          <div className="relative w-full max-w-5xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_15%,white_85%,transparent)]">
-            <div className="animate-marquee flex w-max gap-12 py-1 md:gap-16 md:py-2">
-              <div className="flex items-center gap-12 md:gap-16">
-                {BRAND_LOGOS.map((Logo, i) => (
-                  <Logo key={i} />
-                ))}
-              </div>
-              <div className="flex items-center gap-12 md:gap-16" aria-hidden="true">
-                {BRAND_LOGOS.map((Logo, i) => (
-                  <Logo key={`c-${i}`} />
-                ))}
-              </div>
-            </div>
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-24 bg-gradient-to-t from-background to-transparent"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pt-16 pb-8 text-center sm:px-6 md:pt-20 md:pb-10">
+          <h1 className="flex w-full flex-col items-center gap-2 leading-none sm:gap-3 md:gap-4">
+            <span className="pixel-hero-chrome block font-['Sora',sans-serif] text-4xl font-medium tracking-[0.04em] sm:text-6xl md:text-7xl lg:text-8xl">
+              {word1}
+            </span>
+            <span className="pixel-hero-chrome block font-sans text-5xl font-bold tracking-[0.02em] sm:text-7xl md:text-8xl lg:text-[108px]">
+              {word2}
+            </span>
+          </h1>
+
+          <BlurText
+            text={description}
+            animateBy="words"
+            direction="bottom"
+            delay={55}
+            stepDuration={0.26}
+            className="mx-auto mt-8 max-w-xl text-base leading-relaxed font-normal text-white/70 sm:mt-10 sm:text-lg md:mt-12 md:max-w-2xl md:text-xl md:leading-[1.65]"
+          />
+
+          <div
+            className={cn(
+              "pointer-events-auto mt-10 flex flex-col items-center gap-3 sm:mt-12 sm:flex-row sm:justify-center md:mt-14",
+              isLoaded ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
+              "transition-all duration-1000 ease-out",
+            )}
+            style={{ transitionDelay: "280ms" }}
+          >
+            <PrimaryTag
+              {...(primaryHref
+                ? { href: primaryHref, rel: "noopener noreferrer" }
+                : { type: "button" as const })}
+              onClick={onPrimaryClick}
+              className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full bg-[#14b8a6] px-7 text-sm font-semibold text-black shadow-[0_0_20px_rgba(20,184,166,0.4)] transition-colors duration-200 hover:bg-[#2dd4bf] active:scale-[0.98] sm:h-12 sm:px-8 sm:text-[0.9375rem]"
+            >
+              <span className="sm:hidden">{primaryCtaMobile}</span>
+              <span className="hidden sm:inline">{primaryCta}</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </PrimaryTag>
+
+            <a
+              href={secondaryHref}
+              onClick={onSecondaryClick}
+              className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-7 text-sm font-medium text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/10 active:scale-[0.98] sm:h-12 sm:px-8 sm:text-[0.9375rem]"
+            >
+              <Play className="h-4 w-4 fill-current" aria-hidden="true" />
+              <span className="sm:hidden">{secondaryCtaMobile}</span>
+              <span className="hidden sm:inline">{secondaryCta}</span>
+            </a>
           </div>
+
+          <ul
+            className={cn(
+              "mt-8 flex flex-wrap items-center justify-center gap-y-2 px-2 sm:mt-10",
+              isLoaded ? "opacity-100" : "opacity-0",
+              "transition-opacity duration-1000",
+            )}
+            style={{ transitionDelay: "380ms" }}
+          >
+            {[
+              { label: "Caller memory" },
+              {
+                label: (
+                  <>
+                    Redial under{" "}
+                    <CountUp
+                      to={200}
+                      duration={1.2}
+                      delay={0.15}
+                      suffix="ms"
+                      className="tabular-nums"
+                    />
+                  </>
+                ),
+                key: "redial",
+              },
+              { label: "Every regional language" },
+            ].map((item, i) => (
+              <li
+                key={item.key ?? (typeof item.label === "string" ? item.label : i)}
+                className={cn(
+                  "inline-flex items-center text-[13px] font-medium tracking-[0.02em] text-white/55 sm:text-sm",
+                  i > 0 &&
+                    "before:mx-3 before:block before:h-3 before:w-px before:bg-white/20 before:content-[''] sm:before:mx-4",
+                )}
+              >
+                {item.label}
+              </li>
+            ))}
+          </ul>
         </div>
+
+        {stackContent ? (
+          <div
+            className={cn(
+              "relative z-10 mt-auto flex w-full flex-col items-center gap-4 px-4 pb-8 sm:px-6 md:pb-10",
+              isLoaded ? "opacity-100" : "opacity-0",
+              "transition-opacity duration-1000",
+            )}
+            style={{ transitionDelay: "480ms" }}
+          >
+            <span className="text-[11px] font-medium tracking-[0.22em] text-white/35 uppercase select-none sm:text-xs">
+              {trustLabel}
+            </span>
+            <div className="pointer-events-auto w-full max-w-5xl">{stackContent}</div>
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
+
+export default PixelHero;

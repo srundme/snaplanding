@@ -1,7 +1,40 @@
 import path from 'node:path'
-import { defineConfig, loadEnv } from 'vite'
+import { fileURLToPath } from 'node:url'
+import { defineConfig, loadEnv, createServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url))
+
+function seoPrerenderPlugin() {
+  return {
+    name: 'seo-prerender',
+    apply: 'build',
+    async closeBundle() {
+      const server = await createServer({
+        configFile: false,
+        root: rootDir,
+        server: { middlewareMode: true },
+        appType: 'custom',
+        resolve: {
+          alias: {
+            '@': path.resolve(rootDir, './src'),
+          },
+        },
+      })
+      try {
+        const mod = await server.ssrLoadModule('/scripts/seo-prerender.mjs')
+        const result = mod.prerenderSeoShells({
+          distDir: path.resolve(rootDir, 'dist'),
+          publicDir: path.resolve(rootDir, 'public'),
+        })
+        console.log(`[seo-prerender] wrote ${result.routes} route shells + sitemap.xml`)
+      } finally {
+        await server.close()
+      }
+    },
+  }
+}
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
@@ -10,7 +43,7 @@ export default defineConfig(({ mode }) => {
   return {
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': path.resolve(rootDir, './src'),
       },
     },
     plugins: [
@@ -24,6 +57,7 @@ export default defineConfig(({ mode }) => {
           return html.replace('</head>', `    ${noscript}\n  </head>`)
         },
       },
+      seoPrerenderPlugin(),
     ],
   }
 })

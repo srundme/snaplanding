@@ -2,58 +2,55 @@ import { Link } from "react-router-dom";
 import Seo from "../components/Seo";
 import ContentLayout from "../components/ContentLayout";
 import { blogPosts } from "../data/blogPosts";
-import { organizationSchema, websiteSchema } from "../lib/seo";
+import { buildBlogIndexGraph } from "../lib/seoCatalog";
+
+const BLOG_SEO = {
+  title: "AI Voice Agent Blog — Guides & Comparisons | SnapServe",
+  description:
+    "Guides on AI voice agent platforms, low-cost setups, Vapi and Bolna alternatives, and outbound calling playbooks.",
+  keywords: [
+    "ai voice agent blog",
+    "voice ai guides",
+    "vapi alternative",
+    "bolna alternative",
+    "ai voice agent platform",
+  ],
+};
 
 export default function BlogIndexPage() {
   return (
     <>
       <Seo
-        title="AI Voice Agent Blog — Guides for Indian Business | SnapServe"
-        description="Guides on AI voice agent platforms, low-cost voice agents in India, alternatives to Vapi and Bolna, and outbound calling playbooks."
+        title={BLOG_SEO.title}
+        description={BLOG_SEO.description}
         pathname="/blog"
-        keywords={[
-          "ai voice agent blog",
-          "voice ai guides india",
-          "best voice agents india",
-          "low cost voice agents india",
-          "ai voice agent platform",
-        ]}
-        jsonLd={[organizationSchema(), websiteSchema()]}
+        keywords={BLOG_SEO.keywords}
+        jsonLd={[buildBlogIndexGraph()]}
       />
       <ContentLayout
         eyebrow="Blog"
-        title="AI voice agent guides for India."
-        description="Platform comparisons, pricing guides, and outbound playbooks — written for business teams evaluating voice AI."
+        title="Guides on voice AI that ships."
+        description="Platform comparisons, pricing, and outbound playbooks — for teams evaluating SnapServe and the wider market."
         backHref="/"
       >
-        <div className="grid gap-4 not-prose">
+        <div className="grid gap-3 not-prose">
           {blogPosts.map((post) => (
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="group rounded-xl border border-[#27272a] bg-[#0a0a0a] p-6 transition-colors hover:border-[#14B8A6]/40"
+              className="group border-b border-[#27272a] py-7 transition-colors first:pt-0 last:border-b-0"
             >
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#52525b]">
-                  {post.readTime}
-                </span>
-                <span className="text-[#3f3f46]">·</span>
-                <span className="font-mono text-[10px] text-[#52525b]">{post.publishedAt}</span>
+              <div className="flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.08em] text-[#52525b]">
+                <span>{post.readTime}</span>
+                <span aria-hidden="true">·</span>
+                <span>{post.publishedAt}</span>
               </div>
-              <h2 className="mt-3 text-lg font-semibold text-white transition-colors group-hover:text-[#14B8A6]">
+              <h2 className="mt-3 text-[1.15rem] font-semibold tracking-[-0.025em] text-white transition-colors group-hover:text-[#5EEAD4] md:text-[1.25rem]">
                 {post.title}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-[#71717a]">{post.excerpt}</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {post.keywords.slice(0, 3).map((kw) => (
-                  <span
-                    key={kw}
-                    className="rounded-full border border-[#27272a] px-2.5 py-0.5 font-mono text-[9px] text-[#52525b]"
-                  >
-                    {kw}
-                  </span>
-                ))}
-              </div>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#8b929d]">
+                {post.excerpt}
+              </p>
             </Link>
           ))}
         </div>

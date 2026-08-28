@@ -1,215 +1,226 @@
-import { motion } from "framer-motion";
-import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
-import { displayFacts } from "../lib/sampleCallLog";
+import {
+  ArrowUpRight,
+  Database,
+  Layers,
+  Megaphone,
+  PhoneCall,
+  PhoneOutgoing,
+  Video,
+} from "lucide-react";
+import { Reveal } from "./motion/Reveal";
+import CountUp from "./ui/text-animations/CountUp";
+import {
+  DeepgramMark,
+  GoogleMeetMark,
+  HubSpotMark,
+  MetaMark,
+  OpenAIMark,
+  PlivoMark,
+  TeamsMark,
+  TwilioMark,
+  ZohoMark,
+  ZoomMark,
+} from "./PlatformLogos";
 
-const features = [
+const LEDGER = [
   {
-    n: "01",
-    tag: "Memory",
-    title: "Persistent caller memory.",
-    desc: "Facts, episodes, and verbatim quotes — injected into every turn automatically. Callers never start from zero.",
-    accent: "#14B8A6",
-    span: "lg:col-span-2 lg:row-span-2",
-    visual: "memory",
+    Icon: Video,
+    label: "Meeting bot",
+    outcome: "Joins Meet, Zoom, or Teams and writes notes back",
+    href: "#meeting-bot",
+    marks: [
+      { Mark: GoogleMeetMark, name: "Google Meet" },
+      { Mark: ZoomMark, name: "Zoom" },
+      { Mark: TeamsMark, name: "Microsoft Teams" },
+    ],
   },
   {
-    n: "02",
-    tag: "Auto-Redial",
-    title: "Auto-redial on drop.",
-    desc: "Detects disconnects in under 200ms and orchestrates an outbound callback — same context, no repeated questions.",
-    accent: "#FF9933",
-    span: "",
-    visual: "reconnect",
+    Icon: Database,
+    label: "Caller memory",
+    outcome: "Return callers never restart from zero",
+    stake: "Budget, language, intent loaded before greeting",
+    href: "#memory-crm",
   },
   {
-    n: "03",
-    tag: "Caller ID",
-    title: "Real-time caller intelligence.",
-    desc: "Gender detection and tone adaptation on every call — so agents sound natural, not scripted.",
-    accent: "#6366f1",
-    span: "",
-    visual: "identity",
+    Icon: PhoneCall,
+    label: "Auto-redial",
+    outcome: "Drop detected → callback with full context",
+    stake: "<200ms detect · <1s redial · same thread",
+    href: "#smart-reconnect",
   },
   {
-    n: "04",
-    tag: "Campaigns",
-    title: "Outbound campaign orchestration.",
-    desc: "Meta ad forms, website forms, and bulk CSV — leads auto-dialed with DNC filtering and live queue monitoring.",
-    accent: "#22c55e",
-    span: "lg:col-span-2",
-    visual: "campaigns",
+    Icon: Layers,
+    label: "One layer",
+    outcome: "Speech, model, voice, and phone — wired together",
+    marks: [
+      { Mark: TwilioMark, name: "Twilio" },
+      { Mark: PlivoMark, name: "Plivo" },
+      { Mark: DeepgramMark, name: "Deepgram" },
+      { Mark: OpenAIMark, name: "OpenAI" },
+    ],
   },
   {
-    n: "05",
-    tag: "Scheduling",
-    title: "In-call scheduling orchestration.",
-    desc: "Google Calendar sync, availability windows, and double-booking prevention — booked before the call ends.",
-    accent: "#a855f7",
-    span: "lg:col-span-2",
-    visual: "schedule",
+    Icon: PhoneOutgoing,
+    label: "Turn control",
+    outcome: "No silent hangs. Interruptions handled cleanly",
+    stake: "Barge-in · endpointing · warm pools",
+  },
+  {
+    Icon: Megaphone,
+    label: "Campaigns + CRM",
+    outcome: "Outbound runs; outcomes write back",
+    marks: [
+      { Mark: MetaMark, name: "Meta" },
+      { Mark: HubSpotMark, name: "HubSpot" },
+      { Mark: ZohoMark, name: "Zoho" },
+    ],
   },
 ];
 
-function FeatureVisual({ type, accent }) {
-  if (type === "memory") {
-    return (
-      <div className="mt-6 grid grid-cols-2 gap-2">
-        {displayFacts.slice(0, 4).map((f, i) => (
-          <motion.div
-            key={f.label}
-            className="rounded-lg border border-[#27272a] bg-black/60 p-2.5"
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 + i * 0.06 }}
-          >
-            <p className="font-mono text-[8px] uppercase text-[#52525b]">{f.label}</p>
-            <p className="mt-0.5 truncate text-xs text-white">{f.value}</p>
-          </motion.div>
-        ))}
-        <div className="col-span-2 flex items-center gap-2 rounded-lg border border-[#14B8A6]/20 bg-[#14B8A6]/5 px-3 py-2 font-mono text-[10px] text-[#14B8A6]">
-          <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-[#14B8A6]" />
-          memory_inject: 28ms · 17 facts loaded
-        </div>
-      </div>
-    );
-  }
+const PROOFS = [
+  { kind: "count", to: 800, prefix: "<", suffix: "ms", label: "warm response" },
+  { kind: "count", to: 1, suffix: "-click", label: "provider swap" },
+  { kind: "text", value: "BYOP", label: "or managed" },
+];
 
-  if (type === "reconnect") {
-    return (
-      <div className="mt-6 space-y-2 font-mono text-[10px]">
-        {[
-          { s: "On call", c: "#22c55e" },
-          { s: "Network lost", c: "#ef4444" },
-          { s: "Auto-callback · 0.8s", c: "#FF9933" },
-          { s: "Resumed · same context", c: accent },
-        ].map((step, i) => (
-          <motion.div
-            key={step.s}
-            className="flex items-center gap-2 rounded-lg border border-[#27272a] bg-black/50 px-3 py-2"
-            initial={{ opacity: 0, x: -8 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.15 + i * 0.08 }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: step.c }} />
-            <span className="text-[#a1a1aa]">{step.s}</span>
-          </motion.div>
-        ))}
-      </div>
-    );
-  }
+const CONTRAST = [
+  {
+    pain: "Four providers. Fragile sockets.",
+    gain: "One orchestration layer.",
+  },
+  {
+    pain: "Cold starts and long gaps.",
+    gain: "Warm pools and streaming.",
+  },
+];
 
-  if (type === "identity") {
-    return (
-      <div className="mt-6 rounded-xl border border-[#27272a] bg-black/50 p-4">
-        <div className="flex items-center justify-between">
-          <span className="font-mono text-[9px] text-[#52525b]">Voice analysis</span>
-          <span className="rounded bg-[#6366f1]/20 px-2 py-0.5 font-mono text-[9px] text-[#a78bfa]">
-            LIVE
-          </span>
-        </div>
-        <div className="mt-3 flex h-10 items-end gap-0.5">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="w-1 rounded-full bg-[#6366f1]/60"
-              initial={{ height: 4 }}
-              animate={{ height: [4, 6 + (i % 5) * 4, 4] }}
-              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.04 }}
-            />
-          ))}
-        </div>
-        <p className="mt-3 font-mono text-[10px] text-[#a1a1aa]">
-          Caller gender detected → tone adapted
-        </p>
-      </div>
-    );
-  }
-
-  if (type === "campaigns") {
-    return (
-      <div className="mt-6 grid gap-2 sm:grid-cols-3">
-        {[
-          { label: "Meta leads", count: "142 queued" },
-          { label: "Website form", count: "38 auto-dial" },
-          { label: "CSV batch", count: "10K uploaded" },
-        ].map((item, i) => (
-          <motion.div
-            key={item.label}
-            className="rounded-lg border border-[#27272a] bg-black/50 p-3"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 + i * 0.06 }}
-          >
-            <p className="font-mono text-[9px] text-[#52525b]">{item.label}</p>
-            <p className="mt-1 text-xs font-medium text-[#22c55e]">{item.count}</p>
-          </motion.div>
-        ))}
-      </div>
-    );
-  }
-
+function EqualsMark() {
   return (
-    <div className="mt-6 rounded-xl border border-[#27272a] bg-black/50 p-4 font-mono text-[10px]">
-      <p className="text-[#52525b]">Google Calendar · synced</p>
-      <div className="mt-3 rounded-lg border border-[#a855f7]/30 bg-[#a855f7]/5 p-3">
-        <p className="text-[#a855f7]">Booked · Thu 3:00 PM IST</p>
-        <p className="mt-1 text-[#a1a1aa]">Demo call confirmed mid-conversation</p>
-      </div>
-    </div>
+    <span className="feat-cov-eq" aria-hidden="true">
+      <span />
+      <span />
+    </span>
   );
 }
 
 export default function FeaturesSection() {
   return (
-    <section id="features" className="bento-border border-b bg-[#0a0a0a]">
-      <div className="bento-border border-b p-8 md:p-12 lg:p-14">
-        <Reveal>
-          <p className="label">Orchestration</p>
-          <h2 className="headline-lg mt-3 max-w-2xl">
-            One layer.{" "}
-            <span className="brand-gradient-text">Every call capability.</span>
-          </h2>
-          <p className="body-text mt-3 max-w-xl">
-            Memory, resilience, campaigns, and scheduling — orchestrated automatically
-            across every conversation, in every Indian language.
-          </p>
-        </Reveal>
-      </div>
+    <section id="differentiator" className="feat-cov">
+      <div className="feat-cov-glow" aria-hidden="true" />
 
-      <Stagger
-        className="grid gap-px bg-[#27272a] lg:grid-cols-4"
-        stagger={0.05}
-      >
-        {features.map((f) => (
-          <StaggerItem
-            key={f.n}
-            className={`group relative overflow-hidden bg-[#0a0a0a] p-8 md:p-10 ${f.span}`}
-          >
-            <div
-              className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-3xl transition-opacity group-hover:opacity-40"
-              style={{ backgroundColor: f.accent }}
-            />
-            <div className="relative">
-              <div className="flex items-baseline gap-3">
-                <span className="font-mono text-sm" style={{ color: f.accent }}>
-                  {f.n}
-                </span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[#52525b]">
-                  {f.tag}
-                </span>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold text-white">{f.title}</h3>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-[#71717a]">
-                {f.desc}
+      <div className="feat-cov-inner">
+        <Reveal>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-7 bg-[#14B8A6]/60" />
+            <p className="label text-ink-2">Product</p>
+          </div>
+          <h2 className="headline-lg mt-4 max-w-3xl">
+            Stop stitching providers.{" "}
+            <span className="brand-gradient-text">Run production calls.</span>
+          </h2>
+        </Reveal>
+
+        <div className="feat-cov-grid">
+          <Reveal delay={0.06} y={14}>
+            <div className="feat-cov-statement">
+              <p className="feat-cov-kicker">Why teams switch</p>
+              <p className="feat-cov-thesis">
+                DIY sockets fail when outbound volume hits.
               </p>
-              <FeatureVisual type={f.visual} accent={f.accent} />
+              <p className="feat-cov-body">
+                SnapServe sits between telephony and your ASR / LLM / TTS —
+                latency, barge-in, memory, redial, and CRM write-back handled
+                once.
+              </p>
+
+              <ul className="feat-diy">
+                {CONTRAST.map((row) => (
+                  <li key={row.pain}>
+                    <span className="feat-diy-pain">{row.pain}</span>
+                    <span className="feat-diy-gain">{row.gain}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="feat-cov-proofs" role="list">
+                {PROOFS.map((p, i) => (
+                  <div key={p.label} className="feat-cov-proof" role="listitem">
+                    <strong>
+                      {p.kind === "count" ? (
+                        <CountUp
+                          to={p.to}
+                          prefix={p.prefix ?? ""}
+                          suffix={p.suffix ?? ""}
+                          duration={1.35}
+                          delay={0.08 * i}
+                        />
+                      ) : (
+                        p.value
+                      )}
+                    </strong>
+                    <span>{p.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </StaggerItem>
-        ))}
-      </Stagger>
+          </Reveal>
+
+          <Reveal delay={0.1} y={14}>
+            <div className="feat-cov-ledger">
+              <div className="feat-cov-ledger-head">
+                <p className="label text-[10px]">Included</p>
+                <span>On every dial</span>
+              </div>
+
+              <div className="feat-cov-layer">
+                {LEDGER.map((item) => {
+                  const Row = item.href ? "a" : "div";
+                  const Icon = item.Icon;
+                  return (
+                    <Row
+                      key={item.label}
+                      {...(item.href ? { href: item.href } : {})}
+                      className="feat-cov-row group"
+                    >
+                      <span className="feat-cov-icon" aria-hidden="true">
+                        <Icon strokeWidth={1.6} />
+                      </span>
+                      <div className="feat-cov-meta">
+                        <EqualsMark />
+                        <p className="feat-cov-name">
+                          {item.label}
+                          {item.href ? (
+                            <ArrowUpRight
+                              className="ml-1.5 inline h-3 w-3 -translate-y-px text-ink-3 opacity-0 transition-opacity group-hover:opacity-100"
+                              strokeWidth={1.8}
+                              aria-hidden="true"
+                            />
+                          ) : null}
+                        </p>
+                      </div>
+                      <div className="feat-cov-copy">
+                        <strong>{item.outcome}</strong>
+                        {(item.marks?.length || item.stake) && (
+                          <span className="feat-cov-stake">
+                            {item.marks?.length ? (
+                              <span className="feat-cov-marks">
+                                {item.marks.map(({ Mark, name }) => (
+                                  <Mark key={name} size={13} />
+                                ))}
+                              </span>
+                            ) : null}
+                            {item.stake}
+                          </span>
+                        )}
+                      </div>
+                    </Row>
+                  );
+                })}
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
     </section>
   );
 }

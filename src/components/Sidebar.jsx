@@ -1,63 +1,119 @@
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SnapServeLogo from "./SnapServeLogo";
+import CursorGlow from "./CursorGlow";
 import { SIGNUP_URL } from "../lib/links";
 
 const links = [
-  { label: "Features", href: "#features" },
+  { label: "Product", href: "#differentiator" },
+  { label: "Meetings", href: "#meeting-bot" },
   { label: "Memory", href: "#memory-crm" },
-  { label: "Industries", href: "#industries" },
+  { label: "Auto-redial", href: "#smart-reconnect" },
+  { label: "How it works", href: "#how-it-works" },
   { label: "Pricing", href: "#pricing" },
-  { label: "Blog", href: "/blog", route: true },
 ];
 
+/* The section crossing the upper third of the viewport is the one being read */
+const ACTIVE_LINE = 0.45;
+const BAND = 5;
+const SCROLL_SETTLE = 900;
+
 export default function Sidebar() {
+  const [activeHref, setActiveHref] = useState(null);
+  const lockedRef = useRef(false);
+  const unlockTimer = useRef(0);
+
+  const resolveActive = useCallback(() => {
+    const line = window.innerHeight * ACTIVE_LINE;
+    const passed = links
+      .map((link) => {
+        const el = document.getElementById(link.href.slice(1));
+        return el ? { href: link.href, top: el.getBoundingClientRect().top } : null;
+      })
+      .filter(Boolean)
+      .sort((a, b) => a.top - b.top)
+      .filter((entry) => entry.top <= line);
+
+    setActiveHref(passed.length ? passed[passed.length - 1].href : null);
+  }, []);
+
+  useEffect(() => {
+    const sections = links
+      .map((link) => document.getElementById(link.href.slice(1)))
+      .filter(Boolean);
+
+    if (!sections.length) return undefined;
+
+    // Fires as a section edge crosses the detection band, not on every scroll frame
+    const observer = new IntersectionObserver(
+      () => {
+        if (!lockedRef.current) resolveActive();
+      },
+      {
+        rootMargin: `-${ACTIVE_LINE * 100}% 0px -${(1 - ACTIVE_LINE) * 100 - BAND}% 0px`,
+      },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    resolveActive();
+
+    const handleResize = () => {
+      if (!lockedRef.current) resolveActive();
+    };
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [resolveActive]);
+
+  useEffect(() => () => window.clearTimeout(unlockTimer.current), []);
+
+  /* Hold the clicked item active so passed-over sections don't flicker mid-scroll */
+  function handleNavClick(href) {
+    setActiveHref(href);
+    lockedRef.current = true;
+    window.clearTimeout(unlockTimer.current);
+    unlockTimer.current = window.setTimeout(() => {
+      lockedRef.current = false;
+      resolveActive();
+    }, SCROLL_SETTLE);
+  }
+
   return (
-    <aside className="fixed top-0 left-0 z-50 hidden h-screen w-[200px] flex-col justify-between py-8 pl-8 pr-4 lg:flex">
-      <div>
+    <aside className="side-rail">
+      <CursorGlow />
+      <div className="flex w-full flex-col items-center">
         <motion.div
-          initial={{ opacity: 0, x: -12 }}
+          initial={{ opacity: 0, x: -8 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <SnapServeLogo variant="full" size="sm" theme="dark" asLink href="/" />
         </motion.div>
 
-        <nav className="mt-16 flex flex-col items-end gap-5">
-          {links.map((link, i) =>
-            link.route ? (
-              <motion.div
-                key={link.href}
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + i * 0.06 }}
-              >
-                <Link
-                  to={link.href}
-                  className="relative text-sm text-[#a1a1aa] transition-colors hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              </motion.div>
-            ) : (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                className="relative text-sm text-[#a1a1aa] transition-colors hover:text-white"
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.1 + i * 0.06 }}
-              >
-                {link.label}
-              </motion.a>
-            ),
-          )}
+        <nav className="side-rail-nav" aria-label="On this page">
+          {links.map((link, i) => (
+            <motion.a
+              key={link.href}
+              href={link.href}
+              onClick={() => handleNavClick(link.href)}
+              aria-current={activeHref === link.href ? "true" : undefined}
+              className="side-rail-link"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.08 + i * 0.04 }}
+            >
+              {link.label}
+            </motion.a>
+          ))}
           <motion.a
             href={SIGNUP_URL}
-            className="mt-2 text-sm font-medium text-[#14B8A6] transition-colors hover:text-[#2dd4bf]"
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.35 }}
+            className="side-rail-cta"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.36 }}
             rel="noopener noreferrer"
           >
             Get started →
@@ -65,16 +121,14 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      <motion.p
-        className="text-right text-[11px] leading-relaxed text-[#52525b]"
+      <motion.div
+        className="side-rail-colophon"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.4 }}
       >
-        by <span className="text-[#71717a]">AITEL</span>
-        <br />
-        <span className="text-[#3f3f46]">Chennai · Bengaluru</span>
-      </motion.p>
+        <p>Chennai · Bengaluru</p>
+      </motion.div>
     </aside>
   );
 }

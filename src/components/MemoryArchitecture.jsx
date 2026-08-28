@@ -1,66 +1,69 @@
-import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
-import MemoryCloud from "./graphics/MemoryCloud";
-import GlowButton from "./GlowButton";
-import { SIGNUP_URL } from "../lib/links";
+import { Reveal } from "./motion/Reveal";
+import OrchestrationFlow from "./graphics/OrchestrationFlow";
 
-const layers = [
+const BEATS = [
   {
-    label: "Layer 1",
-    title: "Facts",
-    desc: "Budget, intent, product interest — structured per call.",
+    title: "Call connects",
+    desc: "Inbound or outbound on Twilio, Plivo, or Vobiz — any language your stack supports.",
   },
   {
-    label: "Layer 2",
-    title: "Episodes",
-    desc: "AI summary of each conversation — the story, not the transcript.",
+    title: "SnapServe runs the turn",
+    desc: "Memory injects, redial stays armed, scheduling and meeting bots stay available.",
   },
   {
-    label: "Layer 3",
-    title: "Sentences",
-    desc: "Verbatim quotes preserved word-for-word.",
+    title: "Providers stay yours",
+    desc: "ASR, LLM, and TTS keys unchanged. Outcomes write back to CRM or webhooks.",
   },
 ];
 
 export default function MemoryArchitecture() {
   return (
-    <div className="bento-border border-b">
-      <div className="grid md:grid-cols-2">
-        <Reveal className="flex flex-col justify-center p-8 md:p-12 lg:p-14">
-          <p className="label mb-4">Memory Architecture</p>
-          <h2 className="headline-lg">
-            Three layers of intelligence.{" "}
-            <span className="brand-gradient-text">One caller identity.</span>
-          </h2>
-          <p className="body-text mt-6 max-w-lg">
-            SnapServe doesn't just store calls — it builds a living profile of every caller
-            that compounds with each conversation. Transparent injection, zero re-architecture.
-          </p>
-          <div className="mt-8">
-            <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-              Start building free
-            </GlowButton>
+    <section id="how-it-works" className="border-b border-line bg-surface-1">
+      <div className="grid md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+        <Reveal className="flex flex-col justify-center px-6 py-12 md:px-12 md:py-14 lg:px-14 lg:py-16">
+          <div className="mb-3 flex items-center gap-3">
+            <span className="h-px w-7 bg-[#14B8A6]/60" />
+            <p className="label text-ink-2">How it works</p>
           </div>
+          <h2 className="headline-lg max-w-md">
+            Telephony in.{" "}
+            <span className="brand-gradient-text">Action out.</span>
+          </h2>
+          <p className="body-text mt-3 max-w-md">
+            SnapServe sits between your phone trunk and your voice providers —
+            memory, redial, and CRM write-back without rebuilding the stack.
+          </p>
+
+          <ol className="mt-7 max-w-md space-y-0 border-t border-line">
+            {BEATS.map((beat) => (
+              <li
+                key={beat.title}
+                className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-3 border-b border-line py-3.5"
+              >
+                <span
+                  className="flex flex-col justify-start gap-[3.5px] pt-2.5"
+                  aria-hidden="true"
+                >
+                  <span className="block h-[2px] w-8 rounded-full bg-[#5EEAD4]" />
+                  <span className="block h-[2px] w-8 rounded-full bg-[#5EEAD4]" />
+                </span>
+                <span>
+                  <span className="block text-[14.5px] font-semibold tracking-[-0.02em] text-ink">
+                    {beat.title}
+                  </span>
+                  <span className="mt-1 block text-[13px] leading-relaxed text-ink-2">
+                    {beat.desc}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ol>
         </Reveal>
-        <div className="relative min-h-[280px] md:min-h-[360px] md:border-l md:border-[#27272a]">
-          <MemoryCloud />
+
+        <div className="relative flex min-h-[480px] border-t border-line bg-surface-0/40 md:min-h-full md:border-t-0">
+          <OrchestrationFlow />
         </div>
       </div>
-
-      <Stagger className="grid md:grid-cols-3 bento-border border-t">
-        {layers.map((layer) => (
-          <StaggerItem
-            key={layer.title}
-            className="group bento-cell-hover bento-border border-b p-8 md:border-b-0 md:border-r last:border-r-0 md:p-10"
-          >
-            <p className="label">{layer.label}</p>
-            <h3 className="mt-3 text-xl font-semibold text-white transition-colors group-hover:text-[#14B8A6]">
-              {layer.title}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-[#71717a]">{layer.desc}</p>
-            <div className="mt-6 h-px w-0 bg-gradient-to-r from-[#FF9933] to-[#14B8A6] transition-all duration-500 group-hover:w-full" />
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </div>
+    </section>
   );
 }

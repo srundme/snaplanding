@@ -29,17 +29,18 @@ export default function FunnelPage() {
         backHref="/"
         backLabel="← Back to home"
       >
-        <div className="not-prose space-y-12">
+        <div className="not-prose space-y-14">
           <Reveal>
             <p className="label">Why SnapServe</p>
-            <div className="mt-4 grid gap-4 md:grid-cols-3">
+            <div className="mt-6 grid gap-8 md:grid-cols-3 md:gap-10">
               {page.benefits.map((benefit) => (
-                <div
-                  key={benefit.title}
-                  className="rounded-xl border border-[#27272a] bg-[#0a0a0a] p-5"
-                >
-                  <h2 className="text-base font-semibold text-white">{benefit.title}</h2>
-                  <p className="mt-2 text-sm leading-relaxed text-[#71717a]">{benefit.desc}</p>
+                <div key={benefit.title} className="border-t border-[#27272a] pt-5">
+                  <h2 className="text-[15.5px] font-semibold tracking-[-0.02em] text-white">
+                    {benefit.title}
+                  </h2>
+                  <p className="mt-2.5 text-sm leading-relaxed text-[#8b929d]">
+                    {benefit.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -47,14 +48,13 @@ export default function FunnelPage() {
 
           <Reveal>
             <p className="label">How it works</p>
-            <ol className="mt-4 space-y-3">
+            <ol className="mt-6 space-y-0 divide-y divide-[#27272a] border-y border-[#27272a]">
               {page.steps.map((step, i) => (
-                <li
-                  key={step}
-                  className="flex gap-4 rounded-xl border border-[#27272a] bg-black/50 p-4"
-                >
-                  <span className="font-mono text-sm text-[#14B8A6]">0{i + 1}</span>
-                  <span className="text-sm text-[#a1a1aa]">{step}</span>
+                <li key={step} className="flex gap-4 py-4">
+                  <span className="w-8 shrink-0 font-mono text-[12px] text-[#14B8A6]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm leading-relaxed text-[#c4c9d1]">{step}</span>
                 </li>
               ))}
             </ol>
@@ -65,11 +65,11 @@ export default function FunnelPage() {
           <FunnelCTA />
 
           {page.relatedBlog && (
-            <div className="rounded-xl border border-[#27272a] bg-[#0a0a0a] p-6">
+            <div className="border-t border-[#27272a] pt-6">
               <p className="label">Deep dive</p>
               <Link
                 to={`/blog/${page.relatedBlog}`}
-                className="mt-2 inline-block text-[#14B8A6] hover:underline"
+                className="mt-2 inline-block text-[14px] text-[#5EEAD4] transition-colors hover:text-white"
               >
                 Read the full guide →
               </Link>

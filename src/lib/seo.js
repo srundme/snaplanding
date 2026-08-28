@@ -1,26 +1,28 @@
 import { blogPosts } from "../data/blogPosts";
 import { funnelPages } from "../data/funnelPages";
 import { alternativeKeywords } from "../data/alternativeKeywords";
-import { aeoQuickAnswers, howToLaunchSteps, snapServeDefinition } from "../data/aeoContent";
+import { snapServeDefinition } from "../data/aeoContent";
 
 export const SITE_URL = "https://snapserve.ai";
 export const SITE_NAME = "SnapServe";
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/logos/logo-full-light.png`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-card.png`;
 
 export const defaultSeo = {
-  title: "SnapServe — AI Voice Agent Platform for Indian Business",
+  title: "SnapServe — AI Voice Agent Platform & Orchestration Layer",
   description: snapServeDefinition.description,
   keywords: [
     "ai voice agent platform",
-    "voice agents india",
-    "ai calling agent india",
-    "low cost voice agents india",
-    "best voice agents india",
-    "vapi alternative india",
-    "bolna alternative india",
-    "retell alternative india",
+    "voice ai orchestration",
+    "ai calling agent",
+    "bring your own provider voice ai",
+    "outbound voice ai",
+    "caller memory voice ai",
+    "ai meeting bot",
+    "vapi alternative",
+    "bolna alternative",
+    "retell alternative",
     "ai voice agent alternative",
-    "voice ai orchestrator india",
+    "multilingual voice agents",
   ],
 };
 
@@ -90,18 +92,17 @@ export function organizationSchema() {
   return {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
-    name: "SnapServe by AITEL",
+    name: "SnapServe",
     alternateName: ["SnapServe", "SnapServe AI"],
     url: SITE_URL,
-    logo: { "@type": "ImageObject", url: DEFAULT_OG_IMAGE },
+    logo: { "@type": "ImageObject", url: `${SITE_URL}/logos/logo-full-light.png` },
     email: "support@snapserve.ai",
-    areaServed: { "@type": "Country", name: "India" },
     description: snapServeDefinition.description,
     knowsAbout: [
       "AI voice agents",
       "Voice AI orchestration",
       "Outbound calling automation",
-      "Indian telephony",
+      "Multi-provider ASR LLM TTS",
       "Conversational AI",
     ],
   };
@@ -114,13 +115,8 @@ export function websiteSchema() {
     name: SITE_NAME,
     url: SITE_URL,
     description: defaultSeo.description,
-    inLanguage: "en-IN",
+    inLanguage: "en",
     publisher: { "@id": `${SITE_URL}/#organization` },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE_URL}/blog?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
   };
 }
 
@@ -136,33 +132,34 @@ export function snapServeProductSchema() {
     url: SITE_URL,
     description: snapServeDefinition.description,
     featureList: [
+      "Multi-provider ASR, LLM, TTS, and telephony orchestration",
       "Persistent caller memory across conversations",
-      "Auto-redial on call drop under 200ms",
+      "Auto-redial on dropped calls with full context",
+      "Meeting bot for Google Meet, Zoom, and Teams",
+      "Turn management with barge-in and endpointing",
       "Outbound campaign orchestration",
-      "Meta ad form and website form auto-dial",
-      "Bulk CSV lead upload with DNC filtering",
-      "Google Calendar in-call scheduling",
-      "Indian regional language support",
-      "Provider-agnostic BYOP architecture",
-      "Live orchestration command center",
+      "CRM and webhook write-back",
+      "1-click provider swap",
+      "BYOP or managed provider keys",
+      "Multilingual and code-mix speech support",
+      "Live call logs, transcripts, and recordings",
     ],
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      description: "Pay per minute orchestration · $5 free credit · 100 free minutes",
+      description: "Pay per minute orchestration · start with $5 free credit",
       url: snapServeDefinition.signupUrl,
     },
-    areaServed: { "@type": "Country", name: "India" },
     brand: { "@type": "Brand", name: "SnapServe" },
     provider: { "@id": `${SITE_URL}/#organization` },
   };
 }
 
-export function faqSchema(faqs, id = "faq") {
+export function faqSchema(faqs, id = "faq", pageUrl = SITE_URL) {
   return {
     "@type": "FAQPage",
-    "@id": `${SITE_URL}/#${id}`,
+    "@id": `${pageUrl}#${id}`,
     mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.question,
@@ -180,7 +177,7 @@ export function webPageSchema({ name, description, url, pageId }) {
     description,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#software` },
-    inLanguage: "en-IN",
+    inLanguage: "en",
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["#aeo-summary", "h1", ".aeo-answer"],
@@ -267,8 +264,9 @@ export function definedTermSetSchema(terms) {
 export function alternativesItemListSchema() {
   return {
     "@type": "ItemList",
-    name: "AI Voice Agent Platform Alternatives in India",
-    description: "SnapServe as an alternative to popular voice AI platforms for Indian business",
+    name: "AI Voice Agent Platform Alternatives",
+    description:
+      "SnapServe as an alternative to popular voice AI platforms — orchestration with memory, campaigns, and CRM write-back",
     itemListElement: alternativeKeywords.map((alt, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -279,8 +277,8 @@ export function alternativesItemListSchema() {
   };
 }
 
+/** Homepage graph — only schemas backed by visible on-page content. */
 export function buildHomeGraph(faqs) {
-  const allFaqs = [...faqs, ...aeoQuickAnswers];
   return jsonLdGraph([
     organizationSchema(),
     websiteSchema(),
@@ -291,8 +289,7 @@ export function buildHomeGraph(faqs) {
       url: SITE_URL,
       pageId: "homepage",
     }),
-    faqSchema(allFaqs, "faq"),
-    howToSchema("How to launch AI voice agents on SnapServe", howToLaunchSteps),
+    faqSchema(faqs, "faq"),
     alternativesItemListSchema(),
   ]);
 }
@@ -318,7 +315,7 @@ export function buildFunnelGraph(page) {
     snapServeProductSchema(),
     webPageSchema({ name: page.title, description: page.metaDescription, url }),
     productSchema(page),
-    faqSchema(page.faq),
+    faqSchema(page.faq, "faq", url),
     breadcrumbSchema([
       { name: "Home", path: "/" },
       { name: "Solutions", path: "/solutions/ai-voice-agent-platform" },

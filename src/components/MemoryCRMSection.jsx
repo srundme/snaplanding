@@ -1,86 +1,166 @@
-import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
-import MemoryCRMDashboard from "./graphics/MemoryCRMDashboard";
-import CallLogViewer from "./graphics/CallLogViewer";
-import GlowButton from "./GlowButton";
-import { SIGNUP_URL } from "../lib/links";
+import {
+  BookOpen,
+  CornerDownRight,
+  Database,
+} from "lucide-react";
+import { Reveal } from "./motion/Reveal";
 
-const layers = [
+/*
+  Caller Memory — premium CRM contact panel.
+  Hardcoded returning-lead record. No fake live chrome.
+*/
+
+const STORIES = [
   {
-    tab: "Facts",
-    title: "Extracted facts",
-    desc: "Budget, locations, property type — structured from every call, including regional language.",
-    example: "75 lakhs · Tambaram · வீடு",
+    Icon: Database,
+    title: "Facts stay on file",
+    desc: "Budget ₹75L, Tambaram / Red Hills, Tamil, villa with parking.",
   },
   {
-    tab: "Episodes",
-    title: "Episode summaries",
-    desc: "What happened on each call, in plain language. The story, not just the transcript.",
-    example: "Property search · Chennai · villas & plots",
+    Icon: BookOpen,
+    title: "Loaded before greeting",
+    desc: "Profile injects before the agent speaks the first line.",
   },
   {
-    tab: "Call History",
-    title: "Full call logs",
-    desc: "Every event logged as JSON — Memory load, prompt injection, call end. Full observability.",
-    example: "callId 206 · 4 events · browser",
+    Icon: CornerDownRight,
+    title: "Picks up the thread",
+    desc: "Next dial continues from the last decision — not day one.",
   },
 ];
 
-export default function MemoryCRMSection() {
+const PROPERTIES = [
+  ["Budget", "Up to ₹75L"],
+  ["Areas", "Tambaram, Red Hills"],
+  ["Language", "Tamil"],
+  ["Looking for", "Villa with parking"],
+];
+
+const NOTES = [
+  "Prefers evening callbacks after 7pm",
+  "Asked again about Red Hills options",
+  "Compared SBI and HDFC home-loan rates",
+];
+
+function MemoryPanel() {
   return (
-    <div id="memory-crm" className="bento-border border-b">
-      <div className="border-b border-[#27272a] px-8 py-12 md:px-14 md:py-16">
-        <Reveal>
-          <p className="label mb-3">Memory / CRM</p>
-          <h2 className="headline-lg max-w-2xl">
-            Every caller gets a profile.{" "}
-            <span className="text-[#71717a]">Your agent reads it automatically.</span>
-          </h2>
-          <p className="body-text mt-5 max-w-xl">
-            Facts, episodes, and call history — saved after every conversation and
-            injected into the next one. No database to build. No context to re-enter.
-          </p>
-        </Reveal>
-      </div>
-
-      <Reveal delay={0.1} className="bg-[#080b10] px-4 py-8 md:px-8 md:py-10">
-        <MemoryCRMDashboard />
-      </Reveal>
-
-      <Reveal delay={0.15} className="border-t border-[#27272a] bg-[#080b10] px-4 py-8 md:px-8 md:py-10">
-        <div className="mb-6">
-          <p className="label mb-2">Observability</p>
-          <h3 className="font-display text-xl font-semibold text-white">
-            See the call log as JSON
-          </h3>
-          <p className="mt-2 max-w-xl text-sm text-[#71717a]">
-            Every Memory fetch, VariableResolver injection, and call lifecycle event —
-            structured and searchable. Toggle Trace or raw JSON.
-          </p>
+    <article className="ss-panel ss-panel--phone" aria-label="Caller memory for Karthik Anand">
+      <header className="ss-panel-head">
+        <div className="ss-panel-avatar" aria-hidden="true">
+          KA
         </div>
-        <CallLogViewer />
-      </Reveal>
+        <div className="min-w-0">
+          <div className="ss-panel-title-row">
+            <h3>Karthik Anand</h3>
+            <span className="ss-panel-tag">Returning</span>
+          </div>
+          <p className="ss-panel-sub">+91 98840 55242</p>
+          <p className="ss-panel-meta">4 calls · Last 11 Mar, 7:42 pm</p>
+        </div>
+      </header>
 
-      <Stagger className="grid md:grid-cols-3 border-t border-[#27272a]" stagger={0.08}>
-        {layers.map((layer) => (
-          <StaggerItem
-            key={layer.tab}
-            className="bento-cell-hover border-b border-[#27272a] p-8 md:border-b-0 md:border-r md:p-10 last:border-r-0"
-          >
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[#14B8A6]">
-              {layer.tab}
-            </span>
-            <h3 className="mt-3 text-base font-semibold text-white">{layer.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#71717a]">{layer.desc}</p>
-            <p className="mt-4 font-mono text-[11px] text-[#52525b]">{layer.example}</p>
-          </StaggerItem>
-        ))}
-      </Stagger>
+      <section className="ss-panel-section">
+        <p className="ss-panel-label">On file</p>
+        <dl className="ss-panel-props">
+          {PROPERTIES.map(([k, v]) => (
+            <div key={k} className="ss-panel-prop">
+              <dt>{k}</dt>
+              <dd>{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
 
-      <div className="border-t border-[#27272a] px-8 py-8 text-center md:px-14">
-        <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-          Start building free
-        </GlowButton>
+      <section className="ss-panel-section">
+        <p className="ss-panel-label">Last call · 4m 12s</p>
+        <p className="ss-panel-quote">
+          Check Red Hills options at the same budget — call me in the evening.
+        </p>
+      </section>
+
+      <section className="ss-panel-section ss-panel-section--last">
+        <p className="ss-panel-label">Notes</p>
+        <ul className="ss-panel-notes">
+          {NOTES.slice(0, 2).map((n) => (
+            <li key={n}>{n}</li>
+          ))}
+        </ul>
+      </section>
+    </article>
+  );
+}
+
+function MemoryPhone() {
+  return (
+    <div className="mem-device">
+      <div className="mem-device-frame">
+        <div className="mem-device-island" aria-hidden="true" />
+        <div className="mem-device-screen">
+          <div className="mem-device-status" aria-hidden="true">
+            <span>7:42</span>
+            <span className="mem-device-battery" />
+          </div>
+          <MemoryPanel />
+        </div>
+        <div className="mem-device-home" aria-hidden="true" />
       </div>
     </div>
+  );
+}
+
+export default function MemoryCRMSection() {
+  return (
+    <section
+      id="memory-crm"
+      className="relative isolate overflow-hidden border-b border-line bg-surface-0 px-6 py-12 md:px-14 md:py-14"
+    >
+      <div className="mem-aura" aria-hidden="true" />
+
+      <div className="relative mx-auto max-w-5xl">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="mem-story">
+            <Reveal>
+              <div className="flex items-center gap-3">
+                <span className="h-px w-7 bg-[#14B8A6]/55" />
+                <p className="label text-ink-2">Caller memory</p>
+              </div>
+
+              <h2 className="headline-lg mt-4">
+                They never{" "}
+                <span className="brand-gradient-text">start from zero.</span>
+              </h2>
+
+              <p className="body-text mt-3 max-w-md">
+                Budget ₹75L, Tambaram preference, Tamil — still on file when
+                Karthik calls back. The agent continues; it doesn’t restart.
+              </p>
+            </Reveal>
+
+            <div className="mem-story-list">
+              {STORIES.map((item, i) => (
+                <Reveal key={item.title} delay={0.06 * (i + 1)}>
+                  <div className="mem-story-item flex items-start gap-3.5">
+                    <span className="mem-story-icon story-icon">
+                      <item.Icon
+                        className="h-3.5 w-3.5"
+                        strokeWidth={1.7}
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <div className="min-w-0">
+                      <h3 className="mt-0">{item.title}</h3>
+                      <p>{item.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+
+          <Reveal delay={0.1} y={16}>
+            <MemoryPhone />
+          </Reveal>
+        </div>
+      </div>
+    </section>
   );
 }

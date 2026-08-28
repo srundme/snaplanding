@@ -3,14 +3,15 @@
 export const snapServeDefinition = {
   name: "SnapServe",
   type: "AI Voice Agent Platform",
-  tagline: "AI voice orchestration for Indian business",
+  tagline: "AI voice orchestration for global teams",
   description:
-    "SnapServe is an AI voice agent platform and orchestration layer for Indian business. It runs outbound campaigns, follow-ups, and bookings with persistent caller memory, auto-redial on dropped calls, Meta and website form auto-dial, bulk CSV campaigns, and Google Calendar scheduling — in every Indian regional language. Pricing is pay-per-minute for orchestration; customers bring their own telephony and AI provider keys.",
+    "SnapServe is an AI voice agent platform and orchestration layer. It runs outbound campaigns, follow-ups, and bookings with persistent caller memory, auto-redial on dropped calls, meeting bots for Meet/Zoom/Teams, multi-provider ASR/LLM/TTS, CRM write-back, and live call analytics — in any language your providers support. Pricing is pay-per-minute for orchestration; bring your own keys or use managed keys.",
   url: "https://snapserve.ai",
   signupUrl: "https://app.snapserve.ai",
-  company: "AITEL",
+  company: "SnapServe",
   headquarters: "Chennai and Bengaluru, India",
-  targetMarket: "Indian businesses — insurance, real estate, EdTech, healthcare, lending, D2C",
+  targetMarket:
+    "Sales, real estate, insurance, healthcare, lending, EdTech, and support teams worldwide",
 };
 
 export const quickFacts = [
@@ -20,28 +21,30 @@ export const quickFacts = [
   },
   {
     term: "Primary market",
-    definition: "India — built for Indian telephony and regional languages",
+    definition: "Global teams — with strong multi-language and code-mix support",
   },
   {
     term: "Pricing model",
-    definition: "Pay per minute for orchestration; bring your own provider (BYOP)",
+    definition: "Pay per minute for orchestration; BYOP or managed provider keys",
   },
   {
     term: "Free trial",
-    definition: "$5 free credit and 100 free minutes — no credit card required",
+    definition: "Start free from the dashboard — no credit card required to explore",
   },
   {
     term: "Key differentiators",
     definition:
-      "Caller memory, auto-redial under 200ms, Meta/website form auto-dial, bulk CSV campaigns, in-call scheduling",
+      "Caller memory, auto-redial on drop, meeting bots (Meet/Zoom/Teams), multi-provider orchestration, campaigns, CRM write-back",
   },
   {
     term: "Languages supported",
-    definition: "Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Bengali, Gujarati, and more",
+    definition:
+      "Any language your ASR/TTS supports — including Hindi, Tamil, Telugu, Spanish, Arabic, and code-mix speech",
   },
   {
     term: "Alternatives to",
-    definition: "Vapi, Bolna, Retell, Bland AI, Ultravox — as an orchestration layer or business-first platform",
+    definition:
+      "Vapi, Bolna, Retell, Bland AI, Ultravox — as an orchestration layer or business-first platform",
   },
 ];
 
@@ -53,27 +56,27 @@ export const aeoQuickAnswers = [
   {
     question: "Is SnapServe a Vapi alternative?",
     answer:
-      "Yes. SnapServe works as a Vapi alternative for Indian business by adding caller memory, auto-redial, campaign orchestration, and Meta lead auto-dial — either on top of Vapi or as a standalone platform with your own providers.",
+      "Yes. SnapServe works as a Vapi alternative by adding caller memory, auto-redial, campaign orchestration, and CRM write-back — either on top of Vapi or as a standalone platform with your own providers.",
   },
   {
     question: "Is SnapServe a Bolna alternative?",
     answer:
-      "Yes. Teams looking for a Bolna alternative choose SnapServe for business-first outbound campaigns, persistent memory across calls, and Indian telephony patterns without stitching dev APIs together.",
+      "Yes. Teams looking for a Bolna alternative choose SnapServe for business-first outbound campaigns, persistent memory across calls, and telephony patterns without stitching only-dev APIs together.",
   },
   {
-    question: "What is the best low-cost voice agent in India?",
+    question: "What is the best low-cost voice agent setup?",
     answer:
-      "SnapServe offers pay-per-minute orchestration pricing with BYOP — you only pay for the orchestration layer while controlling telephony and AI costs directly. Start free with $5 credit or 100 minutes.",
+      "SnapServe offers pay-per-minute orchestration with BYOP — you only pay for the orchestration layer while controlling telephony and AI costs directly. Managed keys are available if you want zero setup.",
   },
   {
-    question: "Does SnapServe support Hindi and Tamil voice agents?",
+    question: "Does SnapServe support multilingual voice agents?",
     answer:
-      "Yes. SnapServe orchestrates voice agents in every major Indian language through your choice of speech-to-text and text-to-speech providers.",
+      "Yes. SnapServe orchestrates voice agents in any language your speech-to-text and text-to-speech providers support, including code-mix conversations.",
   },
   {
     question: "What industries use SnapServe?",
     answer:
-      "Insurance (renewals), real estate (lead qual), EdTech (admissions), healthcare (appointments), lending (reminders), and D2C (COD confirmation) — any high-volume outbound or follow-up workflow.",
+      "Insurance, real estate, EdTech, healthcare, lending, D2C, and support teams — any high-volume outbound or follow-up workflow.",
   },
 ];
 

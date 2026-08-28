@@ -26,7 +26,7 @@ export default function Seo({
     document.title = title;
     setCanonical(canonical);
     setMetaTag("name", "description", description);
-    setMetaTag("name", "keywords", keywordStr);
+    if (keywordStr) setMetaTag("name", "keywords", keywordStr);
     setMetaTag("name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
     setMetaTag("property", "og:title", title);
@@ -34,12 +34,23 @@ export default function Seo({
     setMetaTag("property", "og:url", canonical);
     setMetaTag("property", "og:type", type);
     setMetaTag("property", "og:image", image);
+    setMetaTag("property", "og:image:width", "1200");
+    setMetaTag("property", "og:image:height", "630");
     setMetaTag("property", "og:site_name", "SnapServe");
 
     setMetaTag("name", "twitter:card", "summary_large_image");
     setMetaTag("name", "twitter:title", title);
     setMetaTag("name", "twitter:description", description);
     setMetaTag("name", "twitter:image", image);
+
+    // Drop static JSON-LD so the React graph is the single live source of truth.
+    document.getElementById("jsonld-bootstrap")?.remove();
+    document.getElementById("jsonld-prerender")?.remove();
+    document
+      .querySelectorAll('script[type="application/ld+json"]:not([id^="jsonld-seo-"])')
+      .forEach((el) => {
+        if (!el.id?.startsWith("jsonld-")) el.remove();
+      });
 
     jsonLd.forEach((block, i) => setJsonLd(`seo-${i}`, block));
 

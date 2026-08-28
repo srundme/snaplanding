@@ -1,67 +1,106 @@
+import {
+  Building2,
+  GraduationCap,
+  HeartPulse,
+  Landmark,
+  Shield,
+  ShoppingBag,
+} from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
 
-const industries = [
+const INDUSTRIES = [
   {
-    icon: "🛡️",
-    name: "Insurance",
-    desc: "Renewals, claims, and policy follow-ups — handled before they lapse.",
-  },
-  {
-    icon: "🏠",
     name: "Real Estate",
-    desc: "Qualify leads and book site visits the moment an enquiry comes in.",
+    call: "Enquiry lands → qualify budget & area → book the site visit on the same dial.",
+    Icon: Building2,
   },
   {
-    icon: "🎓",
-    name: "EdTech & Coaching",
-    desc: "Admissions calls and course follow-ups in your students' language.",
-  },
-  {
-    icon: "🩺",
     name: "Healthcare",
-    desc: "Appointment reminders and confirmations that cut down no-shows.",
+    call: "Reminders and confirmations that cut no-shows before clinic hours start.",
+    Icon: HeartPulse,
   },
   {
-    icon: "💳",
     name: "Lending & Finance",
-    desc: "Eligibility checks and gentle payment reminders at scale.",
+    call: "Eligibility checks and EMI reminders — without a collections floor.",
+    Icon: Landmark,
   },
   {
-    icon: "🛍️",
+    name: "Insurance",
+    call: "Renewals and claims follow-ups before the policy window closes.",
+    Icon: Shield,
+  },
+  {
+    name: "EdTech & Coaching",
+    call: "Admissions and course follow-ups in Hindi, Tamil, Telugu, and more.",
+    Icon: GraduationCap,
+  },
+  {
     name: "D2C & E-commerce",
-    desc: "COD confirmations and order updates — without a call centre.",
+    call: "COD confirms and delivery updates — no dialer farm required.",
+    Icon: ShoppingBag,
   },
 ];
 
+function Row({ item, className }) {
+  return (
+    <StaggerItem
+      className={`bento-cell-hover grid grid-cols-[40px_minmax(0,1fr)] items-start gap-y-1 py-4 md:py-5 ${className}`}
+    >
+      <span className="story-icon">
+        <item.Icon
+          className="h-3.5 w-3.5"
+          strokeWidth={1.7}
+          aria-hidden="true"
+        />
+      </span>
+
+      <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-ink md:text-[21px]">
+        {item.name}
+      </h3>
+
+      <p className="col-start-2 max-w-md text-[14px] leading-relaxed text-ink-2">
+        {item.call}
+      </p>
+    </StaggerItem>
+  );
+}
+
 export default function IndustriesSection() {
   return (
-    <section id="industries" className="bento-border border-b">
-      <div className="bento-border border-b p-8 md:p-12 lg:p-14">
+    <section id="industries" className="border-b border-line bg-surface-1">
+      <div className="border-b border-line px-6 py-12 md:px-14 md:py-14">
         <Reveal>
-          <p className="label">Built for India</p>
-          <h2 className="headline-lg mt-3 max-w-2xl">
-            Made for how{" "}
-            <span className="brand-gradient-text">India does business.</span>
+          <div className="flex items-center gap-3">
+            <span className="h-px w-7 bg-[#14B8A6]/60" />
+            <p className="label text-ink-2">Industries</p>
+          </div>
+          <h2 className="headline-lg mt-4 max-w-2xl text-balance">
+            Built for the calls{" "}
+            <span className="brand-gradient-text">your team already makes.</span>
           </h2>
           <p className="body-text mt-3 max-w-xl">
-            From insurance to real estate to coaching centres — SnapServe handles your
-            calls in every language your customers actually speak.
+            Site visits, renewals, COD confirms, admissions — closed in one
+            dial, in the caller’s language.
           </p>
         </Reveal>
       </div>
 
-      <Stagger className="grid gap-px bg-[#27272a] sm:grid-cols-2 lg:grid-cols-3" stagger={0.06}>
-        {industries.map((ind) => (
-          <StaggerItem
-            key={ind.name}
-            className="bento-cell-hover bg-[#0a0a0a] p-8 md:p-10"
-          >
-            <span className="text-2xl">{ind.icon}</span>
-            <h3 className="mt-4 text-base font-semibold text-white">{ind.name}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[#71717a]">{ind.desc}</p>
-          </StaggerItem>
-        ))}
-      </Stagger>
+      <div className="grid md:grid-cols-2 md:divide-x md:divide-line">
+        <Stagger className="divide-y divide-line" stagger={0.04}>
+          {INDUSTRIES.slice(0, 3).map((item) => (
+            <Row key={item.name} item={item} className="px-8 md:pl-12 md:pr-10" />
+          ))}
+        </Stagger>
+
+        <Stagger
+          className="divide-y divide-line border-t border-line md:border-t-0"
+          stagger={0.04}
+        >
+          {INDUSTRIES.slice(3).map((item) => (
+            <Row key={item.name} item={item} className="px-8 md:pl-10 md:pr-12" />
+          ))}
+        </Stagger>
+      </div>
     </section>
   );
 }

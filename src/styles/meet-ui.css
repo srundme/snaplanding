@@ -1,0 +1,707 @@
+/* Google Meet 2×2 — MacBook + Chrome, landing-polished */
+
+.meet-story {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  font-family: Roboto, "Google Sans", Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* MacBook frame — restrained so it sits in the section, not a hero object */
+.meet-macbook {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.meet-macbook-lid {
+  padding: 8px 8px 0;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  border-radius: 14px 14px 0 0;
+  background: #2a2a2e;
+}
+
+.meet-macbook-bezel {
+  position: relative;
+  padding: 6px 6px 0;
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  background: #0a0a0b;
+}
+
+.meet-macbook-chin {
+  height: 10px;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0 0 14px 14px;
+  background: #2a2a2e;
+}
+
+.meet-macbook-camera {
+  position: absolute;
+  z-index: 2;
+  top: 2px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: #1c1c1e;
+  transform: translateX(-50%);
+}
+
+.meet-macbook-screen {
+  overflow: hidden;
+  border-radius: 3px;
+  background: #0f0f10;
+}
+
+.meet-macbook-chin > span {
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin: 4px auto 0;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Chrome — dark theme */
+.meet-chrome-bar {
+  display: flex;
+  min-height: 32px;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 5px 8px 0;
+  background: #1a1a1c;
+}
+
+.meet-chrome-lights {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  padding-bottom: 5px;
+}
+
+.meet-chrome-lights span {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+}
+
+.meet-chrome-lights span:nth-child(1) { background: #ff5f57; }
+.meet-chrome-lights span:nth-child(2) { background: #febc2e; }
+.meet-chrome-lights span:nth-child(3) { background: #28c840; }
+
+.meet-chrome-tabs {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  gap: 2px;
+}
+
+.meet-chrome-tab {
+  display: inline-flex;
+  max-width: 200px;
+  min-height: 26px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  border-radius: 6px 6px 0 0;
+  background: transparent;
+  font-size: 10.5px;
+  font-weight: 500;
+  color: #9aa0a6;
+}
+
+.meet-chrome-tab.is-active {
+  background: #2b2b2e;
+  color: #f1f3f4;
+}
+
+.meet-chrome-url {
+  display: flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 5px;
+  background: #2b2b2e;
+}
+
+.meet-chrome-nav {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  color: #9aa0a6;
+}
+
+.meet-chrome-omnibox {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  gap: 6px;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 9999px;
+  background: #0f0f10;
+  font-size: 10.5px;
+  color: #e8eaed;
+}
+
+.meet-chrome-trail {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+}
+
+.meet-chrome-ext {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: #5f6368;
+}
+
+.meet-chrome-face {
+  display: inline-flex;
+  height: 20px;
+  width: 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #1a73e8;
+  font-size: 10px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.meet-chrome-viewport {
+  display: flex;
+  min-height: 400px;
+  max-height: 480px;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f0f10;
+}
+
+/* Meet app */
+.meet-app {
+  display: flex;
+  min-height: 400px;
+  height: 100%;
+  flex: 1;
+  flex-direction: column;
+  background: #0f0f10;
+  color: #e8eaed;
+}
+
+.meet-main {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.meet-room {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.meet-rec {
+  position: absolute;
+  z-index: 6;
+  top: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #f28b82;
+}
+
+.meet-rec > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 9999px;
+  background: #ea4335;
+}
+
+.meet-present-chip {
+  position: absolute;
+  z-index: 6;
+  top: 8px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100% - 20px);
+  min-height: 26px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  background: rgba(60, 64, 67, 0.96);
+  font-size: 10.5px;
+  color: #e8eaed;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* 2×2 grid */
+.meet-grid {
+  display: grid;
+  min-height: 0;
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  padding: 36px 8px 8px;
+  background: #0f0f10;
+}
+
+.meet-tile {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #3c4043;
+}
+
+.meet-tile[data-presenting="true"] {
+  box-shadow: none;
+}
+
+.meet-tile-share,
+.meet-tile-share-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.meet-tile-pin {
+  position: absolute;
+  z-index: 3;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  height: 22px;
+  width: 22px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: rgba(232, 234, 237, 0.55);
+  cursor: default;
+}
+
+.meet-tile-badge {
+  position: absolute;
+  z-index: 3;
+  top: 8px;
+  left: 8px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  background: #1e8e3e;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+
+.meet-tile-feed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.meet-tile-avatar-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 2px;
+}
+
+.meet-tile-avatar-wrap[data-speaking="true"] {
+  box-shadow: 0 0 0 2px #34a853;
+}
+
+.meet-tile-avatar-wave {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  z-index: 2;
+  display: flex;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.meet-tile-avatar-wave .meet-wave {
+  height: 12px;
+  gap: 2px;
+}
+
+.meet-tile-avatar-wave .meet-wave > span {
+  width: 3px;
+  background: #fff;
+}
+
+.meet-tile-avatar {
+  display: flex;
+  height: 64px;
+  width: 64px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.meet-tile-sil {
+  width: 32px;
+  height: 32px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.meet-tile-label {
+  position: absolute;
+  z-index: 3;
+  bottom: 8px;
+  left: 8px;
+  max-width: calc(100% - 44px);
+  overflow: hidden;
+  padding: 4px 8px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.62);
+  font-size: 11px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #e8eaed;
+}
+
+.meet-tile-mic {
+  position: absolute;
+  z-index: 3;
+  right: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  height: 22px;
+  width: 22px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(60, 64, 67, 0.92);
+  color: #e8eaed;
+}
+
+.meet-tile-mic[data-muted="true"] {
+  background: #ea4335;
+  color: #fff;
+}
+
+.meet-wave {
+  display: flex;
+  height: 8px;
+  align-items: flex-end;
+  gap: 1px;
+}
+
+.meet-wave > span {
+  width: 2px;
+  height: 3px;
+  border-radius: 1px;
+  background: #81c995;
+}
+
+.meet-wave[data-on="true"] > span {
+  animation: meet-wave 720ms ease-in-out infinite alternate;
+}
+
+.meet-wave[data-on="true"] > span:nth-child(2) { height: 5px; animation-delay: -120ms; }
+.meet-wave[data-on="true"] > span:nth-child(3) { height: 7px; animation-delay: -240ms; }
+.meet-wave[data-on="true"] > span:nth-child(4) { height: 4px; animation-delay: -80ms; }
+
+@keyframes meet-wave {
+  from { transform: scaleY(0.45); opacity: 0.5; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+/* Mini slide */
+.meet-deck {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background: #fff;
+  color: #202124;
+}
+
+.meet-deck-body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 16px 20px;
+}
+
+.meet-deck-body > p {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #188038;
+}
+
+.meet-deck-body > h3 {
+  margin: 6px 0 0;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  color: #202124;
+}
+
+.meet-deck-fields {
+  margin-top: 10px;
+  border-top: 1px solid rgba(32, 33, 36, 0.12);
+}
+
+.meet-deck-fields > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(32, 33, 36, 0.1);
+  align-items: baseline;
+}
+
+.meet-deck-fields dt {
+  font-size: 11px;
+  color: #5f6368;
+}
+
+.meet-deck-fields dd {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: right;
+  color: #202124;
+}
+
+/* Captions — Meet overlay pill */
+.meet-overlay {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  bottom: 8px;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  pointer-events: none;
+}
+
+.meet-caption {
+  max-width: min(440px, 96%);
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 4px;
+  background: rgba(32, 33, 36, 0.92);
+  font-size: 11.5px;
+  line-height: 1.45;
+  text-align: center;
+  color: #e8eaed;
+}
+
+.meet-caption strong {
+  font-weight: 500;
+  color: #fff;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Toolbar — 3-column, no overlap */
+.meet-toolbar {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
+  align-items: center;
+  column-gap: 8px;
+  min-height: 60px;
+  padding: 6px 10px 8px;
+  background: #0f0f10;
+}
+
+.meet-toolbar-left {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.2;
+}
+
+.meet-toolbar-time {
+  font-size: 12px;
+  color: #fff;
+}
+
+.meet-toolbar-code {
+  overflow: hidden;
+  max-width: 72px;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #9aa0a6;
+}
+
+.meet-toolbar-center {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.meet-toolbar-right {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2px;
+}
+
+.meet-ctl {
+  appearance: none;
+  display: inline-flex;
+  height: 34px;
+  width: 34px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: #3c4043;
+  color: #fff;
+  cursor: default;
+}
+
+.meet-ctl svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.meet-ctl-group {
+  display: inline-flex;
+  height: 34px;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: #3c4043;
+  flex-shrink: 0;
+}
+
+.meet-ctl-group[data-off="true"] {
+  background: #d93025;
+}
+
+.meet-ctl-group .meet-ctl-main {
+  width: 34px;
+  height: 34px;
+  border-radius: 0;
+  background: transparent;
+}
+
+.meet-ctl-group .meet-ctl-chevron {
+  width: 16px;
+  height: 34px;
+  border-radius: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  background: transparent;
+}
+
+.meet-ctl[data-active="true"] {
+  background: #1e8e3e;
+  color: #fff;
+}
+
+.meet-ctl--end {
+  width: 50px;
+  margin-left: 3px;
+  background: #d93025;
+  color: #fff;
+}
+
+.meet-ctl--aux {
+  height: 34px;
+  width: auto;
+  min-width: 34px;
+  padding: 0 5px;
+  background: transparent;
+  color: #e8eaed;
+  gap: 4px;
+}
+
+.meet-ctl--sound[data-on="true"] {
+  color: #81c995;
+}
+
+.meet-ctl--aux:disabled {
+  opacity: 0.38;
+}
+
+.meet-ctl-count {
+  font-size: 12px;
+  color: #e8eaed;
+}
+
+@media (max-width: 640px) {
+  .meet-chrome-tab:not(.is-active),
+  .meet-chrome-trail {
+    display: none;
+  }
+
+  .meet-tile-avatar {
+    height: 48px;
+    width: 48px;
+    font-size: 13px;
+  }
+
+  .meet-toolbar-left {
+    display: none;
+  }
+
+  .meet-toolbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .meet-toolbar-center {
+    justify-content: flex-start;
+  }
+
+  .meet-ctl-count {
+    display: none;
+  }
+}

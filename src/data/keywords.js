@@ -88,35 +88,35 @@ export const homepageFaqs = [
   {
     question: "What is an AI voice agent platform?",
     answer:
-      "An AI voice agent platform lets businesses run automated phone conversations — outbound campaigns, follow-ups, and bookings — using AI that speaks in natural language. SnapServe is a voice agent platform built for Indian telephony with caller memory, auto-redial, and campaign orchestration.",
+      "An AI voice agent platform runs automated phone calls — outbound, follow-ups, bookings — in natural language. SnapServe adds caller memory, auto-redial, and campaign orchestration on one layer.",
   },
   {
-    question: "Is SnapServe a low-cost voice agent solution for India?",
+    question: "Is SnapServe a low-cost voice agent solution?",
     answer:
-      "Yes. SnapServe uses pay-per-minute pricing with no platform lock-in. You bring your own telephony and AI provider keys, so you only pay SnapServe for orchestration. Start with $5 free credit or 100 free minutes.",
+      "Yes. SnapServe bills orchestration per minute — bring your own ASR/LLM/TTS keys or use managed. $5 free credit to start; no card required to explore.",
   },
   {
     question: "How is SnapServe different from Vapi or Bolna?",
     answer:
-      "Vapi and Bolna are developer-first voice APIs. SnapServe is an AI voice orchestrator with business-ready features built in: persistent caller memory, auto-redial on drop, Meta and website form auto-dial, bulk CSV campaigns, and Google Calendar scheduling — optimized for Indian languages and telephony.",
+      "Vapi and Bolna are developer voice APIs. SnapServe ships the ops layer: persistent caller memory, drop → auto-redial, Meta/website auto-dial, CSV campaigns, and Calendar booking.",
   },
   {
-    question: "Is SnapServe a Vapi alternative in India?",
+    question: "Is SnapServe a Vapi alternative?",
     answer:
-      "Yes. SnapServe works as a Vapi alternative for Indian business by adding caller memory, auto-redial, campaign orchestration, and Meta lead auto-dial — either on top of Vapi or as a standalone platform with your own providers.",
+      "Yes. SnapServe works as a Vapi alternative by adding caller memory, auto-redial, campaign orchestration, and Meta lead auto-dial — either on top of Vapi or as a standalone platform with your own providers.",
   },
   {
     question: "Is SnapServe a Retell or Bland AI alternative?",
     answer:
-      "Yes. Teams evaluating Retell or Bland AI choose SnapServe for outbound campaign tooling, persistent caller memory, Indian regional languages, and pay-per-minute BYOP pricing without enterprise lock-in.",
+      "Yes. Teams evaluating Retell or Bland AI choose SnapServe for outbound campaign tooling, persistent caller memory, multi-language support, and pay-per-minute BYOP pricing without enterprise lock-in.",
   },
   {
-    question: "Which Indian languages do SnapServe voice agents support?",
+    question: "Which languages do SnapServe voice agents support?",
     answer:
-      "SnapServe supports every major Indian language — Hindi, Tamil, Telugu, Kannada, Malayalam, Marathi, Bengali, Gujarati, and more — through your choice of ASR and TTS providers.",
+      "SnapServe orchestrates voice agents in any language your ASR and TTS providers support — including Hindi, Tamil, Telugu, Spanish, Arabic, and more.",
   },
   {
-    question: "Who should use an AI voice agent platform in India?",
+    question: "Who should use an AI voice agent platform?",
     answer:
       "Insurance, real estate, EdTech, healthcare, lending, and D2C teams use SnapServe for lead follow-up, renewals, appointment booking, COD confirmation, and admissions calls — without building a call centre.",
   },

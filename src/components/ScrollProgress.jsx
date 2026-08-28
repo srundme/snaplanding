@@ -21,7 +21,7 @@ export default function ScrollProgress() {
   return (
     <div className="fixed top-0 left-[200px] right-0 z-[60] hidden h-[2px] lg:block">
       <motion.div
-        className="h-full origin-left bg-gradient-to-r from-[#FF9933] via-[#14B8A6] to-[#6366f1]"
+        className="h-full origin-left bg-gradient-to-r from-[#14B8A6]/70 via-[#14B8A6] to-[#4C8DF6]"
         style={{ scaleX: progress }}
       />
     </div>

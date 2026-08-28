@@ -40,37 +40,37 @@ export default function FreeMinutesPopup() {
             <motion.div
               role="dialog"
               aria-modal="true"
-              aria-labelledby="free-minutes-title"
+              aria-labelledby="free-credit-title"
               className="pointer-events-auto w-full max-w-md"
               initial={{ opacity: 0, y: reduce ? 0 : 20, scale: reduce ? 1 : 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: reduce ? 0 : 12, scale: reduce ? 1 : 0.98 }}
               transition={{ duration: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
             >
-            <div className="relative overflow-hidden rounded-2xl border border-[#14B8A6]/30 bg-[#0a0a0a] shadow-[0_0_80px_rgba(20,184,166,0.15)]">
-              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#FF9933]/20 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-[#14B8A6]/20 blur-3xl" />
+            <div className="relative overflow-hidden rounded-xl border border-[#14B8A6]/25 bg-surface-1 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.95),0_0_60px_-30px_rgba(20,184,166,0.5)]">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#FF9933]/12 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-[#14B8A6]/12 blur-3xl" />
 
               <button
                 type="button"
                 onClick={dismiss}
-                className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-[#27272a] text-[#71717a] transition-colors hover:border-[#52525b] hover:text-white"
+                className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-md border border-line text-ink-3 transition-colors hover:border-line-strong hover:text-ink"
                 aria-label="Dismiss"
               >
                 ×
               </button>
 
               <div className="relative p-8 pt-10 text-center">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#FF9933]/30 bg-[#FF9933]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-[#FF9933]">
-                  Limited offer
+                <span className="inline-flex items-center gap-2 rounded-md border border-[#FF9933]/25 bg-[#FF9933]/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.09em] text-[#FF9933]">
+                  Free to start
                 </span>
 
                 <h2
-                  id="free-minutes-title"
+                  id="free-credit-title"
                   className="headline-lg mt-5"
                 >
-                  Get{" "}
-                  <span className="brand-gradient-text">100 minutes free</span>
+                  Start with{" "}
+                  <span className="brand-gradient-text">$5 free credit</span>
                 </h2>
 
                 <p className="body-text mx-auto mt-3 max-w-xs">
@@ -78,7 +78,7 @@ export default function FreeMinutesPopup() {
                   campaigns, and auto-redial included.
                 </p>
 
-                <p className="mt-2 font-mono text-[10px] text-[#52525b]">
+                <p className="mt-2.5 text-[11px] text-ink-3">
                   No credit card · Set up in minutes
                 </p>
 
@@ -88,12 +88,12 @@ export default function FreeMinutesPopup() {
                     hoverText="Claim now →"
                     className="w-full justify-center sm:w-auto"
                   >
-                    Claim 100 free minutes
+                    Claim free credit
                   </GlowButton>
                   <button
                     type="button"
                     onClick={dismiss}
-                    className="text-sm text-[#52525b] transition-colors hover:text-[#a1a1aa]"
+                    className="text-[13px] text-ink-3 transition-colors hover:text-ink-2"
                   >
                     Maybe later
                   </button>

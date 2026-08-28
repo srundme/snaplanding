@@ -46,7 +46,7 @@ function buildAlternativeFunnelPage(alt) {
       {
         question: "How much does SnapServe cost compared?",
         answer:
-          "SnapServe charges per minute for orchestration only. You bring your own telephony and AI providers (BYOP), so you control provider spend directly. Start with $5 free credit or 100 free minutes.",
+          "SnapServe charges per minute for orchestration only. You bring your own telephony and AI providers (BYOP), so you control provider spend directly. Start with $5 free credit.",
       },
     ],
     relatedBlog: alt.relatedBlog,
@@ -75,7 +75,7 @@ export const funnelPages = [
       badge: "AI Voice Agent Platform",
       headline: "The AI voice agent platform built for India.",
       subline:
-        "Orchestrate outbound calls, follow-ups, and bookings on one layer — with caller memory, auto-redial, and campaigns built in. Provider-agnostic. Every Indian language.",
+        "Orchestrate outbound calls, follow-ups, and bookings on one layer — with caller memory, auto-redial, and campaigns built in. Provider-agnostic. Multilingual and code-mix ready.",
     },
     benefits: [
       {
@@ -188,7 +188,7 @@ export const funnelPages = [
       },
       {
         title: "Start free, scale on usage",
-        desc: "$5 free credit and 100 free minutes offers — test on real leads before committing.",
+        desc: "$5 free credit to start — test on real leads before committing.",
       },
       {
         title: "No rebuild tax",
