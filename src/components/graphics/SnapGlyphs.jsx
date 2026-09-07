@@ -183,6 +183,9 @@ export function PartnerGlyph(props) {
     </Glyph>
   );
 }
+
+/** Joins from a link. */
+export function LinkGlyph(props) {
   return (
     <Glyph {...props}>
       <path d="M9.8 14.3a4.3 4.3 0 0 0 6.3.5l3.3-3.3a4.3 4.3 0 0 0-6-6l-1.9 1.9" />
