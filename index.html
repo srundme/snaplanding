@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SnapServe — AI Voice Agent Platform & Orchestration Layer</title>
-    <meta name="description" content="SnapServe is an AI voice agent platform and orchestration layer. Run outbound campaigns with persistent caller memory, auto-redial, meeting bots, multi-provider ASR/LLM/TTS, and CRM write-back — pay per minute, BYOP or managed." />
-    <meta name="theme-color" content="#ffffff" />
+    <title>Voice Agents Built for Business | SnapServe</title>
+    <meta name="description" content="Run lead calls, follow-ups, and bookings with voice agents that keep caller context, support callback workflows, and connect to business tools." />
+    <meta name="theme-color" content="#050607" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://snapserve.ai/" />
     <link rel="alternate" type="text/plain" href="https://snapserve.ai/llms.txt" title="LLM site summary" />
@@ -40,13 +40,13 @@
           "applicationSubCategory": "AI Voice Agent Platform",
           "operatingSystem": "Web",
           "url": "https://snapserve.ai",
-          "description": "AI voice agent platform and orchestration layer with caller memory, auto-redial, meeting bots, multi-provider ASR/LLM/TTS, campaigns, and CRM write-back."
+          "description": "Voice agent platform for business calls with caller memory, callback workflows, meeting bots, provider routing, campaigns, and business-tool connections."
         }
       ]
     }
     </script>
-    <meta property="og:title" content="SnapServe — AI Voice Agent Platform & Orchestration Layer" />
-    <meta property="og:description" content="Deploy AI voice agents that actually work — multi-provider orchestration, caller memory, auto-redial, meeting bots, and CRM write-back. Pay per minute." />
+    <meta property="og:title" content="Voice Agents Built for Business | SnapServe" />
+    <meta property="og:description" content="Run lead calls, follow-ups, and bookings with voice agents that keep caller context, support callback workflows, and connect to business tools." />
     <meta property="og:url" content="https://snapserve.ai/" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://snapserve.ai/images/og-card.png" />
@@ -54,22 +54,24 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="SnapServe" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="SnapServe — AI Voice Agent Platform & Orchestration Layer" />
-    <meta name="twitter:description" content="Multi-provider voice AI with memory, auto-redial, meeting bots, and CRM write-back. Pay per minute." />
+    <meta name="twitter:title" content="Voice Agents Built for Business | SnapServe" />
+    <meta name="twitter:description" content="Run lead calls, follow-ups, and bookings with voice agents that keep caller context and connect to business tools." />
     <meta name="twitter:image" content="https://snapserve.ai/images/og-card.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&family=Roboto:wght@400;500&family=Sora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Inter:wght@400..700&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Sans+Devanagari&family=Noto+Sans+Malayalam&family=Noto+Sans+Kannada&family=Noto+Sans+Bengali&family=Roboto:wght@400;500&family=Sora:wght@400..700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Inter:wght@400..700&family=Noto+Sans+Tamil&family=Noto+Sans+Telugu&family=Noto+Sans+Devanagari&family=Noto+Sans+Malayalam&family=Noto+Sans+Kannada&family=Noto+Sans+Bengali&family=Roboto:wght@400;500&family=Sora:wght@400..700&display=swap" rel="stylesheet" /></noscript>
     <script>
       (function () {
-        var dark = false;
+        var theme = "dark";
         try {
-          dark = localStorage.getItem("snapserve-theme") === "dark";
+          var stored = localStorage.getItem("snapserve-theme");
+          if (stored === "dark" || stored === "light") theme = stored;
         } catch (e) {}
-        document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
         var meta = document.querySelector('meta[name="theme-color"]');
-        if (meta) meta.setAttribute("content", dark ? "#050607" : "#ffffff");
+        if (meta) meta.setAttribute("content", theme === "dark" ? "#050607" : "#ffffff");
       })();
     </script>
   </head>

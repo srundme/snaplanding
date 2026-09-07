@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import ScrollProgress from "../components/ScrollProgress";
+import ProofStrip from "../components/ProofStrip";
 import Hero from "../components/Hero";
 import FeaturesSection from "../components/FeaturesSection";
 import MemoryCRMSection from "../components/MemoryCRMSection";
@@ -18,67 +19,107 @@ import SiteFooter from "../components/SiteFooter";
 import FreeMinutesPopup from "../components/FreeMinutesPopup";
 import SnapServeLogo from "../components/SnapServeLogo";
 import { Reveal } from "../components/motion/Reveal";
-import { SIGNUP_URL } from "../lib/links";
+import { Link } from "react-router-dom";
+import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
+import { MOBILE_NAV } from "../lib/nav";
 import { homepageFaqs } from "../data/keywords";
 import { buildHomeGraph } from "../lib/seo";
 
 /*
-  Spine:
-  Hero → Product → Meetings → Memory → Integrations → Auto-redial →
-  Industries → Trust → How it works → Pricing → Answers → CTA
+  Spine (first-visit story):
+  Hero → Proof → Platform → Core capabilities → Integrations →
+  Industries → Trust → Workflow → Pricing → Answers → CTA
 */
-const mobileNav = [
-  { label: "Product", href: "#differentiator" },
-  { label: "Meetings", href: "#meeting-bot" },
-  { label: "Memory", href: "#memory-crm" },
-  { label: "Pricing", href: "#pricing" },
-];
+const mobileNav = MOBILE_NAV;
 
 export default function LandingPage() {
-  // FAQ schema must match the visible Answers section (first 6).
-  const jsonLd = useMemo(() => [buildHomeGraph(homepageFaqs.slice(0, 6))], []);
+  const [showSidebar, setShowSidebar] = useState(() =>
+    typeof window !== "undefined"
+      ? window.matchMedia("(min-width: 1024px)").matches
+      : false,
+  );
+
+  useEffect(() => {
+    const query = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setShowSidebar(query.matches);
+    sync();
+    query.addEventListener("change", sync);
+    return () => query.removeEventListener("change", sync);
+  }, []);
+
+  // FAQ schema must match the visible Answers section.
+  const jsonLd = useMemo(() => [buildHomeGraph(homepageFaqs)], []);
 
   return (
     <div className="dot-bg relative min-h-screen">
       <Seo pathname="/" jsonLd={jsonLd} />
+      <a
+        href="#main-content"
+        className="sr-only fixed left-4 top-4 z-[200] rounded-md bg-surface-1 px-4 py-2 text-sm text-ink focus:not-sr-only"
+      >
+        Skip to content
+      </a>
 
       <FreeMinutesPopup />
       <ScrollProgress />
-      <Sidebar />
+      {showSidebar ? <Sidebar /> : null}
 
       <header className="sticky top-0 z-40 border-b border-line bg-surface-0/85 backdrop-blur-xl lg:hidden">
-        <div className="flex items-center justify-between px-5 py-3.5">
+        <div className="flex items-center justify-between gap-3 px-5 py-3.5">
           <SnapServeLogo variant="full" size="sm" asLink href="/" />
-          <a
-            href={SIGNUP_URL}
-            className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 text-xs font-medium text-[#14B8A6]"
-            rel="noopener noreferrer"
-          >
-            Get started
-          </a>
-        </div>
-        <nav className="flex gap-5 overflow-x-auto px-5 pb-2.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {mobileNav.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="shrink-0 text-xs text-ink-2 transition-colors hover:text-ink"
+          <div className="flex items-center gap-2">
+            <Link
+              to={PARTNER_URL}
+              className="hidden rounded-full border border-line px-3 py-1.5 text-xs text-ink-2 transition-colors hover:text-ink sm:inline-flex"
             >
-              {item.label}
+              Partner with us
+            </Link>
+            <a
+              href={SIGNUP_URL}
+              className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 text-xs font-medium text-[#14B8A6]"
+              rel="noopener noreferrer"
+            >
+              Start free
             </a>
-          ))}
+          </div>
+        </div>
+        <nav
+          aria-label="Page sections"
+          className="flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {mobileNav.map((item) =>
+            item.href.startsWith("/") ? (
+              <Link
+                key={item.href}
+                to={item.href}
+                className="inline-flex min-h-11 shrink-0 items-center px-2 text-xs text-ink-2 transition-colors hover:text-ink"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <a
+                key={item.href}
+                href={item.href}
+                className="inline-flex min-h-11 shrink-0 items-center px-2 text-xs text-ink-2 transition-colors hover:text-ink"
+                {...(item.external ? { rel: "noopener noreferrer" } : {})}
+              >
+                {item.label}
+              </a>
+            ),
+          )}
         </nav>
       </header>
 
-      <div className="relative z-10 lg:pl-[200px]">
+      <main id="main-content" className="relative z-10 lg:pl-[200px]">
         <div className="mx-auto max-w-[1200px]">
           <div className="overflow-clip bg-surface-0">
             <Hero />
+            <ProofStrip />
             <FeaturesSection />
             <MeetingBotSection />
             <MemoryCRMSection />
-            <IntegrationsSection />
             <SmartReconnectSection />
+            <IntegrationsSection />
             <IndustriesSection />
             <TrustSecuritySection />
             <MemoryArchitecture />
@@ -91,10 +132,10 @@ export default function LandingPage() {
             >
               <div className="cta-photo" aria-hidden="true">
                 <img
-                  src="/images/section-atmosphere.png"
+                  src="/images/section-atmosphere.webp"
                   alt=""
-                  width={1920}
-                  height={1080}
+                  width={1280}
+                  height={854}
                   decoding="async"
                   loading="lazy"
                 />
@@ -102,21 +143,28 @@ export default function LandingPage() {
               <div className="cta-veil pointer-events-none absolute inset-0" />
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_70%_at_50%_100%,rgba(20,184,166,0.12)_0%,transparent_70%)]" />
               <Reveal>
-                <p className="label relative text-ink-3">Start with $5 credit</p>
+                <p className="label relative text-ink-3">Ready to launch?</p>
                 <h2 className="headline-xl relative mx-auto mt-4 max-w-2xl">
                   Put SnapServe on{" "}
                   <span className="brand-gradient-text">every important call.</span>
                 </h2>
                 <p className="body-text relative mx-auto mt-4 max-w-lg">
-                  $5 free credit. Caller memory, auto-redial, and meeting bots
-                  included on every dial.
+                  Connect your providers, configure an agent, and test the workflow in the live console.
                 </p>
                 <div className="relative mt-8 flex flex-col items-center gap-3">
-                  <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-                    Get started free
-                  </GlowButton>
+                  <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                    <GlowButton href={SIGNUP_URL} hoverText="Start free →">
+                      Start free
+                    </GlowButton>
+                    <Link
+                      to={PARTNER_URL}
+                      className="inline-flex h-11 items-center justify-center rounded-full border border-line px-6 text-[14px] font-medium tracking-[-0.014em] text-ink-2 transition-colors hover:border-[#14B8A6]/30 hover:text-ink"
+                    >
+                      Partner with us
+                    </Link>
+                  </div>
                   <p className="text-[12px] text-ink-3">
-                    Pay per minute · BYOP or managed · Open live console
+                    Usage pricing · Bring your providers · Managed option available
                   </p>
                 </div>
               </Reveal>
@@ -127,7 +175,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

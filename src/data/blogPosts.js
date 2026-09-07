@@ -95,7 +95,7 @@ export const blogPosts = [
       {
         type: "ul",
         items: [
-          "Use free credit ($5 or 100 minutes) to test on a real lead batch",
+          "Test the workflow on a small, consented lead batch before scaling",
           "Track cost per connected call and cost per qualified lead",
           "Compare against human agent cost for the same workflow",
           "Scale campaigns only when unit economics work",
@@ -340,7 +340,7 @@ export const blogPosts = [
       {
         type: "p",
         content:
-          "SnapServe adds an orchestration layer with memory, campaigns, Meta lead auto-dial, and sub-200ms drop recovery. Use it alongside Vapi or migrate to BYOP when ready — no forced rip-and-replace.",
+          "SnapServe adds an orchestration layer with memory, campaigns, lead-source connectors, and callback workflows. Use it alongside an existing stack or migrate to BYOP when ready.",
       },
     ],
   },

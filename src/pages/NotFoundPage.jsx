@@ -24,8 +24,8 @@ export default function NotFoundPage() {
           The link may be old or mistyped. Head home or start a free account.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-            Get started free
+          <GlowButton href={SIGNUP_URL} hoverText="Start free →">
+            Start free
           </GlowButton>
           <Link to="/" className="outline-btn">
             Back to home

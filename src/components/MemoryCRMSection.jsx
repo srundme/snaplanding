@@ -1,30 +1,31 @@
 import {
-  BookOpen,
-  CornerDownRight,
-  Database,
-} from "lucide-react";
+  MemoryGlyph,
+  PreloadGlyph,
+  ProfileGlyph,
+} from "./graphics/SnapGlyphs";
 import { Reveal } from "./motion/Reveal";
+import SectionLabel from "./SectionLabel";
 
 /*
   Caller Memory — premium CRM contact panel.
-  Hardcoded returning-lead record. No fake live chrome.
+  Sample returning-lead record for illustration.
 */
 
 const STORIES = [
   {
-    Icon: Database,
+    Icon: ProfileGlyph,
     title: "Facts stay on file",
-    desc: "Budget ₹75L, Tambaram / Red Hills, Tamil, villa with parking.",
+    desc: "Budget, area, language — ready on the next dial.",
   },
   {
-    Icon: BookOpen,
+    Icon: PreloadGlyph,
     title: "Loaded before greeting",
-    desc: "Profile injects before the agent speaks the first line.",
+    desc: "The profile loads before the first word.",
   },
   {
-    Icon: CornerDownRight,
+    Icon: MemoryGlyph,
     title: "Picks up the thread",
-    desc: "Next dial continues from the last decision — not day one.",
+    desc: "The next call continues from the last decision.",
   },
 ];
 
@@ -43,18 +44,18 @@ const NOTES = [
 
 function MemoryPanel() {
   return (
-    <article className="ss-panel ss-panel--phone" aria-label="Caller memory for Karthik Anand">
+    <article className="ss-panel ss-panel--phone" aria-label="Sample caller memory record">
       <header className="ss-panel-head">
         <div className="ss-panel-avatar" aria-hidden="true">
-          KA
+          AK
         </div>
         <div className="min-w-0">
           <div className="ss-panel-title-row">
-            <h3>Karthik Anand</h3>
+            <h3>Arun K.</h3>
             <span className="ss-panel-tag">Returning</span>
           </div>
-          <p className="ss-panel-sub">+91 98840 55242</p>
-          <p className="ss-panel-meta">4 calls · Last 11 Mar, 7:42 pm</p>
+          <p className="ss-panel-sub">+91 98XXX XXXXX</p>
+          <p className="ss-panel-meta">4 calls · Sample record</p>
         </div>
       </header>
 
@@ -111,27 +112,24 @@ export default function MemoryCRMSection() {
   return (
     <section
       id="memory-crm"
-      className="relative isolate overflow-hidden border-b border-line bg-surface-0 px-6 py-12 md:px-14 md:py-14"
+      className="relative isolate overflow-hidden border-b border-line bg-surface-0 px-6 py-16 md:px-14 md:py-20"
     >
       <div className="mem-aura" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-5xl">
+      <div className="relative z-[2] mx-auto max-w-5xl">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           <div className="mem-story">
             <Reveal>
-              <div className="flex items-center gap-3">
-                <span className="h-px w-7 bg-[#14B8A6]/55" />
-                <p className="label text-ink-2">Caller memory</p>
-              </div>
-
+              <SectionLabel icon={MemoryGlyph}>Caller memory</SectionLabel>
               <h2 className="headline-lg mt-4">
                 They never{" "}
                 <span className="brand-gradient-text">start from zero.</span>
               </h2>
+            </Reveal>
 
+            <Reveal delay={0.04}>
               <p className="body-text mt-3 max-w-md">
-                Budget ₹75L, Tambaram preference, Tamil — still on file when
-                Karthik calls back. The agent continues; it doesn’t restart.
+                Budget, location, and language stay ready for the next call.
               </p>
             </Reveal>
 
@@ -140,11 +138,7 @@ export default function MemoryCRMSection() {
                 <Reveal key={item.title} delay={0.06 * (i + 1)}>
                   <div className="mem-story-item flex items-start gap-3.5">
                     <span className="mem-story-icon story-icon">
-                      <item.Icon
-                        className="h-3.5 w-3.5"
-                        strokeWidth={1.7}
-                        aria-hidden="true"
-                      />
+                      <item.Icon size={16} />
                     </span>
                     <div className="min-w-0">
                       <h3 className="mt-0">{item.title}</h3>

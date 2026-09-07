@@ -57,7 +57,6 @@ export default function SnapServeLogo({
   const { theme: ctxTheme } = useTheme();
   const theme = themeProp ?? ctxTheme ?? "light";
   const { icon, gap } = sizes[size];
-  const useRasterIcon = variant === "icon-raster";
 
   const content = (
     <span className={`inline-flex items-center ${gap} ${className}`}>

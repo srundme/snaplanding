@@ -1,9 +1,9 @@
 {
   "fonts": {
     "sans": "\"Inter\", system-ui, -apple-system, sans-serif",
-    "display": "\"Plus Jakarta Sans\", \"Inter\", system-ui, sans-serif",
-    "mono": "\"JetBrains Mono\", ui-monospace, monospace",
-    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
+    "display": "\"Geist\", \"Inter\", system-ui, sans-serif",
+    "mono": "\"Geist Mono\", ui-monospace, monospace",
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Inter:wght@400..700&display=swap"
   },
   "brand": {
     "saffron": "#FF9933",

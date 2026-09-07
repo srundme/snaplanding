@@ -7,7 +7,7 @@ export function readStoredTheme() {
   } catch {
     /* private mode */
   }
-  return "light";
+  return "dark";
 }
 
 export function applyTheme(theme) {

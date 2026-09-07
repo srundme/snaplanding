@@ -15,6 +15,11 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
+function staticBody(doc) {
+  const canonical = absoluteUrl(doc.path === "/" ? "/" : doc.path);
+  return `<main id="seo-shell" style="max-width:48rem;margin:0 auto;padding:4rem 1.5rem;font-family:system-ui,sans-serif;color:#f5f7fa;background:#050607"><p style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#5eead4">SnapServe</p><h1>${escapeHtml(doc.title)}</h1><p>${escapeHtml(doc.summary || doc.description)}</p><nav aria-label="Primary"><a style="color:#5eead4" href="${SITE_URL}">Home</a> · <a style="color:#5eead4" href="${SITE_URL}/blog">Guides</a> · <a style="color:#5eead4" href="${SITE_URL}/partner">Partner</a></nav><p><a style="color:#5eead4" href="${escapeHtml(canonical)}">Open this page</a></p></main>`;
+}
+
 function injectHead(html, doc) {
   const canonical = absoluteUrl(doc.path === "/" ? "/" : doc.path);
   const keywords = Array.isArray(doc.keywords)
@@ -40,6 +45,12 @@ function injectHead(html, doc) {
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
     `<meta property="og:site_name" content="SnapServe" />`,
+    doc.type === "article" && doc.publishedTime
+      ? `<meta property="article:published_time" content="${escapeHtml(doc.publishedTime)}" />`
+      : "",
+    doc.type === "article" && doc.modifiedTime
+      ? `<meta property="article:modified_time" content="${escapeHtml(doc.modifiedTime)}" />`
+      : "",
     `<meta name="twitter:card" content="summary_large_image" />`,
     `<meta name="twitter:title" content="${escapeHtml(doc.title)}" />`,
     `<meta name="twitter:description" content="${escapeHtml(doc.description)}" />`,
@@ -58,23 +69,16 @@ function injectHead(html, doc) {
   next = next.replace(/<title>[\s\S]*?<\/title>/i, "");
   next = next.replace(/<meta name="description"[^>]*>/i, "");
   next = next.replace(/<meta name="keywords"[^>]*>/i, "");
+  next = next.replace(/<meta name="robots"[^>]*>/gi, "");
   next = next.replace(/<link rel="canonical"[^>]*>/i, "");
   next = next.replace(/<meta property="og:[^"]+"[^>]*>/gi, "");
+  next = next.replace(/<meta property="article:[^"]+"[^>]*>/gi, "");
   next = next.replace(/<meta name="twitter:[^"]+"[^>]*>/gi, "");
-  next = next.replace("</head>", `    ${headBits}\n  </head>`);
-
-  const noscript = `<noscript><div style="max-width:42rem;margin:2rem auto;padding:1.5rem;font-family:system-ui,sans-serif;color:#111"><h1>${escapeHtml(doc.title)}</h1><p>${escapeHtml(doc.summary || doc.description)}</p><p><a href="${SITE_URL}">SnapServe</a> · <a href="${SITE_URL}/blog">Blog</a></p></div></noscript>`;
-  if (!next.includes('id="seo-noscript"')) {
-    next = next.replace(
-      '<div id="root"></div>',
-      `<div id="root"></div>\n    <div id="seo-noscript">${noscript}</div>`,
-    );
-  } else {
-    next = next.replace(
-      /<div id="seo-noscript">[\s\S]*?<\/div>/,
-      `<div id="seo-noscript">${noscript}</div>`,
-    );
-  }
+  next = next.replace("<head>", `<head>\n    ${headBits}`);
+  next = next.replace(
+    '<div id="root"></div>',
+    `<div id="root">${staticBody(doc)}</div>`,
+  );
 
   return next;
 }

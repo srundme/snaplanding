@@ -2,6 +2,7 @@
  * Simplified platform marks drawn inline so the "works with" surfaces stay
  * crisp at small sizes without shipping raster brand assets.
  */
+/* eslint-disable react-refresh/only-export-components */
 
 export function GoogleMeetMark({ size = 16, className = "" }) {
   return (
@@ -109,26 +110,15 @@ export function PlivoMark({ size = 16, className = "" }) {
 
 export function VobizMark({ size = 16, className = "" }) {
   return (
-    <svg
+    <img
+      src="/images/logos/vobiz-mark.png"
+      alt=""
       width={size}
       height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
+      draggable={false}
       className={className}
-    >
-      <rect width="24" height="24" rx="5.5" fill="#1A100C" />
-      <g transform="translate(2.4 5) scale(0.137)">
-        <path
-          fill="#E83C00"
-          d="M140 3.923C140 1.714 138.208-.085 136.001.003c-11.767.471-23.37 3.017-34.269 7.532C89.6 12.561 78.575 19.927 69.29 29.213 60.004 38.499 52.638 49.523 47.612 61.655c-4.515 10.9-7.061 22.502-7.532 34.269C39.992 98.132 41.791 99.923 44 99.923h43.538c2.209 0 3.983-1.794 4.165-3.995a51.3 51.3 0 0 1 3.524-14.55c2.435-5.88 6.005-11.222 10.505-15.722 4.5-4.5 9.843-8.07 15.722-10.505 4.646-1.924 9.555-3.11 14.551-3.524C138.206 51.444 140 49.67 140 47.461V3.923Z"
-        />
-        <path
-          fill="#E86A00"
-          d="M0 3.923C0 1.714 1.794-.094 3.996.086c5.197.425 10.306 1.678 15.138 3.72 6.066 2.563 11.578 6.32 16.221 11.055 4.643 4.736 8.326 10.358 10.839 16.546 2.012 4.953 3.242 10.192 3.652 15.52C50.016 49.13 48.209 50.923 46 50.923H4C1.791 50.923 0 49.132 0 46.923V3.923Z"
-        />
-      </g>
-    </svg>
+      style={{ display: "block", objectFit: "contain" }}
+    />
   );
 }
 

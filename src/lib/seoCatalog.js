@@ -7,6 +7,7 @@ import {
   buildBlogGraph,
   buildFunnelGraph,
   buildHomeGraph,
+  buildPartnerGraph,
   defaultSeo,
   jsonLdGraph,
   organizationSchema,
@@ -53,7 +54,7 @@ export function getAllSeoDocuments() {
       keywords: defaultSeo.keywords,
       image: DEFAULT_OG_IMAGE,
       type: "website",
-      jsonLd: buildHomeGraph(homepageFaqs.slice(0, 6)),
+      jsonLd: buildHomeGraph(homepageFaqs),
       summary: defaultSeo.description,
     },
     {
@@ -96,6 +97,22 @@ export function getAllSeoDocuments() {
       jsonLd: null,
       summary: "SnapServe terms of service.",
     },
+    {
+      path: "/partner",
+      title: "Partner with SnapServe | Agencies & Resellers",
+      description:
+        "Discuss agency, reseller, and migration workflows with the SnapServe team.",
+      keywords: [
+        "snapserve partner",
+        "voice ai reseller india",
+        "vapi alternative partner",
+      ],
+      image: DEFAULT_OG_IMAGE,
+      type: "website",
+      jsonLd: buildPartnerGraph(),
+      summary:
+        "Partner and migration form for SnapServe — agencies, resellers, and teams switching voice AI platforms.",
+    },
   ];
 
   for (const post of blogPosts) {
@@ -106,6 +123,8 @@ export function getAllSeoDocuments() {
       keywords: post.keywords,
       image: DEFAULT_OG_IMAGE,
       type: "article",
+      publishedTime: post.publishedAt,
+      modifiedTime: post.updatedAt || post.publishedAt,
       jsonLd: buildBlogGraph(post),
       summary: post.excerpt || post.description,
     });
@@ -127,15 +146,16 @@ export function getAllSeoDocuments() {
   return docs;
 }
 
-export function buildSitemapXml(docs = getAllSeoDocuments(), lastmod = new Date().toISOString().slice(0, 10)) {
+export function buildSitemapXml(docs = getAllSeoDocuments()) {
   const urls = docs
     .map((doc) => {
       const loc = absoluteUrl(doc.path === "/" ? "/" : doc.path);
+      const lastmod = doc.modifiedTime || doc.publishedTime || "";
       const priority =
         doc.path === "/"
           ? "1.0"
           : doc.path.startsWith("/solutions")
-            ? "0.9"
+            ? "0.7"
             : doc.path.startsWith("/blog/")
               ? "0.8"
               : doc.path === "/blog"
@@ -143,7 +163,8 @@ export function buildSitemapXml(docs = getAllSeoDocuments(), lastmod = new Date(
                 : "0.3";
       const changefreq =
         doc.path === "/" || doc.path === "/blog" ? "weekly" : "monthly";
-      return `  <url><loc>${loc}</loc><lastmod>${lastmod}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
+      const modified = lastmod ? `<lastmod>${lastmod}</lastmod>` : "";
+      return `  <url><loc>${loc}</loc>${modified}<changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
     })
     .join("\n");
 

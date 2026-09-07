@@ -28,10 +28,10 @@ export default function ContentLayout({
             </Link>
             <a
               href={SIGNUP_URL}
-              className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 text-xs font-medium text-[#14B8A6]"
+              className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 text-xs font-medium text-[#14B8A6] transition-colors hover:bg-[#14B8A6]/20"
               rel="noopener noreferrer"
             >
-              Get started
+              Start free
             </a>
           </div>
         </div>

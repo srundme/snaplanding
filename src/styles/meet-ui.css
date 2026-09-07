@@ -7,6 +7,7 @@
   align-items: center;
   justify-content: center;
   padding: 0;
+  overflow: visible;
   background: transparent;
   font-family: Roboto, "Google Sans", Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -14,6 +15,7 @@
 
 /* MacBook frame — restrained so it sits in the section, not a hero object */
 .meet-macbook {
+  position: relative;
   width: 100%;
   max-width: 640px;
   margin: 0 auto;
@@ -205,6 +207,9 @@
   flex-direction: column;
   background: #0f0f10;
   color: #e8eaed;
+  /* Toolbar responds to this card's width, not the viewport's. */
+  container-type: inline-size;
+  container-name: meetapp;
 }
 
 .meet-main {
@@ -552,6 +557,7 @@
   column-gap: 8px;
   min-height: 60px;
   padding: 6px 10px 8px;
+  overflow: visible;
   background: #0f0f10;
 }
 
@@ -583,6 +589,8 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
+  /* Controls never shrink, so clip rather than let them cross the columns. */
+  overflow: hidden;
 }
 
 .meet-toolbar-right {
@@ -677,6 +685,48 @@
   color: #e8eaed;
 }
 
+/*
+ * The full control row needs ~545px. Below that, drop the least important
+ * pieces in the order Google Meet does, so nothing overlaps.
+ */
+@container meetapp (max-width: 560px) {
+  .meet-toolbar-left {
+    display: none;
+  }
+
+  .meet-toolbar {
+    grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+    padding-inline: 8px;
+  }
+
+  .meet-ctl-count {
+    display: none;
+  }
+}
+
+@container meetapp (max-width: 470px) {
+  .meet-ctl--optional {
+    display: none;
+  }
+}
+
+@container meetapp (max-width: 420px) {
+  .meet-ctl-group .meet-ctl-chevron {
+    display: none;
+  }
+
+  .meet-ctl-group .meet-ctl-main {
+    width: 36px;
+  }
+}
+
+@container meetapp (max-width: 360px) {
+  .meet-ctl--present,
+  .meet-ctl--more {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .meet-chrome-tab:not(.is-active),
   .meet-chrome-trail {
@@ -687,21 +737,5 @@
     height: 48px;
     width: 48px;
     font-size: 13px;
-  }
-
-  .meet-toolbar-left {
-    display: none;
-  }
-
-  .meet-toolbar {
-    grid-template-columns: 1fr auto;
-  }
-
-  .meet-toolbar-center {
-    justify-content: flex-start;
-  }
-
-  .meet-ctl-count {
-    display: none;
   }
 }

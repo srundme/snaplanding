@@ -1,9 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PixelCanvas } from "@/components/ui/pixel-canvas";
-import BlurText from "@/components/ui/text-animations/BlurText";
-import CountUp from "@/components/ui/text-animations/CountUp";
 
 const TEAL_PIXEL_COLORS = [
   "rgba(20, 184, 166, 0.16)",
@@ -12,6 +10,25 @@ const TEAL_PIXEL_COLORS = [
   "rgba(94, 234, 212, 0.18)",
   "rgba(148, 163, 184, 0.14)",
 ];
+
+function VoiceWaveIcon() {
+  return (
+    <svg
+      width="20"
+      height="14"
+      viewBox="0 0 20 14"
+      fill="none"
+      aria-hidden="true"
+      className="hero-cta-secondary__wave shrink-0"
+    >
+      <circle cx="2" cy="7" r="1.15" fill="currentColor" />
+      <rect x="5.5" y="4.25" width="1.5" height="5.5" rx="0.75" fill="currentColor" />
+      <rect x="9.25" y="2" width="1.5" height="10" rx="0.75" fill="currentColor" />
+      <rect x="13" y="4.25" width="1.5" height="5.5" rx="0.75" fill="currentColor" />
+      <circle cx="18" cy="7" r="1.15" fill="currentColor" />
+    </svg>
+  );
+}
 
 export interface PixelHeroProps {
   className?: string;
@@ -32,27 +49,37 @@ export interface PixelHeroProps {
 
 export function PixelHero({
   className,
-  word1 = "Voice AI",
-  word2 = "Orchestration.",
-  description = "The layer between your providers and your agents — caller memory, auto-redial, campaigns, and scheduling on every call. Built for Indian telephony.",
-  primaryCta = "Get started free",
-  primaryCtaMobile = "Get started",
+  word1 = "Voice Agents",
+  word2 = "Built for Business.",
+  description = "Automate lead calls, follow-ups, and bookings—with memory, auto-redial, and CRM updates built in.",
+  primaryCta = "Start free",
+  primaryCtaMobile = "Start free",
   primaryHref,
-  secondaryCta = "View platform",
-  secondaryCtaMobile = "View platform",
+  secondaryCta = "Talk to sales",
+  secondaryCtaMobile = "Talk to sales",
   secondaryHref = "#differentiator",
-  trustLabel = ":: WORKS WITH YOUR STACK ::",
+  trustLabel = "Works with your stack",
   onPrimaryClick,
   onSecondaryClick,
   stackContent,
 }: PixelHeroProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [themeColors, setThemeColors] = useState<string[]>([]);
+  const [showPixelCanvas, setShowPixelCanvas] = useState(false);
 
   useEffect(() => {
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const syncCanvas = () => setShowPixelCanvas(desktop.matches);
+
     setThemeColors(TEAL_PIXEL_COLORS);
+    syncCanvas();
+    desktop.addEventListener("change", syncCanvas);
+
     const loadTimer = window.setTimeout(() => setIsLoaded(true), 50);
-    return () => window.clearTimeout(loadTimer);
+    return () => {
+      window.clearTimeout(loadTimer);
+      desktop.removeEventListener("change", syncCanvas);
+    };
   }, []);
 
   const PrimaryTag = primaryHref ? "a" : "button";
@@ -60,7 +87,7 @@ export function PixelHero({
   return (
     <div
       className={cn(
-        "pixel-hero relative isolate w-full select-none bg-[#050505] p-3 sm:p-4 md:p-6",
+        "pixel-hero relative isolate w-full bg-[#050505] p-3 sm:p-4 md:p-6",
         className,
       )}
     >
@@ -88,7 +115,7 @@ export function PixelHero({
       <div className="relative flex min-h-[min(100dvh,820px)] w-full flex-col overflow-hidden rounded-[28px] border border-white/10 bg-background md:rounded-[36px] lg:min-h-[780px]">
         {/* Background pixel matrix + center glow + vignette */}
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-          {themeColors.length > 0 && (
+          {showPixelCanvas && themeColors.length > 0 && (
             <PixelCanvas colors={themeColors} gap={8} speed={24} />
           )}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.05)_0%,transparent_48%)]" />
@@ -111,14 +138,9 @@ export function PixelHero({
             </span>
           </h1>
 
-          <BlurText
-            text={description}
-            animateBy="words"
-            direction="bottom"
-            delay={55}
-            stepDuration={0.26}
-            className="mx-auto mt-8 max-w-xl text-base leading-relaxed font-normal text-white/70 sm:mt-10 sm:text-lg md:mt-12 md:max-w-2xl md:text-xl md:leading-[1.65]"
-          />
+          <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed font-normal text-white/70 sm:mt-10 sm:text-lg md:mt-12 md:max-w-2xl md:text-xl md:leading-[1.65]">
+            {description}
+          </p>
 
           <div
             className={cn(
@@ -143,11 +165,14 @@ export function PixelHero({
             <a
               href={secondaryHref}
               onClick={onSecondaryClick}
-              className="inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 px-7 text-sm font-medium text-white backdrop-blur-md transition-colors duration-200 hover:bg-white/10 active:scale-[0.98] sm:h-12 sm:px-8 sm:text-[0.9375rem]"
+              className="hero-cta-secondary"
+              {...(secondaryHref?.startsWith("http")
+                ? { rel: "noopener noreferrer" }
+                : {})}
             >
-              <Play className="h-4 w-4 fill-current" aria-hidden="true" />
               <span className="sm:hidden">{secondaryCtaMobile}</span>
               <span className="hidden sm:inline">{secondaryCta}</span>
+              <VoiceWaveIcon />
             </a>
           </div>
 
@@ -160,23 +185,9 @@ export function PixelHero({
             style={{ transitionDelay: "380ms" }}
           >
             {[
-              { label: "Caller memory" },
-              {
-                label: (
-                  <>
-                    Redial under{" "}
-                    <CountUp
-                      to={200}
-                      duration={1.2}
-                      delay={0.15}
-                      suffix="ms"
-                      className="tabular-nums"
-                    />
-                  </>
-                ),
-                key: "redial",
-              },
-              { label: "Every regional language" },
+              { label: "Remembers callers" },
+              { label: "Auto-redial on drops" },
+              { label: "Indian speech providers", key: "languages" },
             ].map((item, i) => (
               <li
                 key={item.key ?? (typeof item.label === "string" ? item.label : i)}

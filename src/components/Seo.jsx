@@ -16,6 +16,8 @@ export default function Seo({
   keywords = defaultSeo.keywords,
   image = DEFAULT_OG_IMAGE,
   type = "website",
+  publishedTime,
+  modifiedTime,
   jsonLd = [],
   noindex = false,
 }) {
@@ -37,6 +39,17 @@ export default function Seo({
     setMetaTag("property", "og:image:width", "1200");
     setMetaTag("property", "og:image:height", "630");
     setMetaTag("property", "og:site_name", "SnapServe");
+    if (type === "article" && publishedTime) {
+      setMetaTag("property", "article:published_time", publishedTime);
+    }
+    if (type === "article" && modifiedTime) {
+      setMetaTag("property", "article:modified_time", modifiedTime);
+    }
+    if (type !== "article") {
+      document.head
+        .querySelectorAll('meta[property^="article:"]')
+        .forEach((tag) => tag.remove());
+    }
 
     setMetaTag("name", "twitter:card", "summary_large_image");
     setMetaTag("name", "twitter:title", title);
@@ -57,7 +70,7 @@ export default function Seo({
     return () => {
       for (let i = 0; i < jsonLd.length; i += 1) removeJsonLd(`seo-${i}`);
     };
-  }, [title, description, pathname, keywords, image, type, noindex, jsonLd]);
+  }, [title, description, pathname, keywords, image, type, publishedTime, modifiedTime, noindex, jsonLd]);
 
   return null;
 }

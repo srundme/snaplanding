@@ -3,40 +3,44 @@ import {
   GraduationCap,
   HeartPulse,
   Landmark,
-  Shield,
+  ShieldCheck,
   ShoppingBag,
 } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "./motion/Reveal";
+import SectionLabel from "./SectionLabel";
+import ScriptAtmosphere from "./graphics/ScriptAtmosphere";
+import { MapGlyph } from "./graphics/SnapGlyphs";
+import IndicAcousticShowcase from "./graphics/IndicAcousticShowcase";
 
 const INDUSTRIES = [
   {
     name: "Real Estate",
-    call: "Enquiry lands → qualify budget & area → book the site visit on the same dial.",
+    call: "Qualify budget and location, then book the site visit.",
     Icon: Building2,
   },
   {
     name: "Healthcare",
-    call: "Reminders and confirmations that cut no-shows before clinic hours start.",
+    call: "Automate appointment reminders and confirmations.",
     Icon: HeartPulse,
   },
   {
     name: "Lending & Finance",
-    call: "Eligibility checks and EMI reminders — without a collections floor.",
+    call: "Run eligibility checks and EMI reminders at scale.",
     Icon: Landmark,
   },
   {
     name: "Insurance",
-    call: "Renewals and claims follow-ups before the policy window closes.",
-    Icon: Shield,
+    call: "Follow up on renewals and claims on time.",
+    Icon: ShieldCheck,
   },
   {
     name: "EdTech & Coaching",
-    call: "Admissions and course follow-ups in Hindi, Tamil, Telugu, and more.",
+    call: "Handle admission and course follow-ups in local languages.",
     Icon: GraduationCap,
   },
   {
     name: "D2C & E-commerce",
-    call: "COD confirms and delivery updates — no dialer farm required.",
+    call: "Confirm COD orders and share delivery updates.",
     Icon: ShoppingBag,
   },
 ];
@@ -47,18 +51,14 @@ function Row({ item, className }) {
       className={`bento-cell-hover grid grid-cols-[40px_minmax(0,1fr)] items-start gap-y-1 py-4 md:py-5 ${className}`}
     >
       <span className="story-icon">
-        <item.Icon
-          className="h-3.5 w-3.5"
-          strokeWidth={1.7}
-          aria-hidden="true"
-        />
+        <item.Icon className="h-4 w-4" strokeWidth={1.7} aria-hidden="true" />
       </span>
 
       <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-ink md:text-[21px]">
         {item.name}
       </h3>
 
-      <p className="col-start-2 max-w-md text-[14px] leading-relaxed text-ink-2">
+      <p className="col-start-2 max-w-lg text-[14px] leading-[1.65] text-ink-2">
         {item.call}
       </p>
     </StaggerItem>
@@ -67,20 +67,17 @@ function Row({ item, className }) {
 
 export default function IndustriesSection() {
   return (
-    <section id="industries" className="border-b border-line bg-surface-1">
-      <div className="border-b border-line px-6 py-12 md:px-14 md:py-14">
-        <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-7 bg-[#14B8A6]/60" />
-            <p className="label text-ink-2">Industries</p>
-          </div>
+    <section id="industries" className="relative overflow-hidden border-b border-line bg-surface-1">
+      <div className="industries-head relative min-h-[13rem] border-b border-line px-6 py-12 md:min-h-[16rem] md:px-14 md:py-14">
+        <ScriptAtmosphere section="industries" />
+        <Reveal className="relative z-[2]">
+          <SectionLabel icon={MapGlyph}>Industries</SectionLabel>
           <h2 className="headline-lg mt-4 max-w-2xl text-balance">
             Built for the calls{" "}
             <span className="brand-gradient-text">your team already makes.</span>
           </h2>
           <p className="body-text mt-3 max-w-xl">
-            Site visits, renewals, COD confirms, admissions — closed in one
-            dial, in the caller’s language.
+            Automate repeatable calls with Indian-language coverage from your connected speech provider.
           </p>
         </Reveal>
       </div>
@@ -100,6 +97,20 @@ export default function IndustriesSection() {
             <Row key={item.name} item={item} className="px-8 md:pl-10 md:pr-12" />
           ))}
         </Stagger>
+      </div>
+
+      <div className="border-t border-line bg-surface-0/50 px-6 py-10 md:px-14 md:py-14">
+        <Reveal>
+          <h3 className="text-[19px] font-semibold tracking-[-0.025em] text-ink md:text-[21px]">
+            Hear it in the caller&rsquo;s language
+          </h3>
+          <p className="body-text mt-2 max-w-xl">
+            Sample scripts your agent speaks on real calls, in the accent the caller expects.
+          </p>
+        </Reveal>
+        <Reveal delay={0.04} className="mt-6">
+          <IndicAcousticShowcase />
+        </Reveal>
       </div>
     </section>
   );

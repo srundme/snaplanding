@@ -2,6 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import Seo from "../components/Seo";
 import ContentLayout from "../components/ContentLayout";
 import FunnelCTA from "../components/FunnelCTA";
+import PartnerForm from "../components/PartnerForm";
 import FAQSection from "../components/FAQSection";
 import { getFunnelBySlug } from "../data/funnelPages";
 import { buildFunnelGraph } from "../lib/seo";
@@ -61,6 +62,23 @@ export default function FunnelPage() {
           </Reveal>
 
           <FAQSection faqs={page.faq} id={`faq-${page.slug}`} />
+
+          <Reveal>
+            <PartnerForm
+              source={`solutions/${page.slug}`}
+              competitor={page.competitor || ""}
+              title={
+                page.competitor
+                  ? `Switching from ${page.competitor}?`
+                  : "Ready to run on SnapServe?"
+              }
+              subtitle={
+                page.competitor
+                  ? `Tell us you're coming from ${page.competitor} — we'll help you migrate and open the live console after you submit.`
+                  : "Share your use case and we'll follow up within one business day. The console opens right after submit."
+              }
+            />
+          </Reveal>
 
           <FunnelCTA />
 

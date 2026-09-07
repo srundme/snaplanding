@@ -5,7 +5,7 @@ function buildAlternativeFunnelPage(alt) {
   return {
     slug: alt.slug,
     title: alt.title,
-    metaDescription: `${alt.summary} Start free with $5 credit — pay per minute orchestration for Indian business.`,
+    metaDescription: `${alt.summary} Explore usage-based orchestration for Indian business workflows.`,
     primaryKeyword: alt.primaryKeyword,
     keywords: alt.keywords,
     hero: {
@@ -26,12 +26,12 @@ function buildAlternativeFunnelPage(alt) {
       },
       {
         title: "Built for Indian outbound",
-        desc: "Regional languages, sub-200ms drop recovery, and outbound patterns tuned for Indian mobile telephony.",
+        desc: "Provider-based Indian-language support, callback workflows, and outbound tools for mobile-first teams.",
       },
     ],
     steps: [
       `Evaluate what ${competitor} covers vs. what your team still builds (memory, campaigns, redial)`,
-      "Sign up free at app.snapserve.ai — connect providers in minutes",
+      "Open the console and connect the providers your workflow uses",
       "Run a pilot campaign on real leads and compare conversion and cost per call",
     ],
     faq: [
@@ -46,10 +46,11 @@ function buildAlternativeFunnelPage(alt) {
       {
         question: "How much does SnapServe cost compared?",
         answer:
-          "SnapServe charges per minute for orchestration only. You bring your own telephony and AI providers (BYOP), so you control provider spend directly. Start with $5 free credit.",
+          "SnapServe uses usage-based orchestration pricing. You can bring your own telephony and AI providers, keeping those provider charges under your control. Contact sales for current rates.",
       },
     ],
     relatedBlog: alt.relatedBlog,
+    competitor: alt.competitor || null,
   };
 }
 
@@ -140,13 +141,13 @@ export const funnelPages = [
       },
       {
         title: "Resilience competitors skip",
-        desc: "Sub-200ms drop detection and automatic callback with full context restored.",
+        desc: "Detect interrupted calls, start a provider callback, and reload the caller profile.",
       },
     ],
     steps: [
       "Evaluate on memory, campaigns, and Indian telephony — not demo polish alone",
-      "Start with SnapServe free credit — no card required",
-      "Run a real campaign on your leads in under an hour",
+      "Open the SnapServe console and connect your providers",
+      "Run a controlled pilot on a small, consented lead set",
     ],
     faq: [
       {
@@ -166,7 +167,7 @@ export const funnelPages = [
     slug: "low-cost-voice-agents-india",
     title: "Low-Cost Voice Agents for India — Pay Per Minute",
     metaDescription:
-      "Affordable AI voice agents for Indian business. SnapServe charges per minute for orchestration only — bring your own providers, start with $5 free credit. No lock-in.",
+      "Usage-based voice-agent orchestration for Indian business. Bring your own providers and keep provider charges separate.",
     primaryKeyword: "low cost voice agents india",
     keywords: [
       "low cost voice agents india",
@@ -179,7 +180,7 @@ export const funnelPages = [
       badge: "Low-Cost Voice AI",
       headline: "Low-cost voice agents — without cutting corners.",
       subline:
-        "Pay only for orchestration per minute. Bring your own telephony and AI keys. No seat fees, no platform tax on provider costs. Start with $5 free credit.",
+        "Pay for orchestration by usage and bring your own telephony and AI keys. Provider charges remain separate.",
     },
     benefits: [
       {
@@ -187,8 +188,8 @@ export const funnelPages = [
         desc: "You control provider spend directly. SnapServe bills only for the orchestration layer.",
       },
       {
-        title: "Start free, scale on usage",
-        desc: "$5 free credit to start — test on real leads before committing.",
+        title: "Test before scaling",
+        desc: "Validate the workflow on a controlled lead set before increasing volume.",
       },
       {
         title: "No rebuild tax",
@@ -196,7 +197,7 @@ export const funnelPages = [
       },
     ],
     steps: [
-      "Sign up free — no credit card",
+      "Open the console",
       "Connect provider keys you already use",
       "Run a small batch campaign and measure cost per connected call",
     ],
@@ -240,7 +241,7 @@ export const funnelPages = [
       },
       {
         title: "Features APIs skip",
-        desc: "Persistent memory, sub-200ms drop recovery, Meta form auto-dial, and in-call scheduling.",
+        desc: "Persistent memory, callback workflows, lead-source connectors, and in-call scheduling.",
       },
       {
         title: "Business-first, not dev-only",

@@ -1,50 +1,49 @@
-import { Check, KeyRound, ScrollText, Shield } from "lucide-react";
+import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import { KeyGlyph, ShieldGlyph, TrafficGlyph, TrailGlyph } from "./graphics/SnapGlyphs";
 import { Reveal } from "./motion/Reveal";
+import SectionLabel from "./SectionLabel";
 
 const PILLARS = [
   {
-    Icon: Shield,
-    title: "Revenue calls, not demos",
-    desc: "Designed for outbound and renewal traffic where a missed context costs a deal.",
+    Icon: TrafficGlyph,
+    title: "Built for live traffic",
+    desc: "Reliable control for outbound and renewal calls.",
   },
   {
-    Icon: KeyRound,
+    Icon: KeyGlyph,
     title: "Your keys stay yours",
-    desc: "Bring ASR, LLM, and TTS keys. SnapServe orchestrates memory and actions — it doesn’t own the model layer.",
+    desc: "Bring your own provider keys or use managed access.",
   },
   {
-    Icon: ScrollText,
+    Icon: TrailGlyph,
     title: "Full conversation trail",
-    desc: "Caller profiles, notes, and follow-ups stay attributable for ops and compliance review.",
+    desc: "Review profiles, notes, and follow-ups in one place.",
   },
 ];
 
 const BADGES = [
-  "DPDP-ready posture",
-  "Provider-agnostic",
-  "Role-based access",
-  "Exportable call history",
+  "Bring your own provider keys",
+  "Reviewable call history",
+  "Role-based workspace access",
+  "Exportable conversation records",
 ];
 
 export default function TrustSecuritySection() {
   return (
     <section
       id="trust"
-      className="border-b border-line bg-surface-0 px-6 py-12 md:px-14 md:py-14"
+      className="relative overflow-hidden border-b border-line bg-surface-0 px-6 py-16 md:px-14 md:py-20"
     >
-      <div className="mx-auto max-w-5xl">
+      <div className="relative z-[2] mx-auto max-w-5xl">
         <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-7 bg-[#14B8A6]/60" />
-            <p className="label text-ink-2">Trust</p>
-          </div>
+          <SectionLabel icon={ShieldGlyph}>Trust</SectionLabel>
           <h2 className="headline-lg mt-4 max-w-3xl">
             Built for{" "}
             <span className="brand-gradient-text">calls that move money.</span>
           </h2>
           <p className="body-text mt-3 max-w-2xl">
-            When voice agents sit on renewals and collections, control and
-            auditability are product requirements — not a footer line.
+            Keep provider access, caller context, and conversation records visible to your team.
           </p>
         </Reveal>
 
@@ -52,11 +51,9 @@ export default function TrustSecuritySection() {
           {PILLARS.map((item, i) => (
             <Reveal key={item.title} delay={0.05 * i} y={12}>
               <div className="h-full border-t border-line pt-4">
-                <item.Icon
-                  className="accent-teal h-4 w-4"
-                  strokeWidth={1.6}
-                  aria-hidden="true"
-                />
+                <span className="story-icon">
+                  <item.Icon size={16} />
+                </span>
                 <h3 className="mt-3.5 text-[15px] font-semibold tracking-[-0.018em] text-ink">
                   {item.title}
                 </h3>
@@ -80,6 +77,17 @@ export default function TrustSecuritySection() {
               </li>
             ))}
           </ul>
+          <p className="mt-5 text-[12.5px] leading-relaxed text-ink-3">
+            Review how data is handled in our{" "}
+            <Link className="text-ink-2 underline decoration-line underline-offset-4 hover:text-ink" to="/privacy">
+              Privacy Policy
+            </Link>{" "}
+            and the service terms in our{" "}
+            <Link className="text-ink-2 underline decoration-line underline-offset-4 hover:text-ink" to="/terms">
+              Terms
+            </Link>
+            .
+          </p>
         </Reveal>
       </div>
     </section>

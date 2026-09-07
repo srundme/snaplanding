@@ -93,7 +93,7 @@ export default function PrivacyPage() {
         <BulletList
           items={[
             "Encryption: All data is encrypted in transit using TLS 1.3 and at rest using AES-256 encryption.",
-            "Secure Infrastructure: We host on Replit's secure infrastructure with industry-standard security practices.",
+            "Secure Infrastructure: We use managed cloud infrastructure and restrict production access to authorized personnel.",
             "Access Controls: Only authorized personnel can access production data, and all access is logged and audited.",
             "API Key Protection: Your provider API keys (Twilio, OpenAI, etc.) are encrypted at rest using AES-256-GCM. We only show the last 4 characters in the UI.",
             "Session Management: Authentication tokens are signed with HMAC-SHA256 and have a 30-day expiration. Tokens are stored securely in your browser's localStorage.",
@@ -109,7 +109,7 @@ export default function PrivacyPage() {
             "Google OAuth: For user authentication and identity verification.",
             "Google Calendar API: For reading availability and creating calendar events.",
             "Google Meet API: For generating video conference links.",
-            "Telephony Providers (Twilio, Plivo, Vobiz): For making and receiving voice calls. You bring your own provider keys.",
+            "Telephony Providers (Vobiz, Twilio, Plivo): For making and receiving voice calls. You bring your own provider keys.",
             "AI Providers (OpenAI, Anthropic, Google, etc.): For speech-to-text, language model, and text-to-speech processing. You bring your own provider keys.",
             "Payment Processor: For handling wallet top-ups and billing.",
           ]}

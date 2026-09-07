@@ -1,17 +1,15 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SnapServeLogo from "./SnapServeLogo";
 import CursorGlow from "./CursorGlow";
-import { SIGNUP_URL } from "../lib/links";
+import TempleSkyline from "./graphics/TempleSkyline";
+import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
+import { SIDEBAR_NAV } from "../lib/nav";
 
-const links = [
-  { label: "Product", href: "#differentiator" },
-  { label: "Meetings", href: "#meeting-bot" },
-  { label: "Memory", href: "#memory-crm" },
-  { label: "Auto-redial", href: "#smart-reconnect" },
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Pricing", href: "#pricing" },
-];
+const links = SIDEBAR_NAV;
+
+const externalLinks = [{ label: "Partner with us", href: PARTNER_URL }];
 
 /* The section crossing the upper third of the viewport is the one being read */
 const ACTIVE_LINE = 0.45;
@@ -55,7 +53,9 @@ export default function Sidebar() {
     );
 
     sections.forEach((section) => observer.observe(section));
-    resolveActive();
+    queueMicrotask(() => {
+      if (!lockedRef.current) resolveActive();
+    });
 
     const handleResize = () => {
       if (!lockedRef.current) resolveActive();
@@ -83,6 +83,9 @@ export default function Sidebar() {
 
   return (
     <aside className="side-rail">
+      <div className="side-rail-atmosphere" aria-hidden="true">
+        <TempleSkyline />
+      </div>
       <CursorGlow />
       <div className="flex w-full flex-col items-center">
         <motion.div
@@ -108,6 +111,18 @@ export default function Sidebar() {
               {link.label}
             </motion.a>
           ))}
+          {externalLinks.map((link, i) => (
+            <motion.div
+              key={link.href}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.08 + (links.length + i) * 0.04 }}
+            >
+              <Link to={link.href} className="side-rail-link side-rail-link--partner">
+                {link.label}
+              </Link>
+            </motion.div>
+          ))}
           <motion.a
             href={SIGNUP_URL}
             className="side-rail-cta"
@@ -116,7 +131,7 @@ export default function Sidebar() {
             transition={{ delay: 0.36 }}
             rel="noopener noreferrer"
           >
-            Get started →
+            Start free →
           </motion.a>
         </nav>
       </div>
@@ -128,6 +143,7 @@ export default function Sidebar() {
         transition={{ delay: 0.4 }}
       >
         <p>Chennai · Bengaluru</p>
+        <p className="side-rail-langs">Indian-language workflows</p>
       </motion.div>
     </aside>
   );

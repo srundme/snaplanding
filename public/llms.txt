@@ -27,7 +27,7 @@ Key features:
 
 - Pay per minute for orchestration
 - Bring your own provider (BYOP) or managed keys
-- Start with $5 free credit — no credit card required to explore
+- Open the live console to configure and test a workflow
 
 ## Target market
 
@@ -90,7 +90,7 @@ Q: Is SnapServe a Bolna alternative?
 A: Yes. Teams choose SnapServe for outbound campaigns, persistent memory, and business-first tooling without stitching only-dev APIs.
 
 Q: What is the best low-cost voice agent setup?
-A: SnapServe offers pay-per-minute orchestration with BYOP so you control telephony and AI costs. Managed keys are available if you want zero setup. Start with $5 free credit.
+A: SnapServe offers usage-based orchestration with BYOP, so telephony and AI provider charges remain under your provider accounts. Managed setup can be discussed with the team; contact sales for current rates.
 
 Q: Does SnapServe support multilingual voice agents?
 A: Yes — any language your ASR and TTS providers support, including code-mix speech.

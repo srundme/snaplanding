@@ -1,30 +1,32 @@
 import { Check } from "lucide-react";
 import GlowButton from "./GlowButton";
 import { Reveal } from "./motion/Reveal";
-import { SIGNUP_URL } from "../lib/links";
+import SectionLabel from "./SectionLabel";
+import { PriceGlyph } from "./graphics/SnapGlyphs";
+import { SIGNUP_URL, SALES_URL } from "../lib/links";
 
 const tiers = [
   {
     name: "Developer",
-    price: "Pay per minute",
-    desc: "Start building with $5 free credit. Bring your own provider keys.",
+    price: "Usage based",
+    desc: "For testing workflows with your own provider keys.",
     features: [
       "Caller memory & auto-redial",
-      "Campaign batches up to 1K leads",
+      "Lead imports and campaigns",
       "Google Calendar scheduling",
-      "Live command center",
+      "Live call console",
     ],
     cta: "Start free",
     highlight: false,
   },
   {
     name: "Production",
-    price: "Volume pricing",
-    desc: "For teams running outbound at scale with full campaign tooling.",
+    price: "Volume review",
+    desc: "For teams moving proven call workflows into production.",
     features: [
-      "Unlimited memory profiles",
-      "Meta & website form auto-dial",
-      "Bulk CSV + DNC filtering",
+      "Expanded campaign capacity",
+      "Lead-source connectors",
+      "CSV import and suppression controls",
       "Priority support",
     ],
     cta: "Start free",
@@ -32,17 +34,17 @@ const tiers = [
   },
   {
     name: "Enterprise",
-    price: "Custom",
-    desc: "Dedicated infra, compliance review, and custom SLAs.",
+    price: "Custom scope",
+    desc: "For deployment, security, and integration requirements.",
     features: [
-      "Dedicated deployment",
-      "Compliance review & custom SLAs",
-      "Custom integrations",
-      "Account manager",
+      "Deployment architecture review",
+      "Security requirements review",
+      "Custom connector assessment",
+      "Dedicated account support",
     ],
-    cta: "Contact sales",
+    cta: "Talk to sales",
     highlight: false,
-    href: "mailto:support@snapserve.ai",
+    href: SALES_URL,
   },
 ];
 
@@ -50,30 +52,27 @@ export default function PricingSection() {
   return (
     <section
       id="pricing"
-      className="border-b border-line bg-surface-0 px-6 py-12 md:px-14 md:py-14"
+      className="relative overflow-visible border-b border-line bg-surface-0 px-6 py-16 md:px-14 md:py-20"
     >
-      <Reveal className="overflow-visible text-center">
-        <div className="flex items-center justify-center gap-3">
-          <span className="h-px w-7 bg-[#14B8A6]/60" />
-          <p className="label text-ink-2">Pricing</p>
-          <span className="h-px w-7 bg-[#14B8A6]/60" />
-        </div>
+      <Reveal className="relative z-[2] overflow-visible text-center">
+        <SectionLabel icon={PriceGlyph} center>
+          Pricing
+        </SectionLabel>
         <h2 className="headline-lg mx-auto mt-4 max-w-2xl overflow-visible pb-1">
-          Pay per minute.{" "}
-          <span className="brand-gradient-text">BYOP included.</span>
+          Usage-based orchestration.{" "}
+          <span className="brand-gradient-text">Provider costs stay separate.</span>
         </h2>
         <p className="body-text mx-auto mt-3 max-w-xl">
-          You pay ASR, LLM, and TTS directly. SnapServe bills only the
-          orchestration layer — memory, redial, campaigns, write-back.
+          Bring your provider keys or discuss a managed setup. Contact sales for current rates.
         </p>
       </Reveal>
 
-      <div className="mt-8 grid gap-0 border-t border-line md:grid-cols-3 md:divide-x md:divide-line">
+      <div className="relative mt-8 grid gap-0 border-t border-line md:grid-cols-3 md:divide-x md:divide-line">
         {tiers.map((tier) => (
           <div
             key={tier.name}
             className={`flex flex-col border-b border-line px-0 py-7 last:border-b-0 md:border-b-0 md:px-8 md:first:pl-0 md:last:pr-0 ${
-              tier.highlight ? "relative" : ""
+              tier.highlight ? "pricing-tier--featured relative" : ""
             }`}
           >
             {tier.highlight ? (
@@ -104,7 +103,7 @@ export default function PricingSection() {
             </ul>
             <div className="mt-8">
               {tier.highlight ? (
-                <GlowButton href={SIGNUP_URL} hoverText="Get started →">
+                <GlowButton href={SIGNUP_URL} hoverText="Start free →">
                   {tier.cta}
                 </GlowButton>
               ) : (

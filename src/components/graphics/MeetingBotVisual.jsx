@@ -4,12 +4,12 @@ import {
   useInView,
   useReducedMotion,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
-  isMeetingAudioUnlocked,
-  markMeetingAudioUnlocked,
-  whenMeetingAudioUnlocked,
-} from "../../lib/meetingAudioUnlock";
+  isAudioUnlocked,
+  markAudioUnlocked,
+  whenAudioUnlocked,
+} from "../../lib/audioUnlock";
 import MacBookMeetFrame from "./MacBookMeetFrame";
 import {
   MeetCamIcon,
@@ -46,9 +46,9 @@ const STAGES = [
 const CAPTIONS = {
   present: { who: "SnapServe AI", text: "Walking through the 2026 renewal proposal now." },
   speak: { who: "SnapServe AI", text: "Enterprise plan at ₹75L — an 8% increase, support unchanged." },
-  question: { who: "Shiva", text: "This slide shows the revised enterprise pricing for the 2026 renewal." },
-  answer: { who: "SnapServe AI", text: "I've captured the action item. Follow-up is scheduled for Friday." },
-  notes: { who: "SnapServe AI", text: "I've captured the action item. Follow-up is scheduled for Friday." },
+  question: { who: "Shiva", text: "Can we keep enterprise support unchanged?" },
+  answer: { who: "SnapServe AI", text: "Yes. Support remains unchanged, and I can send the revised proposal Friday." },
+  notes: { who: "SnapServe AI", text: "Action item saved: Priya will share the revised proposal by Friday." },
 };
 
 const SLIDES = {
@@ -89,12 +89,14 @@ const VOICE_TRACKS = {
   notes: import.meta.env.VITE_MEETING_VOICE_NOTES_URL || "/audio/ai-notes.mp3",
 };
 
+// Mirrors the measured length of each voice track, so the muted path paces
+// the same as the audible one.
 const STAGE_HOLD_MS = {
-  present: 2400,
-  speak: 4200,
+  present: 7400,
+  speak: 3900,
   question: 2600,
-  answer: 4800,
-  notes: 3600,
+  answer: 5400,
+  notes: 10500,
 };
 
 const CAPTION_STAGES = new Set(["present", "speak", "question", "answer", "notes"]);
@@ -150,9 +152,9 @@ function ParticipantTile({ participant, stage, waveRunning, reduce }) {
       data-speaking={speaking || undefined}
       data-presenting={presenting || undefined}
     >
-      <button type="button" className="meet-tile-pin" tabIndex={-1} aria-hidden="true">
+      <span className="meet-tile-pin" aria-hidden="true">
         <MeetPinIcon size={14} />
-      </button>
+      </span>
 
       {presenting && <span className="meet-tile-badge">Presenting</span>}
 
@@ -229,7 +231,7 @@ function MeetToolbar({ stage, voiceOn, audioAvailable, onToggleVoice }) {
           <button type="button" className="meet-ctl meet-ctl-main" tabIndex={-1} aria-label="Microphone">
             <MeetMicIcon off={!micOn} size={20} />
           </button>
-          <button type="button" className="meet-ctl meet-ctl-chevron" tabIndex={-1}>
+          <button type="button" className="meet-ctl meet-ctl-chevron" tabIndex={-1} aria-label="Microphone options">
             <MeetChevronIcon />
           </button>
         </div>
@@ -237,7 +239,7 @@ function MeetToolbar({ stage, voiceOn, audioAvailable, onToggleVoice }) {
           <button type="button" className="meet-ctl meet-ctl-main" tabIndex={-1} aria-label="Camera">
             <MeetCamIcon off={!camOn} size={20} />
           </button>
-          <button type="button" className="meet-ctl meet-ctl-chevron" tabIndex={-1}>
+          <button type="button" className="meet-ctl meet-ctl-chevron" tabIndex={-1} aria-label="Camera options">
             <MeetChevronIcon />
           </button>
         </div>
@@ -247,10 +249,10 @@ function MeetToolbar({ stage, voiceOn, audioAvailable, onToggleVoice }) {
         <button type="button" className="meet-ctl meet-ctl--optional" tabIndex={-1} aria-label="Raise hand">
           <MeetHandIcon size={20} />
         </button>
-        <button type="button" className="meet-ctl" tabIndex={-1} aria-label="Present">
+        <button type="button" className="meet-ctl meet-ctl--present" tabIndex={-1} aria-label="Present">
           <MeetPresentIcon size={20} />
         </button>
-        <button type="button" className="meet-ctl" tabIndex={-1} aria-label="More">
+        <button type="button" className="meet-ctl meet-ctl--more" tabIndex={-1} aria-label="More">
           <MeetMoreIcon size={20} />
         </button>
         <button type="button" className="meet-ctl meet-ctl--end" tabIndex={-1} aria-label="Leave">
@@ -259,11 +261,11 @@ function MeetToolbar({ stage, voiceOn, audioAvailable, onToggleVoice }) {
       </div>
 
       <div className="meet-toolbar-right">
-        <button type="button" className="meet-ctl meet-ctl--aux" tabIndex={-1}>
+        <button type="button" className="meet-ctl meet-ctl--aux" tabIndex={-1} aria-label="Participants">
           <MeetPeopleIcon size={20} />
           <span className="meet-ctl-count">4</span>
         </button>
-        <button type="button" className="meet-ctl meet-ctl--aux" tabIndex={-1}>
+        <button type="button" className="meet-ctl meet-ctl--aux" tabIndex={-1} aria-label="Chat">
           <MeetChatIcon size={20} />
         </button>
         <button
@@ -358,11 +360,13 @@ export default function MeetingBotVisual({ sectionInView = false }) {
   const activeStage = STAGES[active];
   const trackFor = (stageId) => readyTracks[stageId] || null;
 
-  activeRef.current = active;
-  inViewRef.current = inView;
-  voiceOnRef.current = voiceOn;
-  sequenceDoneRef.current = sequenceDone;
-  stageIdRef.current = activeStage.id;
+  useEffect(() => {
+    activeRef.current = active;
+    inViewRef.current = inView;
+    voiceOnRef.current = voiceOn;
+    sequenceDoneRef.current = sequenceDone;
+    stageIdRef.current = activeStage.id;
+  }, [active, inView, voiceOn, sequenceDone, activeStage.id]);
 
   const clearHold = () => {
     if (holdTimerRef.current) {
@@ -371,9 +375,13 @@ export default function MeetingBotVisual({ sectionInView = false }) {
     }
   };
 
-  const pauseAudio = () => {
+  const stopAudioPlayback = () => {
     const audio = audioRef.current;
     if (audio && !audio.paused) audio.pause();
+  };
+
+  const pauseAudio = () => {
+    stopAudioPlayback();
     setSpeaking(false);
   };
 
@@ -387,9 +395,9 @@ export default function MeetingBotVisual({ sectionInView = false }) {
     setActive((c) => c + 1);
   };
 
-  const playStageAudio = async (stageId) => {
+  const playStageAudio = useCallback(async (stageId) => {
     const audio = audioRef.current;
-    const source = trackFor(stageId);
+    const source = readyTracks[stageId] || null;
     if (!audio || !source) return false;
 
     try {
@@ -402,18 +410,18 @@ export default function MeetingBotVisual({ sectionInView = false }) {
       audio.muted = false;
       audio.volume = 1;
       await audio.play();
-      markMeetingAudioUnlocked();
+      markAudioUnlocked();
       setSpeaking(true);
       return true;
     } catch {
       setSpeaking(false);
       return false;
     }
-  };
+  }, [readyTracks]);
 
   /** Sync play inside a real user-gesture stack (click / key / touch). */
-  const playFromGesture = () => {
-    markMeetingAudioUnlocked();
+  const playFromGesture = useCallback(() => {
+    markAudioUnlocked();
     if (
       reduce ||
       !inViewRef.current ||
@@ -438,11 +446,10 @@ export default function MeetingBotVisual({ sectionInView = false }) {
     if (p) {
       p.then(() => {
         setSpeaking(true);
-        // If we were frozen waiting for unlock, kick the stage runner
         setPlayKick((k) => k + 1);
       }).catch(() => {});
     }
-  };
+  }, [reduce]);
 
   const persistVoice = (enabled) => {
     try {
@@ -451,31 +458,29 @@ export default function MeetingBotVisual({ sectionInView = false }) {
   };
 
   const toggleVoice = () => {
-    const next = !voiceOn;
-    setVoiceOn(next);
-    persistVoice(next);
-    if (!next) {
+    if (speaking) {
+      setVoiceOn(false);
+      voiceOnRef.current = false;
+      persistVoice(false);
       pauseAudio();
       return;
     }
+    setVoiceOn(true);
+    voiceOnRef.current = true;
+    persistVoice(true);
     playFromGesture();
   };
 
   useEffect(() => {
+    if (!inView) return;
     const audio = audioRef.current;
     const first = VOICE_TRACKS.present;
     if (!audio || !first) return;
     audio.src = first;
     audio.dataset.stage = "present";
-    audio.preload = "auto";
+    audio.preload = "metadata";
     audio.load();
-    Object.values(VOICE_TRACKS).forEach((url) => {
-      if (!url || url === first) return;
-      const warm = new Audio();
-      warm.preload = "auto";
-      warm.src = url;
-    });
-  }, []);
+  }, [inView]);
 
   // While Meeting Bot is on screen, any click/tap/key starts audible playback
   useEffect(() => {
@@ -489,24 +494,24 @@ export default function MeetingBotVisual({ sectionInView = false }) {
       events.forEach((e) =>
         window.removeEventListener(e, onGesture, { capture: true }),
       );
-  }, [inView, reduce]);
+  }, [inView, reduce, playFromGesture]);
 
   // If user already gestured earlier on the page, start as soon as unlocked
   useEffect(() => {
     if (!inView || reduce || !voiceOn) return undefined;
-    return whenMeetingAudioUnlocked(() => {
+    return whenAudioUnlocked(() => {
       if (!inViewRef.current || sequenceDoneRef.current) return;
       void playStageAudio(stageIdRef.current).then((ok) => {
         if (ok) setPlayKick((k) => k + 1);
       });
     });
-  }, [inView, reduce, voiceOn]);
+  }, [inView, reduce, voiceOn, playStageAudio]);
 
   useEffect(() => {
     if (inView && !wasInViewRef.current) {
       wasInViewRef.current = true;
       clearHold();
-      pauseAudio();
+      stopAudioPlayback();
       setSequenceDone(false);
       setActive(0);
       setPlayKick((k) => k + 1);
@@ -514,7 +519,8 @@ export default function MeetingBotVisual({ sectionInView = false }) {
     }
     if (!inView && wasInViewRef.current) {
       wasInViewRef.current = false;
-      pauseAudio();
+      stopAudioPlayback();
+      setSpeaking(false);
       clearHold();
       setSequenceDone(false);
       setActive(0);
@@ -524,7 +530,8 @@ export default function MeetingBotVisual({ sectionInView = false }) {
   useEffect(() => {
     clearHold();
     if (!inView || sequenceDone) {
-      pauseAudio();
+      stopAudioPlayback();
+      queueMicrotask(() => setSpeaking(false));
       return undefined;
     }
 
@@ -533,8 +540,9 @@ export default function MeetingBotVisual({ sectionInView = false }) {
     let cancelled = false;
 
     const run = async () => {
-      if (reduce || !trackFor(stageId) || !voiceOn) {
-        pauseAudio();
+      if (reduce || !readyTracks[stageId] || !voiceOn) {
+        stopAudioPlayback();
+        queueMicrotask(() => setSpeaking(false));
         holdTimerRef.current = setTimeout(() => {
           if (!cancelled) finishOrAdvance();
         }, reduce ? Math.min(holdMs, 1600) : holdMs);
@@ -549,9 +557,12 @@ export default function MeetingBotVisual({ sectionInView = false }) {
         return;
       }
 
-      // Autoplay blocked: FREEZE here until a gesture unlocks sound.
-      // Do not advance on a timer — that was why scroll never "heard" anything.
-      if (!isMeetingAudioUnlocked()) {
+      // Autoplay can be blocked. Keep the visual story moving silently until a
+      // gesture unlocks playback.
+      if (!isAudioUnlocked()) {
+        holdTimerRef.current = setTimeout(() => {
+          if (!cancelled) finishOrAdvance();
+        }, holdMs);
         return;
       }
 
@@ -573,7 +584,7 @@ export default function MeetingBotVisual({ sectionInView = false }) {
       cancelAnimationFrame(raf);
       clearHold();
     };
-  }, [active, inView, voiceOn, reduce, sequenceDone, activeStage.id, playKick]);
+  }, [active, inView, voiceOn, reduce, sequenceDone, activeStage.id, playKick, playStageAudio, readyTracks]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -602,7 +613,7 @@ export default function MeetingBotVisual({ sectionInView = false }) {
 
   return (
     <div ref={storyRef} className="meet-story">
-      <audio ref={audioRef} preload="auto" playsInline />
+      <audio ref={audioRef} preload="none" playsInline />
       <MacBookMeetFrame>
         <MeetApp
           stage={activeStage}

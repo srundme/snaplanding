@@ -5,26 +5,30 @@ const ease = [0.22, 1, 0.36, 1];
 export function Reveal({
   children,
   className = "",
+  as = "div",
   delay = 0,
   y = 20,
+  blur = 6,
   once = true,
 }) {
   const reduce = useReducedMotion();
+  const StaticTag = as;
+  const MotionTag = as === "li" ? motion.li : motion.div;
 
   if (reduce) {
-    return <div className={className}>{children}</div>;
+    return <StaticTag className={className}>{children}</StaticTag>;
   }
 
   return (
-    <motion.div
+    <MotionTag
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y, filter: `blur(${blur}px)` }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once, margin: "-60px" }}
-      transition={{ duration: 0.62, delay, ease }}
+      transition={{ duration: 0.72, delay, ease }}
     >
       {children}
-    </motion.div>
+    </MotionTag>
   );
 }
 
@@ -67,8 +71,13 @@ export function StaggerItem({ children, className = "", style }) {
       className={className}
       style={style}
       variants={{
-        hidden: { opacity: 0, y: 16 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.56, ease } },
+        hidden: { opacity: 0, y: 16, filter: "blur(6px)" },
+        visible: {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.62, ease },
+        },
       }}
     >
       {children}

@@ -3,9 +3,9 @@
 export const snapServeDefinition = {
   name: "SnapServe",
   type: "AI Voice Agent Platform",
-  tagline: "AI voice orchestration for global teams",
+  tagline: "AI voice agents built for business calls",
   description:
-    "SnapServe is an AI voice agent platform and orchestration layer. It runs outbound campaigns, follow-ups, and bookings with persistent caller memory, auto-redial on dropped calls, meeting bots for Meet/Zoom/Teams, multi-provider ASR/LLM/TTS, CRM write-back, and live call analytics — in any language your providers support. Pricing is pay-per-minute for orchestration; bring your own keys or use managed keys.",
+    "SnapServe helps businesses run lead calls, follow-ups, and bookings with voice agents that keep caller context, support callback workflows, and connect to business tools.",
   url: "https://snapserve.ai",
   signupUrl: "https://app.snapserve.ai",
   company: "SnapServe",
@@ -29,7 +29,7 @@ export const quickFacts = [
   },
   {
     term: "Free trial",
-    definition: "Start free from the dashboard — no credit card required to explore",
+    definition: "Open the dashboard to configure and test a voice-agent workflow",
   },
   {
     term: "Key differentiators",
@@ -81,8 +81,8 @@ export const aeoQuickAnswers = [
 ];
 
 export const howToLaunchSteps = [
-  "Sign up at app.snapserve.ai — no credit card required",
-  "Connect your telephony provider (Twilio, Plivo, Vobiz) and AI keys (OpenAI, Anthropic, etc.)",
+  "Open the console at app.snapserve.ai",
+  "Connect your telephony provider (Vobiz, Twilio, Plivo) and AI keys (OpenAI, Anthropic, etc.)",
   "Upload leads via CSV, connect Meta ad forms, or sync website enquiry forms",
   "Configure your voice agent with memory, auto-redial, and scheduling enabled",
   "Launch the campaign and monitor calls from the orchestration console",

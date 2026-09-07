@@ -37,7 +37,7 @@ function seoPrerenderPlugin() {
 }
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, rootDir, '')
   const pixelId = env.VITE_META_PIXEL_ID?.trim()
 
   return {
@@ -45,6 +45,13 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@': path.resolve(rootDir, './src'),
       },
+    },
+    server: {
+      host: true,
+      port: 5173,
+      strictPort: false,
+      // Allow ngrok / cloudflare tunnel hostnames when sharing dev previews
+      allowedHosts: [".ngrok-free.dev", ".ngrok.io", ".trycloudflare.com"],
     },
     plugins: [
       react(),

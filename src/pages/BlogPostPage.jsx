@@ -22,6 +22,8 @@ export default function BlogPostPage() {
         pathname={`/blog/${post.slug}`}
         keywords={post.keywords}
         type="article"
+        publishedTime={post.publishedAt}
+        modifiedTime={post.updatedAt || post.publishedAt}
         jsonLd={[buildBlogGraph(post)]}
       />
       <ContentLayout
@@ -34,7 +36,7 @@ export default function BlogPostPage() {
           <div className="not-prose mt-12 space-y-8">
             <FunnelCTA
               title="Ready to launch your AI voice agents?"
-              subtitle="Start with $5 free credit — caller memory, campaigns, and auto-redial included."
+              subtitle="Connect your providers and test caller memory, campaigns, and callback workflows in the live console."
             />
 
             {post.funnelSlug && (

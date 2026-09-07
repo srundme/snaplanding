@@ -3,7 +3,7 @@ import { SIGNUP_URL } from "../lib/links";
 
 export default function FunnelCTA({
   title = "Put SnapServe on every important call.",
-  subtitle = "$5 free credit · No card required · Live in minutes",
+  subtitle = "Connect providers, configure an agent, and test the workflow in the live console.",
   className = "",
 }) {
   return (
@@ -14,11 +14,11 @@ export default function FunnelCTA({
       <h2 className="headline-lg relative">{title}</h2>
       <p className="body-text relative mx-auto mt-3 max-w-lg">{subtitle}</p>
       <div className="relative mt-6 flex flex-col items-center gap-3">
-        <GlowButton href={SIGNUP_URL} hoverText="Get started →">
-          Get started free
+        <GlowButton href={SIGNUP_URL} hoverText="Start free →">
+          Start free
         </GlowButton>
         <p className="text-[11px] tracking-wide text-[#52525b]">
-          Pay per minute · BYOP or managed · Multilingual
+          Usage pricing · Your providers or managed · Multilingual
         </p>
       </div>
     </div>

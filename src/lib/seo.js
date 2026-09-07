@@ -1,14 +1,14 @@
 import { blogPosts } from "../data/blogPosts";
 import { funnelPages } from "../data/funnelPages";
-import { alternativeKeywords } from "../data/alternativeKeywords";
 import { snapServeDefinition } from "../data/aeoContent";
+import { SOCIAL_SAME_AS } from "./links";
 
 export const SITE_URL = "https://snapserve.ai";
 export const SITE_NAME = "SnapServe";
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-card.png`;
 
 export const defaultSeo = {
-  title: "SnapServe — AI Voice Agent Platform & Orchestration Layer",
+  title: "Voice Agents Built for Business | SnapServe",
   description: snapServeDefinition.description,
   keywords: [
     "ai voice agent platform",
@@ -78,7 +78,8 @@ export function jsonLdGraph(schemas) {
     .filter(Boolean)
     .map((schema) => {
       if (!schema["@context"]) return schema;
-      const { "@context": _ctx, ...rest } = schema;
+      const rest = { ...schema };
+      delete rest["@context"];
       return rest;
     });
 
@@ -98,6 +99,7 @@ export function organizationSchema() {
     logo: { "@type": "ImageObject", url: `${SITE_URL}/logos/logo-full-light.png` },
     email: "support@snapserve.ai",
     description: snapServeDefinition.description,
+    sameAs: SOCIAL_SAME_AS,
     knowsAbout: [
       "AI voice agents",
       "Voice AI orchestration",
@@ -134,23 +136,16 @@ export function snapServeProductSchema() {
     featureList: [
       "Multi-provider ASR, LLM, TTS, and telephony orchestration",
       "Persistent caller memory across conversations",
-      "Auto-redial on dropped calls with full context",
+      "Callback workflows that reload caller context",
       "Meeting bot for Google Meet, Zoom, and Teams",
       "Turn management with barge-in and endpointing",
       "Outbound campaign orchestration",
       "CRM and webhook write-back",
-      "1-click provider swap",
+      "Configurable provider routing",
       "BYOP or managed provider keys",
       "Multilingual and code-mix speech support",
       "Live call logs, transcripts, and recordings",
     ],
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description: "Pay per minute orchestration · start with $5 free credit",
-      url: snapServeDefinition.signupUrl,
-    },
     brand: { "@type": "Brand", name: "SnapServe" },
     provider: { "@id": `${SITE_URL}/#organization` },
   };
@@ -203,6 +198,8 @@ export function articleSchema(post) {
     "@type": "BlogPosting",
     "@id": `${url}#article`,
     headline: post.title,
+    url,
+    image: DEFAULT_OG_IMAGE,
     description: post.description,
     datePublished: post.publishedAt,
     dateModified: post.updatedAt || post.publishedAt,
@@ -212,27 +209,6 @@ export function articleSchema(post) {
     keywords: post.keywords.join(", "),
     inLanguage: "en-IN",
     about: { "@id": `${SITE_URL}/#software` },
-  };
-}
-
-export function productSchema(page) {
-  const url = absoluteUrl(`/solutions/${page.slug}`);
-  return {
-    "@type": "SoftwareApplication",
-    "@id": `${url}#software`,
-    name: "SnapServe",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: SITE_URL,
-    description: page.metaDescription,
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      description: "Pay per minute · $5 free credit to start",
-      url: snapServeDefinition.signupUrl,
-    },
-    areaServed: { "@type": "Country", name: "India" },
   };
 }
 
@@ -261,22 +237,6 @@ export function definedTermSetSchema(terms) {
   };
 }
 
-export function alternativesItemListSchema() {
-  return {
-    "@type": "ItemList",
-    name: "AI Voice Agent Platform Alternatives",
-    description:
-      "SnapServe as an alternative to popular voice AI platforms — orchestration with memory, campaigns, and CRM write-back",
-    itemListElement: alternativeKeywords.map((alt, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: alt.title,
-      description: alt.summary,
-      url: absoluteUrl(`/solutions/${alt.slug}`),
-    })),
-  };
-}
-
 /** Homepage graph — only schemas backed by visible on-page content. */
 export function buildHomeGraph(faqs) {
   return jsonLdGraph([
@@ -290,7 +250,25 @@ export function buildHomeGraph(faqs) {
       pageId: "homepage",
     }),
     faqSchema(faqs, "faq"),
-    alternativesItemListSchema(),
+  ]);
+}
+
+export function buildPartnerGraph() {
+  const url = absoluteUrl("/partner");
+  return jsonLdGraph([
+    organizationSchema(),
+    websiteSchema(),
+    webPageSchema({
+      name: "Partner with SnapServe | Agencies & Resellers",
+      description:
+        "Discuss agency, reseller, and migration workflows with the SnapServe team.",
+      url,
+      pageId: "partner",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Partner", path: "/partner" },
+    ]),
   ]);
 }
 
@@ -314,7 +292,6 @@ export function buildFunnelGraph(page) {
     organizationSchema(),
     snapServeProductSchema(),
     webPageSchema({ name: page.title, description: page.metaDescription, url }),
-    productSchema(page),
     faqSchema(page.faq, "faq", url),
     breadcrumbSchema([
       { name: "Home", path: "/" },
@@ -326,13 +303,10 @@ export function buildFunnelGraph(page) {
 }
 
 export function getAllSitemapPaths() {
-  const staticPaths = ["/", "/blog", "/privacy", "/terms"];
+  const staticPaths = ["/", "/blog", "/partner", "/privacy", "/terms"];
   const blogPaths = blogPosts.map((p) => `/blog/${p.slug}`);
   const funnelPaths = funnelPages.map((p) => `/solutions/${p.slug}`);
-  const altPaths = alternativeKeywords
-    .filter((a) => !funnelPaths.includes(`/solutions/${a.slug}`))
-    .map((a) => `/solutions/${a.slug}`);
-  return [...staticPaths, ...blogPaths, ...funnelPaths, ...altPaths];
+  return [...staticPaths, ...blogPaths, ...funnelPaths];
 }
 
 /** Static JSON-LD for index.html — parsed without JavaScript by AI crawlers. */

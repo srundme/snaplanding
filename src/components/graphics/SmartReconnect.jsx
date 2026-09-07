@@ -1,6 +1,7 @@
-﻿import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Phone, PhoneOff } from "lucide-react";
 import { useInView, useReducedMotion } from "framer-motion";
+import { markAudioUnlocked } from "../../lib/audioUnlock";
 
 /*
   In-call phone — mid-cut, then auto-redial.
@@ -75,7 +76,10 @@ const PHASES = [
 ];
 
 const CLIP_FALLBACK_MS = 2200;
-const ALL_CLIPS = PHASES.flatMap((p) => p.clips?.map((c) => c.audio) || []);
+
+function clipReadingTime(text = "") {
+  return Math.max(CLIP_FALLBACK_MS, text.trim().split(/\s+/).length * 320);
+}
 
 function formatCallClock(total) {
   const safe = Math.max(0, Math.floor(total));
@@ -104,9 +108,13 @@ export default function SmartReconnect() {
   const current = PHASES[phase];
   const lines = phaseLines(current);
   const activeClip = current.clips?.[clipIdx];
+  const activeClipRef = useRef(activeClip);
 
-  phaseRef.current = phase;
-  clipRef.current = clipIdx;
+  useEffect(() => {
+    phaseRef.current = phase;
+    clipRef.current = clipIdx;
+    activeClipRef.current = activeClip;
+  }, [phase, clipIdx, activeClip]);
 
   const clearHold = () => {
     if (holdRef.current) {
@@ -133,10 +141,10 @@ export default function SmartReconnect() {
     setPhase((i) => (i + 1) % PHASES.length);
   }, []);
 
-  const scheduleAdvance = (ms) => {
+  const scheduleAdvance = useCallback((ms) => {
     clearHold();
     holdRef.current = setTimeout(advance, ms);
-  };
+  }, [advance]);
 
   const playClip = useCallback(async (src) => {
     const audio = audioRef.current;
@@ -157,15 +165,6 @@ export default function SmartReconnect() {
     } catch {
       return false;
     }
-  }, []);
-
-  // Preload every clip up front — no HEAD probe delay
-  useEffect(() => {
-    ALL_CLIPS.forEach((url) => {
-      const pre = new Audio();
-      pre.preload = "auto";
-      pre.src = url;
-    });
   }, []);
 
   useEffect(() => {
@@ -199,20 +198,55 @@ export default function SmartReconnect() {
 
     audio?.addEventListener("ended", onEnded);
 
+    // Sound is on by default. If the browser blocks autoplay, the captions keep
+    // pacing silently until a gesture unlocks playback.
     void playClip(src).then((ok) => {
-      if (!ok) scheduleAdvance(CLIP_FALLBACK_MS);
+      if (ok) markAudioUnlocked();
+      else scheduleAdvance(clipReadingTime(activeClip?.text));
     });
 
     return () => {
       audio?.removeEventListener("ended", onEnded);
       clearHold();
     };
-  }, [phase, clipIdx, inView, reduce, current.hold, activeClip?.audio, advance, playClip]);
+  }, [phase, clipIdx, inView, reduce, current.hold, activeClip?.audio, activeClip?.text, advance, playClip, scheduleAdvance]);
+
+  // While the demo is on screen, the first gesture anywhere turns the voice on.
+  useEffect(() => {
+    if (reduce || !inView) return undefined;
+
+    const onGesture = () => {
+      markAudioUnlocked();
+      const src = activeClipRef.current?.audio;
+      const audio = audioRef.current;
+      if (!src || !audio) return;
+      if (!audio.paused && audio.dataset.src === src) return;
+      void playClip(src).then((ok) => {
+        if (ok) clearHold();
+      });
+    };
+
+    const events = ["pointerdown", "touchstart", "keydown"];
+    events.forEach((e) =>
+      window.addEventListener(e, onGesture, { capture: true, passive: true }),
+    );
+    return () =>
+      events.forEach((e) =>
+        window.removeEventListener(e, onGesture, { capture: true }),
+      );
+  }, [inView, reduce, playClip]);
+
+  // Warm the first clip once the section approaches, so audio starts promptly.
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const audio = audioRef.current;
+    if (audio) audio.preload = "auto";
+  }, [inView, reduce]);
 
   useEffect(() => {
-    if (typeof current.startSeconds === "number") {
-      setElapsed(current.startSeconds);
-    }
+    if (typeof current.startSeconds !== "number") return;
+    const start = current.startSeconds;
+    queueMicrotask(() => setElapsed(start));
   }, [phase, current.startSeconds]);
 
   useEffect(() => {
@@ -227,9 +261,9 @@ export default function SmartReconnect() {
 
   return (
     <div ref={rootRef} className="relative overflow-hidden bg-surface-0">
-      <audio ref={audioRef} preload="auto" playsInline />
+      <audio ref={audioRef} preload="none" playsInline />
 
-      <div className="relative mx-auto flex max-w-[21.5rem] justify-center px-6 py-8">
+      <div className="relative mx-auto flex max-w-[21.5rem] justify-center">
         <div
           className="phone-redial"
           aria-label="Phone call with auto-redial after disconnect"

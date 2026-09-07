@@ -1,14 +1,15 @@
+import { ArrowUpRight } from "lucide-react";
 import {
-  ArrowUpRight,
-  Database,
-  Layers,
-  Megaphone,
-  PhoneCall,
-  PhoneOutgoing,
-  Video,
-} from "lucide-react";
+  CampaignGlyph,
+  GridGlyph,
+  LayerGlyph,
+  MeetingGlyph,
+  MemoryGlyph,
+  RedialGlyph,
+  TurnGlyph,
+} from "./graphics/SnapGlyphs";
 import { Reveal } from "./motion/Reveal";
-import CountUp from "./ui/text-animations/CountUp";
+import SectionLabel from "./SectionLabel";
 import {
   DeepgramMark,
   GoogleMeetMark,
@@ -18,15 +19,16 @@ import {
   PlivoMark,
   TeamsMark,
   TwilioMark,
+  VobizMark,
   ZohoMark,
   ZoomMark,
 } from "./PlatformLogos";
 
 const LEDGER = [
   {
-    Icon: Video,
+    Icon: MeetingGlyph,
     label: "Meeting bot",
-    outcome: "Joins Meet, Zoom, or Teams and writes notes back",
+    outcome: "Joins Meet, Zoom, or Teams — notes back",
     href: "#meeting-bot",
     marks: [
       { Mark: GoogleMeetMark, name: "Google Meet" },
@@ -35,24 +37,25 @@ const LEDGER = [
     ],
   },
   {
-    Icon: Database,
+    Icon: MemoryGlyph,
     label: "Caller memory",
     outcome: "Return callers never restart from zero",
-    stake: "Budget, language, intent loaded before greeting",
+    stake: "Budget, language, intent — before greeting",
     href: "#memory-crm",
   },
   {
-    Icon: PhoneCall,
+    Icon: RedialGlyph,
     label: "Auto-redial",
-    outcome: "Drop detected → callback with full context",
-    stake: "<200ms detect · <1s redial · same thread",
+    outcome: "Drop detected → callback with context",
+    stake: "Provider callback · same caller profile",
     href: "#smart-reconnect",
   },
   {
-    Icon: Layers,
+    Icon: LayerGlyph,
     label: "One layer",
-    outcome: "Speech, model, voice, and phone — wired together",
+    outcome: "Speech, model, voice, phone — wired together",
     marks: [
+      { Mark: VobizMark, name: "Vobiz" },
       { Mark: TwilioMark, name: "Twilio" },
       { Mark: PlivoMark, name: "Plivo" },
       { Mark: DeepgramMark, name: "Deepgram" },
@@ -60,13 +63,13 @@ const LEDGER = [
     ],
   },
   {
-    Icon: PhoneOutgoing,
+    Icon: TurnGlyph,
     label: "Turn control",
-    outcome: "No silent hangs. Interruptions handled cleanly",
+    outcome: "No silent hangs. Clean barge-in",
     stake: "Barge-in · endpointing · warm pools",
   },
   {
-    Icon: Megaphone,
+    Icon: CampaignGlyph,
     label: "Campaigns + CRM",
     outcome: "Outbound runs; outcomes write back",
     marks: [
@@ -78,19 +81,19 @@ const LEDGER = [
 ];
 
 const PROOFS = [
-  { kind: "count", to: 800, prefix: "<", suffix: "ms", label: "warm response" },
-  { kind: "count", to: 1, suffix: "-click", label: "provider swap" },
-  { kind: "text", value: "BYOP", label: "or managed" },
+  { kind: "text", value: "Live", label: "call console" },
+  { kind: "text", value: "Flexible", label: "provider routing" },
+  { kind: "text", value: "Your keys", label: "or managed" },
 ];
 
 const CONTRAST = [
   {
-    pain: "Four providers. Fragile sockets.",
-    gain: "One orchestration layer.",
+    pain: "Many vendors. More points of failure.",
+    gain: "One reliable platform",
   },
   {
-    pain: "Cold starts and long gaps.",
-    gain: "Warm pools and streaming.",
+    pain: "Slow starts and dead air",
+    gain: "Fast responses and smooth turns",
   },
 ];
 
@@ -105,32 +108,27 @@ function EqualsMark() {
 
 export default function FeaturesSection() {
   return (
-    <section id="differentiator" className="feat-cov">
+    <section id="differentiator" className="feat-cov relative">
       <div className="feat-cov-glow" aria-hidden="true" />
 
-      <div className="feat-cov-inner">
+      <div className="feat-cov-inner relative z-[2]">
         <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="h-px w-7 bg-[#14B8A6]/60" />
-            <p className="label text-ink-2">Product</p>
-          </div>
+          <SectionLabel icon={GridGlyph}>Platform</SectionLabel>
           <h2 className="headline-lg mt-4 max-w-3xl">
-            Stop stitching providers.{" "}
-            <span className="brand-gradient-text">Run production calls.</span>
+            From first ring to CRM update.{" "}
+            <span className="brand-gradient-text">One connected platform.</span>
           </h2>
         </Reveal>
 
         <div className="feat-cov-grid">
           <Reveal delay={0.06} y={14}>
             <div className="feat-cov-statement">
-              <p className="feat-cov-kicker">Why teams switch</p>
+              <p className="feat-cov-kicker">Built for production</p>
               <p className="feat-cov-thesis">
-                DIY sockets fail when outbound volume hits.
+                Reliable calls without the patchwork.
               </p>
               <p className="feat-cov-body">
-                SnapServe sits between telephony and your ASR / LLM / TTS —
-                latency, barge-in, memory, redial, and CRM write-back handled
-                once.
+                Speed, interruptions, memory, redial, and CRM updates—built in.
               </p>
 
               <ul className="feat-diy">
@@ -143,21 +141,9 @@ export default function FeaturesSection() {
               </ul>
 
               <div className="feat-cov-proofs" role="list">
-                {PROOFS.map((p, i) => (
+                {PROOFS.map((p) => (
                   <div key={p.label} className="feat-cov-proof" role="listitem">
-                    <strong>
-                      {p.kind === "count" ? (
-                        <CountUp
-                          to={p.to}
-                          prefix={p.prefix ?? ""}
-                          suffix={p.suffix ?? ""}
-                          duration={1.35}
-                          delay={0.08 * i}
-                        />
-                      ) : (
-                        p.value
-                      )}
-                    </strong>
+                    <strong>{p.value}</strong>
                     <span>{p.label}</span>
                   </div>
                 ))}
@@ -183,7 +169,7 @@ export default function FeaturesSection() {
                       className="feat-cov-row group"
                     >
                       <span className="feat-cov-icon" aria-hidden="true">
-                        <Icon strokeWidth={1.6} />
+                        <Icon />
                       </span>
                       <div className="feat-cov-meta">
                         <EqualsMark />
