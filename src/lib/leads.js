@@ -1,18 +1,15 @@
-import { LEAD_CC_EMAILS, LEAD_FROM_EMAIL, LEAD_PRIMARY_EMAIL } from "./links";
+import { LEAD_FROM_EMAIL } from "./links";
 
 /*
   Every lead capture on the site goes through submitLead.
 
   Two independent channels:
-  1. Email — FormSubmit relay to LEAD_PRIMARY_EMAIL, copying LEAD_CC_EMAILS.
-  2. Console API — the orchestration backend that powers the admin view in
-     app.snapserve.ai. Enabled by setting VITE_LEADS_API_URL.
+  1. Email — same-origin POST /api/leads-mail, sent via Brevo From noreply@snapserve.ai
+  2. Console API — orchestration backend (app.snapserve.ai). Enabled by VITE_LEADS_API_URL.
 
-  A submission counts as delivered if either channel succeeds, so a backend
-  outage never costs a lead and email stays as the safety net.
+  A submission counts as delivered if either channel succeeds.
 */
 
-const EMAIL_ENDPOINT = `https://formsubmit.co/ajax/${LEAD_PRIMARY_EMAIL}`;
 const API_URL = import.meta.env.VITE_LEADS_API_URL?.trim() || "";
 const API_KEY = import.meta.env.VITE_LEADS_API_KEY?.trim() || "";
 
@@ -38,37 +35,14 @@ export function buildLeadPayload(fields, { source, competitor = "" } = {}) {
   };
 }
 
-function emptyDash(value) {
-  return value && String(value).trim() ? value : "—";
-}
-
 async function sendEmail(lead) {
-  const res = await fetch(EMAIL_ENDPOINT, {
+  const res = await fetch("/api/leads-mail", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: JSON.stringify({
-      _subject: `SnapServe inquiry — ${lead.source}`,
-      _template: "table",
-      _cc: LEAD_CC_EMAILS.join(","),
-      _replyto: lead.email,
-      From: LEAD_FROM_EMAIL,
-      Name: lead.name,
-      Email: lead.email,
-      Company: lead.company,
-      Phone: emptyDash(lead.phone),
-      Looking_for: lead.intent,
-      Industry: emptyDash(lead.industry),
-      Call_volume: emptyDash(lead.call_volume),
-      Current_stack: emptyDash(lead.current_stack),
-      Switching_from: emptyDash(lead.competitor),
-      Message: emptyDash(lead.message),
-      Source: lead.source,
-      Page: lead.page_url,
-      Submitted_at: lead.submitted_at,
-    }),
+    body: JSON.stringify(lead),
   });
 
   if (!res.ok) throw new Error("email_failed");

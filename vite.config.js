@@ -3,8 +3,27 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig, loadEnv, createServer } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { handleLeadsMailRequest } from './server/sendLeadMail.mjs'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
+
+function leadsMailPlugin() {
+  const middleware = (req, res, next) => {
+    const url = req.url?.split('?')[0]
+    if (url !== '/api/leads-mail') return next()
+    handleLeadsMailRequest(req, res).catch(next)
+  }
+
+  return {
+    name: 'leads-mail',
+    configureServer(server) {
+      server.middlewares.use(middleware)
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(middleware)
+    },
+  }
+}
 
 function seoPrerenderPlugin() {
   return {
@@ -38,6 +57,9 @@ function seoPrerenderPlugin() {
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, rootDir, '')
+  for (const [key, value] of Object.entries(env)) {
+    if (process.env[key] === undefined) process.env[key] = value
+  }
   const pixelId = env.VITE_META_PIXEL_ID?.trim()
 
   return {
@@ -56,6 +78,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       tailwindcss(),
+      leadsMailPlugin(),
       {
         name: 'meta-pixel-noscript',
         transformIndexHtml(html) {

@@ -8,7 +8,7 @@ either one succeeds, so a backend outage never loses a lead.
 
 | Channel | Destination | Configured by |
 | --- | --- | --- |
-| Email | support@snapserve.ai, cc gopi@snapserve.ai, karthikeyan@theaitel.com, and sathizcivil77@gmail.com | `src/lib/links.js` |
+| Email | From `noreply@snapserve.ai` to gopi@snapserve.ai, karthikeyan@theaitel.com, sathizcivil77@gmail.com | `BREVO_API_KEY` + `src/lib/links.js` |
 | Console API | Orchestration DB behind app.snapserve.ai | `VITE_LEADS_API_URL` |
 
 ## What the console needs to implement
@@ -28,7 +28,7 @@ Body:
 {
   "source": "solutions/vapi-alternative",
   "competitor": "Vapi",
-  "from": "leads@snapserve.ai",
+  "from": "noreply@snapserve.ai",
   "name": "Priya Nayar",
   "email": "priya@acme.in",
   "company": "Acme Insurance",
@@ -47,7 +47,7 @@ Body:
 
 Field notes:
 
-- `from` is always `leads@snapserve.ai`. The console should send any outbound lead mail with that address as the From header. FormSubmit cannot spoof From; its messages still originate from FormSubmit.
+- `from` is always `noreply@snapserve.ai`. The landing server sends lead mail with that From address via Brevo. The console should use the same From if it sends mail.
 - `source` is `partner` on the partner page, or `solutions/<slug>` on funnel pages.
 - `competitor`, `phone`, `current_stack`, and `message` may be empty strings.
 - `intent` is one of `partner`, `switch`, `enterprise`, `other`.
@@ -104,3 +104,8 @@ create index leads_email_idx on leads (email);
 Set `VITE_LEADS_API_URL` (and `VITE_LEADS_API_KEY` if used) in the deploy
 environment and rebuild. No code change needed — the site starts posting to the
 API automatically and keeps sending email as well.
+
+Lead email is `POST /api/leads-mail` on this site (dev via Vite, production via
+`server.mjs`). Set `BREVO_API_KEY` at runtime (not `VITE_`). Sender is always
+`noreply@snapserve.ai`; that address or the `snapserve.ai` domain must be verified
+in Brevo.

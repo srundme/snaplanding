@@ -2,13 +2,12 @@ export const APP_URL = "https://app.snapserve.ai";
 export const SIGNUP_URL = "https://app.snapserve.ai";
 export const PARTNER_URL = "/partner";
 /*
-  Lead routing. Every inquiry reaches these inboxes: the primary address is
-  the FormSubmit endpoint, the rest are copied on it.
+  Lead routing. Mail is sent From noreply@snapserve.ai to all recipients.
+  support@snapserve.ai is not on lead mail.
 */
-export const LEAD_PRIMARY_EMAIL = "support@snapserve.ai";
-export const LEAD_FROM_EMAIL = "leads@snapserve.ai";
+export const LEAD_PRIMARY_EMAIL = "gopi@snapserve.ai";
+export const LEAD_FROM_EMAIL = "noreply@snapserve.ai";
 export const LEAD_CC_EMAILS = [
-  "gopi@snapserve.ai",
   "karthikeyan@theaitel.com",
   "sathizcivil77@gmail.com",
 ];
