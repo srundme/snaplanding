@@ -77,10 +77,11 @@ const VOICES = [
     script: "kannada",
     useCase: "D2C · COD confirmation",
     script_text:
-      "ಮಂಜುನಾಥ್, ನಿಮ್ಮ order SN-67218 Indiranagar tower-3 security desk-ಗೆ ಬಿಡ್ತೀವಿ. Cash ಬೇಡ — rider call ಮಾಡಿದಾಗ QR scan ಮಾಡಿ.",
+      "ಮಂಜುನಾಥ್, ನಿಮ್ಮ ಆರ್ಡರ್ ನಾಳೆ ಬರುತ್ತೆ. Rider ಬಂದಾಗ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
     translation:
-      "Manjunath, we’ll leave order SN-67218 at the Indiranagar tower-3 security desk. No cash — scan the QR when the rider calls.",
-    duration: 7.5,
+      "Manjunath, your order arrives tomorrow. Scan the QR when the rider comes.",
+    audio: "/audio/voices/chetan-kannada.mp3",
+    duration: 5.7,
     latency: "305 ms",
   },
   {
