@@ -96,7 +96,8 @@ const VOICES = [
       "ঋতু, NEET crash batch-এর last seat আজ রাত 9টায় বন্ধ। Scholarship code KOL-19 apply করে Zoom link পাঠিয়েছি।",
     translation:
       "Ritu, the last NEET crash-batch seat closes tonight at 9. I’ve applied scholarship code KOL-19 and sent the Zoom link.",
-    duration: 5.6,
+    audio: "/audio/voices/ananya-bengali.mp3",
+    duration: 8.5,
     latency: "342 ms",
   },
 ];
