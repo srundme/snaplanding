@@ -10,6 +10,27 @@ const INTENTS = [
   { value: "other", label: "Other" },
 ];
 
+const INDUSTRIES = [
+  "Real estate",
+  "Insurance",
+  "Healthcare",
+  "Lending & finance",
+  "EdTech & coaching",
+  "D2C & e-commerce",
+  "Collections",
+  "Travel & hospitality",
+  "Automotive",
+  "Other",
+];
+
+const CALL_VOLUMES = [
+  "Just starting",
+  "Under 5,000 / month",
+  "5,000 – 25,000 / month",
+  "25,000 – 1 lakh / month",
+  "1 lakh+ / month",
+];
+
 function fieldClass(extra = "") {
   return [
     "partner-form__field w-full rounded-xl border border-line bg-surface-0 px-3.5 py-2.5 text-[14px] text-ink outline-none transition-colors",
@@ -52,6 +73,8 @@ export default function PartnerForm({
         company: data.get("company"),
         phone: data.get("phone"),
         intent: data.get("intent"),
+        industry: data.get("industry"),
+        call_volume: data.get("call_volume"),
         current_stack: data.get("current_stack"),
         message: data.get("message"),
       },
@@ -183,6 +206,30 @@ export default function PartnerForm({
           </select>
         </label>
 
+        <fieldset className="partner-form__label partner-form__label--wide partner-form__fieldset">
+          <legend>Preferred industry</legend>
+          <div className="partner-form__chips">
+            {INDUSTRIES.map((item) => (
+              <label key={item} className="partner-form__chip">
+                <input type="radio" name="industry" value={item} required />
+                <span>{item}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset className="partner-form__label partner-form__label--wide partner-form__fieldset">
+          <legend>Expected monthly call volume</legend>
+          <div className="partner-form__chips">
+            {CALL_VOLUMES.map((item) => (
+              <label key={item} className="partner-form__chip">
+                <input type="radio" name="call_volume" value={item} required />
+                <span>{item}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
         <label className="partner-form__label partner-form__label--wide">
           <span>Current voice stack (if any)</span>
           <input
@@ -200,7 +247,7 @@ export default function PartnerForm({
             className={fieldClass("min-h-[7.5rem] resize-y")}
             name="message"
             rows={4}
-            placeholder="Team size, use case, timeline…"
+            placeholder="Team size, timeline…"
           />
         </label>
 

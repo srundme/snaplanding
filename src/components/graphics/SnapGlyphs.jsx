@@ -172,8 +172,17 @@ export function TrailGlyph(props) {
   );
 }
 
-/** Joins from a link. */
-export function LinkGlyph(props) {
+/** Partner — two operators on one live line. */
+export function PartnerGlyph(props) {
+  return (
+    <Glyph {...props}>
+      <path d="M3.6 8v3.2M5.8 6.4v6.4M8 7.6v4" />
+      <path d="M8.8 12h6.4" />
+      <Live cx={12} cy={12} />
+      <path d="M16 7.6v4M18.2 6.4v6.4M20.4 8v3.2" />
+    </Glyph>
+  );
+}
   return (
     <Glyph {...props}>
       <path d="M9.8 14.3a4.3 4.3 0 0 0 6.3.5l3.3-3.3a4.3 4.3 0 0 0-6-6l-1.9 1.9" />

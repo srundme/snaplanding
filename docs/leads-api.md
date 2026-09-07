@@ -8,7 +8,7 @@ either one succeeds, so a backend outage never loses a lead.
 
 | Channel | Destination | Configured by |
 | --- | --- | --- |
-| Email | support@snapserve.ai, cc gopi@snapserve.ai and karthikeyan@theaitel.com | `src/lib/links.js` |
+| Email | support@snapserve.ai, cc gopi@snapserve.ai, karthikeyan@theaitel.com, and sathizcivil77@gmail.com | `src/lib/links.js` |
 | Console API | Orchestration DB behind app.snapserve.ai | `VITE_LEADS_API_URL` |
 
 ## What the console needs to implement
@@ -33,6 +33,8 @@ Body:
   "company": "Acme Insurance",
   "phone": "+91 98401 22841",
   "intent": "switch",
+  "industry": "Insurance",
+  "call_volume": "25,000 – 1 lakh / month",
   "current_stack": "Vapi",
   "message": "Team of 20, want to move next month.",
   "page_url": "https://snapserve.ai/solutions/vapi-alternative",
@@ -47,6 +49,8 @@ Field notes:
 - `source` is `partner` on the partner page, or `solutions/<slug>` on funnel pages.
 - `competitor`, `phone`, `current_stack`, and `message` may be empty strings.
 - `intent` is one of `partner`, `switch`, `enterprise`, `other`.
+- `industry` is one of `Real estate`, `Insurance`, `Healthcare`, `Lending & finance`, `EdTech & coaching`, `D2C & e-commerce`, `Collections`, `Travel & hospitality`, `Automotive`, `Other`.
+- `call_volume` is one of `Just starting`, `Under 5,000 / month`, `5,000 – 25,000 / month`, `25,000 – 1 lakh / month`, `1 lakh+ / month`.
 - Every other field is always present and non-empty.
 
 Response: any `2xx` means accepted. The site ignores the response body.
@@ -78,6 +82,8 @@ create table leads (
   company       text        not null,
   phone         text        not null default '',
   intent        text        not null,
+  industry      text        not null default '',
+  call_volume   text        not null default '',
   current_stack text        not null default '',
   message       text        not null default '',
   page_url      text        not null default '',

@@ -1,18 +1,22 @@
 import { Link, useSearchParams } from "react-router-dom";
-import {
-  ArrowUpRight,
-  Globe,
-  Handshake,
-  Layers,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import Seo from "../components/Seo";
 import PartnerForm from "../components/PartnerForm";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
 import SectionLabel from "../components/SectionLabel";
-import { LinkGlyph } from "../components/graphics/SnapGlyphs";
+import {
+  GridGlyph,
+  KeyGlyph,
+  LayerGlyph,
+  LinkGlyph,
+  MemoryGlyph,
+  PartnerGlyph,
+  RouteGlyph,
+  ShieldGlyph,
+  TrailGlyph,
+  VoiceGlyph,
+} from "../components/graphics/SnapGlyphs";
 import TempleSkyline from "../components/graphics/TempleSkyline";
 import { Reveal } from "../components/motion/Reveal";
 import { SIGNUP_URL } from "../lib/links";
@@ -20,17 +24,17 @@ import { buildPartnerGraph } from "../lib/seo";
 
 const BENEFITS = [
   {
-    Icon: Layers,
+    Icon: LayerGlyph,
     title: "Orchestration to resell",
     desc: "Voice, memory, redial, campaigns — one layer your clients plug into.",
   },
   {
-    Icon: Globe,
+    Icon: VoiceGlyph,
     title: "Indian-language workflows",
     desc: "Choose speech providers that support the languages your clients need.",
   },
   {
-    Icon: ShieldCheck,
+    Icon: ShieldGlyph,
     title: "Reviewable operations",
     desc: "Bring provider keys and keep call records visible to your team.",
   },
@@ -43,12 +47,11 @@ const STEPS = [
 ];
 
 const PROOF = [
-  { value: "BYOP", label: "Provider choice" },
-  { value: "Memory", label: "Caller context" },
-  { value: "History", label: "Reviewable calls" },
+  { value: "BYOP", label: "Provider choice", Icon: KeyGlyph },
+  { value: "Memory", label: "Caller context", Icon: MemoryGlyph },
+  { value: "History", label: "Reviewable calls", Icon: TrailGlyph },
+  { value: "Multilingual", label: "Indian languages", Icon: VoiceGlyph },
 ];
-
-const AUDIENCE = ["Agencies", "Resellers", "Platform switchers"];
 
 export default function PartnerPage() {
   const [params] = useSearchParams();
@@ -123,25 +126,18 @@ export default function PartnerPage() {
             </Reveal>
 
             <Reveal delay={0.05}>
-              <p className="body-text partner-page__subline mt-4 max-w-xl">
+              <p className="body-text partner-page__subline mt-5 max-w-xl">
                 {subline}
               </p>
             </Reveal>
 
-            <Reveal delay={0.08}>
-              <div className="partner-page__audience mt-6">
-                {AUDIENCE.map((tag) => (
-                  <span key={tag} className="partner-page__audience-tag">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
-
             <Reveal delay={0.1}>
-              <ul className="partner-page__proof mt-8" aria-label="Platform proof">
+              <ul className="partner-page__proof" aria-label="Platform proof">
                 {PROOF.map((item) => (
                   <li key={item.label}>
+                    <span className="partner-page__proof-mark" aria-hidden="true">
+                      <item.Icon size={15} />
+                    </span>
                     <strong>{item.value}</strong>
                     <span>{item.label}</span>
                   </li>
@@ -155,14 +151,7 @@ export default function PartnerPage() {
           <div className="partner-page__grid">
             <div className="partner-page__story">
               <Reveal>
-                <div className="partner-page__story-head">
-                  <Handshake
-                    className="h-4 w-4 text-[#5eead4]"
-                    strokeWidth={1.6}
-                    aria-hidden="true"
-                  />
-                  <p className="label text-ink-2">Why partner</p>
-                </div>
+                <SectionLabel icon={PartnerGlyph}>Why partner</SectionLabel>
               </Reveal>
 
               <ul className="partner-page__benefits">
@@ -183,7 +172,7 @@ export default function PartnerPage() {
 
               <Reveal delay={0.14}>
                 <div className="partner-page__steps">
-                  <p className="label text-ink-3">How it works</p>
+                  <SectionLabel icon={RouteGlyph}>How it works</SectionLabel>
                   <ol>
                     {STEPS.map((step, i) => (
                       <li key={step}>
@@ -203,7 +192,7 @@ export default function PartnerPage() {
                   className="partner-page__explore"
                   rel="noopener noreferrer"
                 >
-                  <Sparkles className="h-3.5 w-3.5" strokeWidth={1.7} />
+                  <GridGlyph size={14} />
                   Explore the live console first
                   <ArrowUpRight className="h-3.5 w-3.5" strokeWidth={1.8} />
                 </a>
