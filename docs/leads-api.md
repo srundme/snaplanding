@@ -28,6 +28,7 @@ Body:
 {
   "source": "solutions/vapi-alternative",
   "competitor": "Vapi",
+  "from": "leads@snapserve.ai",
   "name": "Priya Nayar",
   "email": "priya@acme.in",
   "company": "Acme Insurance",
@@ -46,6 +47,7 @@ Body:
 
 Field notes:
 
+- `from` is always `leads@snapserve.ai`. The console should send any outbound lead mail with that address as the From header. FormSubmit cannot spoof From; its messages still originate from FormSubmit.
 - `source` is `partner` on the partner page, or `solutions/<slug>` on funnel pages.
 - `competitor`, `phone`, `current_stack`, and `message` may be empty strings.
 - `intent` is one of `partner`, `switch`, `enterprise`, `other`.

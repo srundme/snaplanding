@@ -1,4 +1,4 @@
-import { LEAD_CC_EMAILS, LEAD_PRIMARY_EMAIL } from "./links";
+import { LEAD_CC_EMAILS, LEAD_FROM_EMAIL, LEAD_PRIMARY_EMAIL } from "./links";
 
 /*
   Every lead capture on the site goes through submitLead.
@@ -21,6 +21,7 @@ export function buildLeadPayload(fields, { source, competitor = "" } = {}) {
   return {
     source,
     competitor,
+    from: LEAD_FROM_EMAIL,
     name: fields.name,
     email: fields.email,
     company: fields.company,
@@ -52,6 +53,8 @@ async function sendEmail(lead) {
       _subject: `SnapServe inquiry — ${lead.source}`,
       _template: "table",
       _cc: LEAD_CC_EMAILS.join(","),
+      _replyto: lead.email,
+      From: LEAD_FROM_EMAIL,
       Name: lead.name,
       Email: lead.email,
       Company: lead.company,

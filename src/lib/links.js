@@ -6,6 +6,7 @@ export const PARTNER_URL = "/partner";
   the FormSubmit endpoint, the rest are copied on it.
 */
 export const LEAD_PRIMARY_EMAIL = "support@snapserve.ai";
+export const LEAD_FROM_EMAIL = "leads@snapserve.ai";
 export const LEAD_CC_EMAILS = [
   "gopi@snapserve.ai",
   "karthikeyan@theaitel.com",
