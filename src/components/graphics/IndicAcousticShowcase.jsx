@@ -70,7 +70,7 @@ const VOICES = [
   },
   {
     id: "kannada",
-    name: "Chetan",
+    name: "Meera",
     language: "Kannada",
     accent: "Bengaluru",
     char: "ಅ",
@@ -80,7 +80,7 @@ const VOICES = [
       "ಮಂಜುನಾಥ್, ನಿಮ್ಮ ಆರ್ಡರ್ ನಾಳೆ ಬರುತ್ತೆ. Rider ಬಂದಾಗ QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
     translation:
       "Manjunath, your order arrives tomorrow. Scan the QR when the rider comes.",
-    audio: "/audio/voices/chetan-kannada.mp3",
+    audio: "/audio/voices/meera-kannada.mp3",
     duration: 5.7,
     latency: "305 ms",
   },
