@@ -9,7 +9,10 @@ import { SIDEBAR_NAV } from "../lib/nav";
 
 const links = SIDEBAR_NAV;
 
-const externalLinks = [{ label: "Partner with us", href: PARTNER_URL }];
+const externalLinks = [
+  { label: "Voice-A-Thon", href: "/voice-a-thon", isVoiceathon: true },
+  { label: "Partner with us", href: PARTNER_URL },
+];
 
 /* The section crossing the upper third of the viewport is the one being read */
 const ACTIVE_LINE = 0.45;

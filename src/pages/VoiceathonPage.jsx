@@ -1,0 +1,768 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Trophy,
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  Users,
+  CheckCircle2,
+  ExternalLink,
+  Code2,
+  Cpu,
+  Mic,
+  Clock,
+  Flame,
+  ArrowUpRight,
+  Shield,
+  Layers,
+  Radio,
+  ChevronRight,
+  Zap,
+} from "lucide-react";
+import { FaLinkedin } from "react-icons/fa6";
+import Seo from "../components/Seo";
+import SiteFooter from "../components/SiteFooter";
+import SnapServeLogo from "../components/SnapServeLogo";
+import GlowButton from "../components/GlowButton";
+import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
+
+const JUDGES = [
+  {
+    id: "bharanidharan",
+    name: "Bharanidharan N., PMP",
+    title: "Chief Information Officer",
+    company: "ProConnect Supply Chain Solutions Ltd",
+    image: "/images/voiceathon/bharanidharan.png",
+    badge: "Innovative CIO 2024",
+    alum: "BITS Pilani Alum",
+    track: "Enterprise Architecture & Mission-Critical Reliability",
+    quote:
+      "In enterprise logistics and mission-critical workflows, latency and accuracy are non-negotiable. Voice-A-Thon set an uncompromising standard for sub-second agent responses, zero dropped state, and bulletproof telephony integration.",
+    bio: "20+ years of enterprise IT leadership. Formerly VP of Enterprise Applications at Redington India, Account Delivery Manager at DXC Technology (Germany), and Head of Development Factory at HPE managing multi-million-dollar offshore operations.",
+    credentials: [
+      "Certified PMP, ISO 9001 & ITIL V2 Lead",
+      "Former VP of Enterprise Apps, Redington India",
+      "Former Head of Development Factory, HPE",
+    ],
+    tags: ["Enterprise IT", "PMP & ITIL", "Supply Chain Systems", "Delivery Management"],
+    linkedin: "https://www.linkedin.com/in/bharanidharan-n-pmp-59393414",
+  },
+  {
+    id: "dharun",
+    name: "Dharun Jayakrishnan",
+    title: "Co-Founder & CTO",
+    company: "ZenXai & ZenVoice",
+    image: "/images/voiceathon/dharun.png",
+    badge: "Agentic AI Pioneer",
+    alum: "Sri Shakthi Institute Alum",
+    track: "Autonomous Agent Workflows & API Orchestration",
+    quote:
+      "The next era of voice isn't simple scripted chatbots. It is autonomous multi-step execution — querying live databases, managing CRM updates, and handling mid-call interruptions seamlessly without losing conversational momentum.",
+    bio: "Leading engineer and founder building autonomous AI agent architectures, real-time voice automation pipelines, n8n cloud automation, and multi-modal telephony integrations for global businesses.",
+    credentials: [
+      "Agentic AI Architecture Specialist",
+      "Real-Time SIP Audio Pipeline Architect",
+      "n8n Cloud Automation & Tool Orchestrator",
+    ],
+    tags: ["Agentic AI", "Voice Pipelines", "n8n Cloud Automation", "API Orchestration"],
+    linkedin: "https://www.linkedin.com/in/dharun-jayakrishnan",
+  },
+  {
+    id: "kannan",
+    name: "Kannan Ganesan",
+    title: "Co-Founder & CTO",
+    company: "Smartail",
+    image: "/images/voiceathon/kannan.png",
+    badge: "Ex-VP JPMorgan Chase",
+    alum: "19+ Yrs IT Leadership",
+    track: "Distributed Cloud Microservices & Scalability",
+    quote:
+      "Evaluating these live pipelines showed how close we are to truly frictionless vernacular voice. The architectural resilience, distributed streaming response speeds, and concurrency handling were world-class.",
+    bio: "~19 years in IT engineering leadership. Former Vice President at JPMorgan Chase's India entity, and 6 years as Senior Software Development Engineer at JPMorgan Chase & Co., specializing in distributed systems, microservices, and AI/ML EdTech.",
+    credentials: [
+      "Former Vice President at JPMorgan Chase (India)",
+      "Senior Software Development Engineer (JPMorgan Chase & Co.)",
+      "Distributed Cloud Architecture & AI/ML EdTech",
+    ],
+    tags: ["Cloud Microservices", "Ex-JPMorgan Chase", "AI/ML Systems", "Distributed Tech"],
+    linkedin: null,
+  },
+  {
+    id: "prasath",
+    name: "Prasath Sekar",
+    title: "Product Manager",
+    company: "TeleCMI",
+    image: "/images/voiceathon/prasath.png",
+    badge: "11+ Yrs Telephony Veteran",
+    alum: "GKM College of Engineering",
+    track: "CRM Telephony SDKs & Conversational Call Flow",
+    quote:
+      "As someone in core telephony infrastructure every day, seeing voice agents gracefully manage SIP handoffs, CRM webhook dispatches, and diverse Indian accents in real-time was remarkable.",
+    bio: "Senior product leader with 11+ years in telephony infrastructure, cloud communications, and conversational AI. Deeply experienced in CRM telephony SDK adoption, voice agent routing, and SalesOS platforms.",
+    credentials: [
+      "CRM Telephony SDK Expert with 11+ Yrs Experience",
+      "Product & DevOps Leader at TeleCMI",
+      "Specialist in Low-Latency Voice Gateways",
+    ],
+    tags: ["CRM Telephony", "Voice Agents", "SalesOS & SDKs", "Telephony Infrastructure"],
+    linkedin: "https://www.linkedin.com/in/prasath-sekar",
+  },
+  {
+    id: "haarishkumar",
+    name: "Haarishkumar Bhaskar",
+    title: "AI Product Developer & Startup Founder",
+    company: "Raido & Founder Edge",
+    image: "/images/voiceathon/haarishkumar.png",
+    badge: "Startup Founder",
+    alum: "Founder Edge",
+    track: "GenAI Product Innovation & Autonomous Agents",
+    quote:
+      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers. That founder edge is what moves industries forward.",
+    bio: "AI Product Developer and startup founder building next-generation AI-driven software. Extensive experience in Generative AI, autonomous agents, and turning technical prototypes into scalable market solutions through customer-focused problem-solving.",
+    credentials: [
+      "Founder at Raido & Founder Edge",
+      "Generative AI & Agentic Product Innovation Lead",
+      "Rapid Prototype to Enterprise Scale Specialization",
+    ],
+    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
+    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
+  },
+];
+
+
+const AGENDA = [
+  { time: "09:00 AM", title: "Keynote & Problem Statements", desc: "Opening address, live call demo architecture, and challenge tracks unveiled." },
+  { time: "10:00 AM", title: "Hacking Commences", desc: "Teams integrate Twilio/Vobiz SIP trunks, Sarvam/Deepgram STT, and SnapServe runtime." },
+  { time: "01:00 PM", title: "Technical Mentor Rounds", desc: "1-on-1 architecture feedback with industry CTOs and telephony engineers." },
+  { time: "03:30 PM", title: "Code Freeze & Pre-Screening", desc: "Live latency benchmarking and automated conversational stress tests." },
+  { time: "04:30 PM", title: "Grand Finale Live Stage Demos", desc: "Top finalist teams demonstrate live inbound and outbound calls before the jury." },
+  { time: "05:30 PM", title: "Jury Deliberation & Awards Ceremony", desc: "Announcement of winners, ₹1,00,000 prize distribution, and pilot onboarding." },
+  { time: "06:00 PM", title: "Summit Adjourns & Enterprise Mixer", desc: "Closing remarks, networking with enterprise CIOs/CTOs, and celebratory reception." },
+];
+
+const PRIZES = [
+  {
+    rank: "Grand Champion",
+    title: "1st Place Winner",
+    amount: "₹50,000",
+    badge: "Champion",
+    perks: "Cash Grant + Enterprise Pilot Contract + $5,000 SnapServe API Credits",
+    featured: true,
+  },
+  {
+    rank: "First Runner-up",
+    title: "2nd Place Winner",
+    amount: "₹30,000",
+    badge: "Runner Up",
+    perks: "Cash Grant + Dedicated Architecture Mentorship + $2,500 SnapServe API Credits",
+    featured: false,
+  },
+  {
+    rank: "Special Track Award",
+    title: "Best Vernacular Voice Agent",
+    amount: "₹20,000",
+    badge: "Vernacular Excellence",
+    perks: "Special Category Prize for Outstanding Tanglish / Hinglish Conversational Fluidity",
+    featured: false,
+  },
+];
+
+export default function VoiceathonPage() {
+  const [selectedJudgeIdx, setSelectedJudgeIdx] = useState(0);
+  const selectedJudge = JUDGES[selectedJudgeIdx];
+
+  return (
+    <div className="relative min-h-screen bg-[#070709] text-[#fafafa] selection:bg-[#14B8A6] selection:text-black">
+      <Seo
+        title="Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe"
+        description="Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe."
+        pathname="/voice-a-thon"
+        keywords={[
+          "voiceathon 2026",
+          "voice ai hackathon",
+          "snapserve voiceathon",
+          "voice agent summit india",
+          "indian speech ai hackathon",
+          "bharanidharan proconnect",
+          "dharun zenxai",
+          "kannan smartail",
+          "prasath telecmi",
+          "haarishkumar raido",
+        ]}
+      />
+
+      {/* ------------------------------------------------------------------ */}
+      {/* 1. CINEMATIC BACKGROUND: CONCENTRIC ACOUSTIC RESONATORS & SPOTLIGHT */}
+      {/* ------------------------------------------------------------------ */}
+      <div className="pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
+        {/* Top-down Stage Spotlight Beam */}
+        <div className="absolute -top-32 left-1/2 h-[45rem] w-[70rem] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(20,184,166,0.18)_0%,rgba(56,189,248,0.06)_40%,transparent_75%)] blur-[120px]" />
+
+        {/* Concentric Acoustic Rings (Bolna Symphony Style) */}
+        <div className="absolute -top-48 left-1/2 h-[900px] w-[900px] -translate-x-1/2 rounded-full border border-[#14B8A6]/10 opacity-60" />
+        <div className="absolute -top-36 left-1/2 h-[750px] w-[750px] -translate-x-1/2 rounded-full border border-[#14B8A6]/15 opacity-50" />
+        <div className="absolute -top-24 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full border border-[#14B8A6]/20 opacity-40" />
+
+        {/* Ambient Subtle Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#27272a15_1px,transparent_1px),linear-gradient(to_bottom,#27272a15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+      </div>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* 2. TOP CONFERENCE NAVBAR                                           */}
+      {/* ------------------------------------------------------------------ */}
+      <header className="sticky top-0 z-50 border-b border-[#27272a]/80 bg-[#070709]/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215] px-3.5 py-1.5 text-xs font-medium text-[#a1a1aa] transition-colors hover:border-[#14B8A6]/50 hover:text-white"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to Home</span>
+            </Link>
+            <div className="h-4 w-[1px] bg-[#27272a]" />
+            <SnapServeLogo variant="full" size="sm" asLink href="/" />
+          </div>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="#jury"
+              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
+            >
+              Grand Jury
+            </a>
+            <a
+              href="#prizes"
+              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
+            >
+              Prizes & Grants
+            </a>
+            <a
+              href="#agenda"
+              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
+            >
+              Day Schedule
+            </a>
+            <Link
+              to={PARTNER_URL}
+              className="hidden rounded-full border border-[#27272a] px-3.5 py-1.5 text-xs text-[#a1a1aa] transition-colors hover:text-white md:inline-flex"
+            >
+              Partner with us
+            </Link>
+            <a
+              href={SIGNUP_URL}
+              className="rounded-full bg-[#14B8A6] px-4 py-1.5 text-xs font-bold text-black transition-all hover:bg-[#14B8A6]/90 hover:shadow-[0_0_20px_rgba(20,184,166,0.3)]"
+              rel="noopener noreferrer"
+            >
+              Start Free
+            </a>
+          </div>
+        </div>
+      </header>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* 3. HERO: KEYNOTE SUMMIT & HOLOGRAPHIC VIP PASS                     */}
+      {/* ------------------------------------------------------------------ */}
+      <main className="relative z-10 mx-auto max-w-6xl px-6 pt-12 pb-20 md:pt-20 md:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Left Hero Content */}
+          <div className="lg:col-span-7">
+            <div className="flex items-center gap-4 text-xs font-medium text-[#71717a]">
+              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+                <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
+                Bengaluru & Chennai
+              </span>
+              <span>·</span>
+              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+                <Shield className="h-3.5 w-3.5 text-[#14B8A6]" />
+                Powered by SnapServe Engine
+              </span>
+            </div>
+
+            <h1 className="mt-6 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[62px] lg:leading-[1.08]">
+              Architecting the future of{" "}
+              <span className="brand-gradient-text">Conversational Voice AI.</span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#a1a1aa] md:text-[18px]">
+              Voice-A-Thon 2026 brought together premier engineers, speech researchers, and startup founders to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
+            </p>
+
+            {/* Quick Stats Grid */}
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Teams</span>
+                <div className="mt-1 text-2xl font-bold text-white">50+</div>
+                <p className="text-[11px] text-[#14B8A6]">Top Builders</p>
+              </div>
+              <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Prize Pool</span>
+                <div className="mt-1 text-2xl font-bold text-white">₹1,00,000</div>
+                <p className="text-[11px] text-[#14B8A6]">Grants & Credits</p>
+              </div>
+              <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Latency</span>
+                <div className="mt-1 text-2xl font-bold text-white">&lt; 350ms</div>
+                <p className="text-[11px] text-[#14B8A6]">Target Threshold</p>
+              </div>
+              <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Grand Jury</span>
+                <div className="mt-1 text-2xl font-bold text-white">5 Titans</div>
+                <p className="text-[11px] text-[#14B8A6]">CIOs & CTOs</p>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#jury"
+                className="inline-flex items-center gap-2 rounded-full bg-[#14B8A6] px-6 py-3 text-xs font-bold uppercase tracking-wider text-black transition-all hover:bg-[#14B8A6]/90 hover:shadow-[0_0_25px_rgba(20,184,166,0.3)]"
+              >
+                <span>Meet the 5 Grand Jury Leaders</span>
+                <ChevronRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#prizes"
+                className="inline-flex items-center gap-2 rounded-full border border-[#27272a] bg-[#121215] px-5 py-3 text-xs font-semibold text-[#fafafa] transition-colors hover:border-[#14B8A6]/40 hover:text-white"
+              >
+                <Trophy className="h-3.5 w-3.5 text-[#14B8A6]" />
+                <span>View Prizes & Grants</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Holographic VIP Event Pass */}
+          <div className="relative flex justify-center lg:col-span-5">
+            <div className="relative w-full max-w-[370px]">
+              {/* Decorative Glow */}
+              <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#14B8A6]/30 via-[#38bdf8]/20 to-[#6366f1]/30 opacity-75 blur-xl" />
+
+              {/* Holographic Pass Body */}
+              <div className="relative overflow-hidden rounded-3xl border border-[#14B8A6]/40 bg-gradient-to-br from-[#1c1c24] via-[#121217] to-[#09090b] p-6 shadow-2xl backdrop-blur-2xl">
+                {/* Holographic Sheen */}
+                <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
+
+                {/* Pass Header */}
+                <div className="flex items-center justify-between border-b border-[#27272a] pb-4">
+                  <div className="flex items-center gap-2">
+                    <SnapServeLogo variant="mark" size="sm" />
+                    <div>
+                      <div className="text-[12px] font-black uppercase tracking-wider text-white">Voice-A-Thon</div>
+                      <div className="text-[9px] font-mono text-[#14B8A6]">OFFICIAL SUMMIT PASS</div>
+                    </div>
+                  </div>
+                  <div className="rounded-md border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-1 font-mono text-[10px] font-bold text-[#14B8A6]">
+                    #VAT-2026-LIVE
+                  </div>
+                </div>
+
+                {/* Pass Center Content */}
+                <div className="py-6">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#71717a]">
+                    Accredited Tier
+                  </span>
+                  <div className="mt-1 text-xl font-extrabold tracking-tight text-white">
+                    Grand Jury & Elite Builders
+                  </div>
+                  <p className="mt-1 text-xs text-[#a1a1aa]">
+                    Live Telephony Benchmarking · Chennai & Bengaluru
+                  </p>
+
+                  {/* 5 Judge Mini Avatars Floating */}
+                  <div className="mt-5 rounded-2xl border border-[#27272a] bg-[#09090b]/80 p-3.5">
+                    <div className="flex items-center justify-between text-[11px] text-[#71717a]">
+                      <span>Grand Jury Panel:</span>
+                      <span className="font-semibold text-[#14B8A6]">5 Leaders</span>
+                    </div>
+                    <div className="mt-2.5 flex -space-x-2 overflow-hidden">
+                      {JUDGES.map((j) => (
+                        <img
+                          key={j.id}
+                          src={j.image}
+                          alt={j.name}
+                          width={36}
+                          height={36}
+                          className="inline-block h-9 w-9 rounded-full border-2 border-[#121217] object-cover object-top"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Pass Telemetry Footer */}
+                <div className="border-t border-[#27272a] pt-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-[10px] uppercase tracking-wider text-[#71717a]">Evaluation Protocol</div>
+                      <div className="font-mono text-xs font-semibold text-[#14B8A6]">Zero-Drop Stateful Voice</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-[10px] uppercase tracking-wider text-[#71717a]">Latency Threshold</div>
+                      <div className="font-mono text-xs font-semibold text-white">P95 &lt; 350ms</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between border-t border-[#27272a]/60 pt-2.5 text-[10px] font-mono text-[#71717a]">
+                    <span>STATUS: DELIBERATION COMPLETE</span>
+                    <span className="flex items-center gap-1.5 font-semibold text-[#14B8A6]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#14B8A6] animate-pulse" />
+                      AUDITED
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* 4. SECTION 1: THE GRAND JURY EXECUTIVE STAGE                     */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="jury" className="mt-28 border-t border-[#27272a] pt-20">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
+                <Shield className="h-3.5 w-3.5" />
+                The Evaluation Authority
+              </span>
+              <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
+                Meet the 5 Grand Jury Leaders
+              </h2>
+              <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
+                Every prototype was tested live on real telephony SIP trunks by executive CIOs, distributed cloud pioneers, and AI startup founders.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 rounded-xl border border-[#27272a] bg-[#121215] px-4 py-2 text-xs text-[#a1a1aa]">
+              <CheckCircle2 className="h-4 w-4 text-[#14B8A6]" />
+              <span>Independent Industry Deliberation</span>
+            </div>
+          </div>
+
+          {/* Interactive Grand Jury Stage (Senior UI/UX Spotlight) */}
+          <div className="mt-12 overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#141419] via-[#0d0d10] to-[#070709] p-6 shadow-2xl md:p-10">
+            {/* Split Stage: High Resolution Portrait + Deep Executive Profile */}
+            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+              {/* Left Portrait Stage Column */}
+              <div className="flex justify-center lg:col-span-5">
+                <div className="relative h-[380px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#1a1a22] to-[#09090b] shadow-2xl sm:h-[420px]">
+                  {/* Halo Aura */}
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.25)_0%,transparent_75%)]" />
+
+                  {/* High Quality Cutout Image */}
+                  <div className="relative h-full w-full p-4 flex items-end justify-center">
+                    <img
+                      key={selectedJudge.id}
+                      src={selectedJudge.image}
+                      alt={selectedJudge.name}
+                      width={340}
+                      height={420}
+                      className="h-full w-full object-contain object-bottom transition-all duration-500 animate-fadeIn"
+                    />
+                  </div>
+
+                  {/* Card Bottom Tag */}
+                  <div className="pointer-events-none absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-5 pt-8">
+                    <div className="flex items-center justify-between text-xs">
+                      <div>
+                        <div className="font-bold text-white text-[15px]">{selectedJudge.name}</div>
+                        <div className="text-[12px] font-semibold text-[#14B8A6]">{selectedJudge.company}</div>
+                      </div>
+                      <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-0.5 font-mono text-[11px] text-[#14B8A6]">
+                        JURY #{selectedJudgeIdx + 1}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Profile Details */}
+              <div className="flex flex-col justify-between lg:col-span-7">
+                <div>
+                  <h3 className="text-[30px] font-black tracking-tight text-white sm:text-[36px]">
+                    {selectedJudge.name}
+                  </h3>
+                  <p className="text-[16px] font-medium text-[#a1a1aa]">
+                    {selectedJudge.title} ·{" "}
+                    <span className="font-semibold text-[#14B8A6]">{selectedJudge.company}</span>
+                  </p>
+
+                  <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b]/80 px-4 py-2 font-mono text-xs text-[#a1a1aa]">
+                    <span className="text-[#71717a]">Hackathon Focus:</span>{" "}
+                    <span className="text-white font-medium">{selectedJudge.track}</span>
+                  </div>
+
+                  {/* Deliberation Quote */}
+                  <div className="relative mt-6 rounded-2xl border border-[#27272a] bg-[#09090b] p-5">
+                    <div className="text-xs font-bold uppercase tracking-wider text-[#14B8A6] flex items-center gap-1.5 mb-2">
+                      <Mic className="h-3.5 w-3.5" />
+                      Evaluation Perspective:
+                    </div>
+                    <p className="text-[14.5px] italic leading-relaxed text-[#d4d4d8]">
+                      &ldquo;{selectedJudge.quote}&rdquo;
+                    </p>
+                  </div>
+
+                  {/* Verified Credentials */}
+                  <div className="mt-5 space-y-2">
+                    {selectedJudge.credentials.map((cred, i) => (
+                      <div key={i} className="flex items-center gap-2.5 text-xs text-[#a1a1aa]">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-[#14B8A6]" />
+                        <span>{cred}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Tags */}
+                  <div className="mt-5 flex flex-wrap gap-1.5">
+                    {selectedJudge.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="rounded-md border border-[#27272a] bg-[#121215] px-2.5 py-1 font-mono text-[11px] text-[#71717a]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Social Button */}
+                <div className="mt-8 flex items-center gap-4 border-t border-[#27272a] pt-6">
+                  {selectedJudge.linkedin ? (
+                    <a
+                      href={selectedJudge.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-xl border border-[#14B8A6]/50 bg-[#14B8A6]/10 px-5 py-2.5 text-xs font-semibold text-[#14B8A6] transition-all hover:bg-[#14B8A6]/20"
+                    >
+                      <FaLinkedin className="h-4 w-4" />
+                      <span>Connect on LinkedIn</span>
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  ) : (
+                    <span className="text-xs text-[#71717a]">Executive Profile Verified</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Switch Judge Ribbon (All 5 Judges visible) */}
+            <div className="mt-10 border-t border-[#27272a] pt-6">
+              <div className="mb-3 flex items-center justify-between text-xs text-[#71717a]">
+                <span className="font-semibold text-[#a1a1aa]">Switch Grand Jury Spotlight:</span>
+                <span>Click any judge to view details</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+                {JUDGES.map((judge, idx) => (
+                  <button
+                    key={judge.id}
+                    onClick={() => setSelectedJudgeIdx(idx)}
+                    className={`group relative flex items-center gap-3 rounded-2xl border p-3 text-left transition-all duration-300 ${
+                      idx === selectedJudgeIdx
+                        ? "border-[#14B8A6] bg-[#14B8A6]/10 shadow-[0_0_20px_rgba(20,184,166,0.2)]"
+                        : "border-[#27272a] bg-[#121215] hover:border-[#14B8A6]/40 hover:bg-[#16161b]"
+                    }`}
+                  >
+                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#27272a] bg-[#070709]">
+                      <img
+                        src={judge.image}
+                        alt={judge.name}
+                        width={48}
+                        height={48}
+                        className="h-full w-full object-cover object-top"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-xs font-bold text-white">{judge.name}</div>
+                      <div className="truncate text-[11px] text-[#14B8A6]">{judge.company}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        {/* ---------------------------------------------------------------- */}
+        {/* 7. SECTION 4: PRIZE POOL & PODIUM                                */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="prizes" className="mt-28 border-t border-[#27272a] pt-20">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
+              Awards & Pilot Grants
+            </span>
+            <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
+              ₹1,00,000 Prize Pool & Enterprise Pilots
+            </h2>
+            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
+              Winners received cash rewards, dedicated CTO mentorship, and API credits to deploy their voice agents to real paying customers.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-3">
+            {PRIZES.map((prize, idx) => (
+              <div
+                key={prize.title}
+                className={`relative flex flex-col justify-between rounded-3xl border p-6 transition-all duration-300 ${
+                  prize.featured
+                    ? "border-[#14B8A6] bg-gradient-to-b from-[#14B8A6]/10 via-[#121215] to-[#09090b] shadow-2xl shadow-[#14B8A6]/10"
+                    : "border-[#27272a] bg-[#121215] hover:border-[#14B8A6]/40"
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[#71717a]">
+                      {prize.rank}
+                    </span>
+                    <span
+                      className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase ${
+                        prize.featured
+                          ? "bg-[#14B8A6] text-black"
+                          : "border border-[#27272a] bg-[#09090b] text-[#a1a1aa]"
+                      }`}
+                    >
+                      {prize.badge}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 text-3xl font-black tracking-tight text-white">
+                    {prize.amount}
+                  </div>
+                  <h3 className="mt-1 text-sm font-semibold text-[#14B8A6]">{prize.title}</h3>
+
+                  <p className="mt-4 text-xs leading-relaxed text-[#a1a1aa]">
+                    {prize.perks}
+                  </p>
+                </div>
+
+                <div className="mt-6 border-t border-[#27272a] pt-4 text-[11px] font-mono text-[#71717a]">
+                  Disbursed post-deliberation
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* 8. SECTION 5: EVENT AGENDA TIMELINE                              */}
+        {/* ---------------------------------------------------------------- */}
+        <section id="agenda" className="mt-28 border-t border-[#27272a] pt-20">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
+              Day Schedule · 09:00 AM – 06:00 PM
+            </span>
+            <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
+              Full Summit Timeline
+            </h2>
+            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
+              An intensive 9:00 AM – 6:00 PM sprint from problem revelation to live stage inbound call testing.
+            </p>
+          </div>
+
+          <div className="mt-10 overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215]">
+            {AGENDA.map((item, i) => (
+              <div
+                key={i}
+                className="flex flex-col justify-between gap-3 border-b border-[#27272a] p-5 last:border-none sm:flex-row sm:items-center sm:px-8"
+              >
+                <div className="flex items-center gap-4">
+                  <span className="font-mono text-xs font-bold text-[#14B8A6]">{item.time}</span>
+                  <div className="h-3 w-[1px] bg-[#27272a]" />
+                  <span className="text-sm font-bold text-white">{item.title}</span>
+                </div>
+                <p className="text-xs text-[#a1a1aa] sm:text-right">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* 9. SECTION 6: ATMOSPHERE & LIVE CALL DEMO VENUE                  */}
+        {/* ---------------------------------------------------------------- */}
+        <section className="mt-28 border-t border-[#27272a] pt-20">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
+              Venue & Execution
+            </span>
+            <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
+              The Testing Arena
+            </h2>
+            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
+              Atmosphere from the live evaluation rooms, sound check booths, and developer pits.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-[#14B8A6]/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14B8A6]/10 text-[#14B8A6]">
+                <Radio className="h-5 w-5" />
+              </div>
+              <h4 className="mt-4 text-base font-bold text-white">Live Call Testing Floor</h4>
+              <p className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
+                Teams conducted real-time SIP trunk benchmarks under varied 4G/5G mobile connection latencies.
+              </p>
+            </div>
+
+            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-[#14B8A6]/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14B8A6]/10 text-[#14B8A6]">
+                <Mic className="h-5 w-5" />
+              </div>
+              <h4 className="mt-4 text-base font-bold text-white">Multilingual Dialers in Action</h4>
+              <p className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
+                Acoustic verification across Tamil, Hindi, and English code-mixed speech models.
+              </p>
+            </div>
+
+            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-[#14B8A6]/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14B8A6]/10 text-[#14B8A6]">
+                <Code2 className="h-5 w-5" />
+              </div>
+              <h4 className="mt-4 text-base font-bold text-white">SnapServe Runtime Engine</h4>
+              <p className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
+                Zero-drop caller memory engine and dynamic tool execution powering the finalist prototypes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------------- */}
+        {/* 10. FINAL CALL TO ACTION                                         */}
+        {/* ---------------------------------------------------------------- */}
+        <section className="mt-28 overflow-hidden rounded-3xl border border-[#14B8A6]/40 bg-gradient-to-br from-[#14B8A6]/15 via-[#121215] to-[#070709] p-8 text-center sm:p-14">
+          <div className="mx-auto max-w-2xl">
+            <h2 className="text-[32px] font-extrabold tracking-tight text-white sm:text-[44px]">
+              Ready to deploy production-grade Voice AI in under 10 minutes?
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-[#a1a1aa]">
+              Join over 50+ enterprise teams and top engineers building sub-350ms, stateful voice agents across Indian languages.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+              <a
+                href={SIGNUP_URL}
+                className="rounded-full bg-[#14B8A6] px-7 py-3.5 text-sm font-bold text-black transition-all hover:bg-[#14B8A6]/90 hover:shadow-[0_0_25px_rgba(20,184,166,0.35)]"
+                rel="noopener noreferrer"
+              >
+                Start Building Free
+              </a>
+              <Link
+                to={PARTNER_URL}
+                className="rounded-full border border-[#27272a] bg-[#121215] px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-[#14B8A6]/50"
+              >
+                Partner or Host a Voice-A-Thon
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div className="relative z-10 border-t border-[#27272a] bg-[#070709]">
+        <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+          <SiteFooter />
+        </div>
+      </div>
+    </div>
+  );
+}

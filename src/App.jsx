@@ -13,6 +13,7 @@ const BlogIndexPage = lazy(() => import("./pages/BlogIndexPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 const FunnelPage = lazy(() => import("./pages/FunnelPage"));
 const PartnerPage = lazy(() => import("./pages/PartnerPage"));
+const VoiceathonPage = lazy(() => import("./pages/VoiceathonPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 function ScrollToTop() {
@@ -47,6 +48,8 @@ export default function App() {
           <Route path="/blog" element={<BlogIndexPage />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/solutions/:slug" element={<FunnelPage />} />
+          <Route path="/voice-a-thon" element={<VoiceathonPage />} />
+          <Route path="/voiceathon" element={<VoiceathonPage />} />
           <Route path="/partner" element={<PartnerPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />

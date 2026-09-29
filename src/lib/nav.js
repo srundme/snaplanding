@@ -16,8 +16,10 @@ export const MOBILE_NAV = [
   { label: "Demos", href: "#meeting-bot" },
   { label: "Integrations", href: "#integrations-stack" },
   { label: "Industries", href: "#industries" },
+  { label: "Voice-A-Thon", href: "/voice-a-thon" },
   { label: "Trust", href: "#trust" },
   { label: "Pricing", href: "#pricing" },
   { label: "Answers", href: "#answers" },
   { label: "Partner", href: PARTNER_URL },
 ];
+
