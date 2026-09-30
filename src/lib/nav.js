@@ -4,7 +4,6 @@ import { PARTNER_URL } from "./links";
 export const SIDEBAR_NAV = [
   { label: "Platform", href: "#differentiator" },
   { label: "Live demos", href: "#meeting-bot" },
-  { label: "Voice-A-Thon", href: "#voiceathon", accent: true },
   { label: "Integrations", href: "#integrations-stack" },
   { label: "Trust", href: "#trust" },
   { label: "Pricing", href: "#pricing" },
@@ -15,9 +14,9 @@ export const SIDEBAR_NAV = [
 export const MOBILE_NAV = [
   { label: "Platform", href: "#differentiator" },
   { label: "Demos", href: "#meeting-bot" },
-  { label: "Voice-A-Thon", href: "#voiceathon" },
   { label: "Integrations", href: "#integrations-stack" },
   { label: "Industries", href: "#industries" },
+  { label: "Voice-A-Thon", href: "/voiceathon" },
   { label: "Trust", href: "#trust" },
   { label: "Pricing", href: "#pricing" },
   { label: "Answers", href: "#answers" },

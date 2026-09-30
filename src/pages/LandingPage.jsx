@@ -18,7 +18,6 @@ import GlowButton from "../components/GlowButton";
 import SiteFooter from "../components/SiteFooter";
 import FreeMinutesPopup from "../components/FreeMinutesPopup";
 import SnapServeLogo from "../components/SnapServeLogo";
-import VoiceathonSection from "../components/VoiceathonSection";
 import { Reveal } from "../components/motion/Reveal";
 import { Link } from "react-router-dom";
 import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
@@ -120,7 +119,6 @@ export default function LandingPage() {
             <MeetingBotSection />
             <MemoryCRMSection />
             <SmartReconnectSection />
-            <VoiceathonSection />
             <IntegrationsSection />
             <IndustriesSection />
             <TrustSecuritySection />

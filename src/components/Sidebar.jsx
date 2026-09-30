@@ -10,6 +10,7 @@ import { SIDEBAR_NAV } from "../lib/nav";
 const links = SIDEBAR_NAV;
 
 const externalLinks = [
+  { label: "Voice-A-Thon", href: "/voiceathon" },
   { label: "Partner with us", href: PARTNER_URL },
 ];
 

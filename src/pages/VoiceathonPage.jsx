@@ -177,7 +177,7 @@ export default function VoiceathonPage() {
       <Seo
         title="Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe"
         description="Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe."
-        pathname="/voice-a-thon"
+        pathname="/voiceathon"
         keywords={[
           "voiceathon 2026",
           "voice ai hackathon",
