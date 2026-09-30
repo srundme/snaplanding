@@ -10,7 +10,6 @@ import { SIDEBAR_NAV } from "../lib/nav";
 const links = SIDEBAR_NAV;
 
 const externalLinks = [
-  { label: "Voice-A-Thon", href: "/voice-a-thon", isVoiceathon: true },
   { label: "Partner with us", href: PARTNER_URL },
 ];
 
@@ -106,7 +105,7 @@ export default function Sidebar() {
               href={link.href}
               onClick={() => handleNavClick(link.href)}
               aria-current={activeHref === link.href ? "true" : undefined}
-              className="side-rail-link"
+              className={`side-rail-link ${link.accent ? "side-rail-link--partner" : ""}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.08 + i * 0.04 }}

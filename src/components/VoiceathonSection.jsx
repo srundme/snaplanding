@@ -130,7 +130,7 @@ export default function VoiceathonSection() {
   return (
     <section
       id="voiceathon"
-      className="relative overflow-hidden border-b border-line bg-[#09090b] px-6 py-20 md:px-14 md:py-28"
+      className="relative overflow-hidden border-b border-line bg-[#09090b] px-6 py-20 scroll-mt-12 md:px-14 md:py-28 md:scroll-mt-16"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       aria-label="Event Spotlight: Voice-A-Thon 2026"
@@ -326,7 +326,7 @@ export default function VoiceathonSection() {
                     to="/voice-a-thon"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#14B8A6] hover:underline"
                   >
-                    <span>View all 5 judges on dedicated page</span>
+                    <span>Full summit archive & prizes</span>
                     <ChevronRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
