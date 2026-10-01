@@ -148,7 +148,7 @@ export default function VoiceathonSection() {
               <span className="hidden h-4 w-[1px] bg-line sm:inline-block" />
               <div className="inline-flex items-center gap-2 text-xs text-ink-3">
                 <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
-                <span>Annual Edition</span>
+                <span>Held September 5</span>
                 <span>·</span>
                 <MapPin className="h-3.5 w-3.5 text-[#14B8A6]" />
                 <span>Chennai & Bengaluru</span>

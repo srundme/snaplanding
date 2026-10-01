@@ -4,6 +4,7 @@ import {
   Trophy,
   ArrowLeft,
   Calendar,
+  MapPin,
   CheckCircle2,
   ExternalLink,
   Code2,
@@ -259,9 +260,14 @@ export default function VoiceathonPage() {
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left Hero Content */}
           <div className="lg:col-span-7">
-            <div className="flex items-center gap-4 text-xs font-medium text-[#71717a]">
+            <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-[#71717a]">
               <span className="flex items-center gap-1.5 text-[#a1a1aa]">
                 <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
+                Held on September 5
+              </span>
+              <span>·</span>
+              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+                <MapPin className="h-3.5 w-3.5 text-[#14B8A6]" />
                 Bengaluru & Chennai
               </span>
               <span>·</span>
@@ -277,7 +283,7 @@ export default function VoiceathonPage() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#a1a1aa] md:text-[18px]">
-              Voice-A-Thon 2026 brought together premier engineers, speech researchers, and startup founders to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
+              Held on September 5, Voice-A-Thon brought together premier engineers, speech researchers, and startup founders to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
             </p>
 
             {/* Quick Stats Grid */}
@@ -357,7 +363,7 @@ export default function VoiceathonPage() {
                     Grand Jury & Elite Builders
                   </div>
                   <p className="mt-1 text-xs text-[#a1a1aa]">
-                    Live Telephony Benchmarking · Chennai & Bengaluru
+                    Held on September 5 · Live Telephony Benchmarking · Chennai & Bengaluru
                   </p>
 
                   {/* 5 Judge Mini Avatars Floating */}
@@ -642,7 +648,7 @@ export default function VoiceathonPage() {
         <section id="agenda" className="mt-28 border-t border-[#27272a] pt-20">
           <div>
             <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
-              Day Schedule · 09:00 AM – 06:00 PM
+              Day Schedule · Held September 5 · 09:00 AM – 06:00 PM
             </span>
             <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
               Full Summit Timeline

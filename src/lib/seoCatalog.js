@@ -136,7 +136,7 @@ export function getAllSeoDocuments() {
       path: "/voiceathon",
       title: "Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe",
       description:
-        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe.",
+        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit held on September 5, powered by SnapServe.",
       keywords: [
         "voiceathon 2026",
         "voice ai hackathon",
@@ -148,13 +148,13 @@ export function getAllSeoDocuments() {
       type: "website",
       jsonLd: buildVoiceathonGraph(),
       summary:
-        "Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
+        "Voice-A-Thon 2026, held on September 5 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
     },
     {
       path: "/voice-a-thon",
       title: "Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe",
       description:
-        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe.",
+        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit held on September 5, powered by SnapServe.",
       keywords: [
         "voiceathon 2026",
         "voice ai hackathon",
@@ -166,7 +166,7 @@ export function getAllSeoDocuments() {
       type: "website",
       jsonLd: buildVoiceathonGraph(),
       summary:
-        "Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
+        "Voice-A-Thon 2026, held on September 5 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
     },
   ];
 
