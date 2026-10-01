@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Trophy,
@@ -7,6 +7,7 @@ import {
   ShieldCheck,
   ExternalLink,
   Quote,
+  ChevronLeft,
   ChevronRight,
   Radio,
   Calendar,
@@ -18,20 +19,20 @@ import SectionLabel from "./SectionLabel";
 
 const JUDGES = [
   {
-    id: "bharanidharan",
-    name: "Bharanidharan N., PMP",
-    title: "Chief Information Officer",
-    company: "ProConnect Supply Chain Solutions Ltd",
-    image: "/images/voiceathon/bharanidharan.png",
-    badge: "Innovative CIO 2024",
-    alum: "BITS Pilani Alum",
-    focus: "Enterprise Scale & Reliability",
+    id: "haarishkumar",
+    name: "Haarishkumar Bhaskar",
+    title: "Founder",
+    company: "FounderEdge",
+    image: "/images/voiceathon/haarishkumar.png",
+    badge: "FounderEdge",
+    alum: "AI Product Dev · RAIDO",
+    focus: "GenAI Product Innovation",
     quote:
-      "In enterprise logistics and mission-critical workflows, latency and accuracy are non-negotiable. Voice-A-Thon set an uncompromising standard for sub-second agent responses and stateful caller recovery.",
+      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers.",
     credentials:
-      "20+ years enterprise IT leadership. Formerly VP of Enterprise Applications at Redington India, Account Delivery Manager at DXC Germany, and Head of Development Factory at HPE.",
-    tags: ["Enterprise IT", "PMP & ITIL", "Supply Chain Systems", "Delivery Management"],
-    linkedin: "https://www.linkedin.com/in/bharanidharan-n-pmp-59393414",
+      "Founder at FounderEdge and AI Product Developer at RAIDO specializing in Generative AI, autonomous agent products, and rapidly transforming early-stage prototypes into scalable market solutions.",
+    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
+    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
   },
   {
     id: "dharun",
@@ -50,20 +51,20 @@ const JUDGES = [
     linkedin: "https://www.linkedin.com/in/dharun-jayakrishnan",
   },
   {
-    id: "haarishkumar",
-    name: "Haarishkumar Bhaskar",
-    title: "Founder",
-    company: "FounderEdge",
-    image: "/images/voiceathon/haarishkumar.png",
-    badge: "FounderEdge",
-    alum: "Product Dev · RYDDO",
-    focus: "GenAI Product Innovation",
+    id: "bharanidharan",
+    name: "Bharanidharan N., PMP",
+    title: "Chief Information Officer",
+    company: "ProConnect Supply Chain Solutions Ltd",
+    image: "/images/voiceathon/bharanidharan.png",
+    badge: "Innovative CIO 2024",
+    alum: "BITS Pilani Alum",
+    focus: "Enterprise Scale & Reliability",
     quote:
-      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers.",
+      "In enterprise logistics and mission-critical workflows, latency and accuracy are non-negotiable. Voice-A-Thon set an uncompromising standard for sub-second agent responses and stateful caller recovery.",
     credentials:
-      "Founder at FounderEdge and Product Developer at RYDDO specializing in Generative AI, autonomous agent products, and rapidly transforming early-stage prototypes into scalable market solutions.",
-    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
-    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
+      "20+ years enterprise IT leadership. Formerly VP of Enterprise Applications at Redington India, Account Delivery Manager at DXC Germany, and Head of Development Factory at HPE.",
+    tags: ["Enterprise IT", "PMP & ITIL", "Supply Chain Systems", "Delivery Management"],
+    linkedin: "https://www.linkedin.com/in/bharanidharan-n-pmp-59393414",
   },
   {
     id: "kannan",
@@ -108,25 +109,15 @@ const METRICS = [
 
 export default function VoiceathonSection() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const activeJudge = JUDGES[activeIdx];
-  const timerRef = useRef(null);
 
-  // Auto-advance spotlight every 6s unless user hovers
-  useEffect(() => {
-    if (isPaused) return undefined;
-    timerRef.current = setInterval(() => {
-      setActiveIdx((prev) => (prev + 1) % JUDGES.length);
-    }, 3000);
-    return () => clearInterval(timerRef.current);
-  }, [isPaused]);
+  const nextJudge = () => setActiveIdx((prev) => (prev + 1) % JUDGES.length);
+  const prevJudge = () => setActiveIdx((prev) => (prev - 1 + JUDGES.length) % JUDGES.length);
 
   return (
     <section
       id="voiceathon"
       className="relative overflow-hidden border-b border-line bg-[#09090b] px-6 py-20 scroll-mt-12 md:px-14 md:py-28 md:scroll-mt-16"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
       aria-label="Event Spotlight: Voice-A-Thon 2026"
     >
       {/* Concentric Acoustic Glow Rings (Bolna & Silicon Valley Keynote Style) */}
@@ -235,7 +226,7 @@ export default function VoiceathonSection() {
                     <button
                       key={i}
                       onClick={() => setActiveIdx(i)}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                         i === activeIdx ? "w-6 bg-[#14B8A6]" : "w-1.5 bg-line-strong hover:bg-ink-3"
                       }`}
                       aria-label={`Go to judge ${i + 1}`}

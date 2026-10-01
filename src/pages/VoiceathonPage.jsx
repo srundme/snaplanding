@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Trophy,
@@ -11,6 +11,7 @@ import {
   Mic,
   Shield,
   Radio,
+  ChevronLeft,
   ChevronRight,
   Users,
 } from "lucide-react";
@@ -22,24 +23,25 @@ import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
 
 const JUDGES = [
   {
-    id: "bharanidharan",
-    name: "Bharanidharan N., PMP",
-    title: "Chief Information Officer",
-    company: "ProConnect Supply Chain Solutions Ltd",
-    image: "/images/voiceathon/bharanidharan.png",
-    badge: "Innovative CIO 2024",
-    alum: "BITS Pilani Alum",
-    track: "Enterprise Architecture & Mission-Critical Reliability",
+    id: "haarishkumar",
+    name: "Haarishkumar Bhaskar",
+    title: "Founder",
+    company: "FounderEdge",
+    image: "/images/voiceathon/haarishkumar.png",
+    badge: "FounderEdge",
+    alum: "AI Product Dev · RAIDO",
+    track: "GenAI Product Innovation & Autonomous Agents",
     quote:
-      "In enterprise logistics and mission-critical workflows, latency and accuracy are non-negotiable. Voice-A-Thon set an uncompromising standard for sub-second agent responses, zero dropped state, and bulletproof telephony integration.",
-    bio: "20+ years of enterprise IT leadership. Formerly VP of Enterprise Applications at Redington India, Account Delivery Manager at DXC Technology (Germany), and Head of Development Factory at HPE managing multi-million-dollar offshore operations.",
+      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers. That founder edge is what moves industries forward.",
+    bio: "Founder at FounderEdge and AI Product Developer at RAIDO. Building next-generation AI-driven software with deep expertise in Generative AI, autonomous agents, and turning technical prototypes into scalable market solutions.",
     credentials: [
-      "Certified PMP, ISO 9001 & ITIL V2 Lead",
-      "Former VP of Enterprise Apps, Redington India",
-      "Former Head of Development Factory, HPE",
+      "Founder at FounderEdge",
+      "AI Product Developer at RAIDO",
+      "Generative AI & Agentic Product Innovation Lead",
+      "Rapid Prototype to Enterprise Scale Specialization",
     ],
-    tags: ["Enterprise IT", "PMP & ITIL", "Supply Chain Systems", "Delivery Management"],
-    linkedin: "https://www.linkedin.com/in/bharanidharan-n-pmp-59393414",
+    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
+    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
   },
   {
     id: "dharun",
@@ -62,25 +64,24 @@ const JUDGES = [
     linkedin: "https://www.linkedin.com/in/dharun-jayakrishnan",
   },
   {
-    id: "haarishkumar",
-    name: "Haarishkumar Bhaskar",
-    title: "Founder",
-    company: "FounderEdge",
-    image: "/images/voiceathon/haarishkumar.png",
-    badge: "FounderEdge",
-    alum: "Product Dev · RYDDO",
-    track: "GenAI Product Innovation & Autonomous Agents",
+    id: "bharanidharan",
+    name: "Bharanidharan N., PMP",
+    title: "Chief Information Officer",
+    company: "ProConnect Supply Chain Solutions Ltd",
+    image: "/images/voiceathon/bharanidharan.png",
+    badge: "Innovative CIO 2024",
+    alum: "BITS Pilani Alum",
+    track: "Enterprise Architecture & Mission-Critical Reliability",
     quote:
-      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers. That founder edge is what moves industries forward.",
-    bio: "Founder at FounderEdge and AI Product Developer at RYDDO. Building next-generation AI-driven software with deep expertise in Generative AI, autonomous agents, and turning technical prototypes into scalable market solutions.",
+      "In enterprise logistics and mission-critical workflows, latency and accuracy are non-negotiable. Voice-A-Thon set an uncompromising standard for sub-second agent responses, zero dropped state, and bulletproof telephony integration.",
+    bio: "20+ years of enterprise IT leadership. Formerly VP of Enterprise Applications at Redington India, Account Delivery Manager at DXC Technology (Germany), and Head of Development Factory at HPE managing multi-million-dollar offshore operations.",
     credentials: [
-      "Founder at FounderEdge",
-      "Product Developer at RYDDO",
-      "Generative AI & Agentic Product Innovation Lead",
-      "Rapid Prototype to Enterprise Scale Specialization",
+      "Certified PMP, ISO 9001 & ITIL V2 Lead",
+      "Former VP of Enterprise Apps, Redington India",
+      "Former Head of Development Factory, HPE",
     ],
-    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
-    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
+    tags: ["Enterprise IT", "PMP & ITIL", "Supply Chain Systems", "Delivery Management"],
+    linkedin: "https://www.linkedin.com/in/bharanidharan-n-pmp-59393414",
   },
   {
     id: "kannan",
@@ -164,18 +165,33 @@ const PRIZES = [
 
 export default function VoiceathonPage() {
   const [selectedJudgeIdx, setSelectedJudgeIdx] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
   const selectedJudge = JUDGES[selectedJudgeIdx];
-  const timerRef = useRef(null);
 
-  // Auto-advance spotlight every 3 seconds (pauses on user hover)
+  const nextJudge = () => setSelectedJudgeIdx((prev) => (prev + 1) % JUDGES.length);
+  const prevJudge = () => setSelectedJudgeIdx((prev) => (prev - 1 + JUDGES.length) % JUDGES.length);
+
+  // Keyboard navigation for desktop users
   useEffect(() => {
-    if (isPaused) return;
-    timerRef.current = setInterval(() => {
-      setSelectedJudgeIdx((prev) => (prev + 1) % JUDGES.length);
-    }, 3000);
-    return () => clearInterval(timerRef.current);
-  }, [isPaused]);
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowRight") nextJudge();
+      if (e.key === "ArrowLeft") prevJudge();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Touch swipe support for mobile
+  const [touchStartX, setTouchStartX] = useState(null);
+  const handleTouchStart = (e) => {
+    setTouchStartX(e.changedTouches[0].screenX);
+  };
+  const handleTouchEnd = (e) => {
+    if (touchStartX === null) return;
+    const diff = touchStartX - e.changedTouches[0].screenX;
+    if (diff > 45) nextJudge();
+    else if (diff < -45) prevJudge();
+    setTouchStartX(null);
+  };
 
   return (
     <div className="relative min-h-screen bg-[#070709] text-[#fafafa] selection:bg-[#14B8A6] selection:text-black">
@@ -194,7 +210,7 @@ export default function VoiceathonPage() {
           "kannan smartail",
           "prasath telecmi",
           "haarishkumar founderedge",
-          "haarishkumar ryddo",
+          "haarishkumar raido",
         ]}
       />
 
@@ -380,124 +396,150 @@ export default function VoiceathonPage() {
           </div>
 
           {/* Interactive Grand Jury Stage (Senior UI/UX Spotlight) */}
-          <div
-            className="mt-12 overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#141419] via-[#0d0d10] to-[#070709] p-6 shadow-2xl md:p-10"
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-          >
-            {/* Split Stage: High Resolution Portrait + Deep Executive Profile */}
-            <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
-              {/* Left Portrait Stage Column */}
-              <div className="flex justify-center lg:col-span-5">
-                <div className="relative h-[390px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#1a1a22] to-[#09090b] shadow-2xl sm:h-[450px] lg:h-[465px]">
-                  {/* Halo Aura */}
-                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.25)_0%,transparent_75%)]" />
+          <div className="relative mt-12">
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              className="relative overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#141419] via-[#0d0d10] to-[#070709] p-6 shadow-2xl md:p-10"
+            >
+              {/* Split Stage: High Resolution Portrait + Deep Executive Profile */}
+              <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+                {/* Left Portrait Stage Column */}
+                <div className="flex justify-center lg:col-span-5">
+                  <div className="relative h-[390px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#1a1a22] to-[#09090b] shadow-2xl sm:h-[450px] lg:h-[465px]">
+                    {/* Halo Aura */}
+                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.25)_0%,transparent_75%)]" />
 
-                  {/* High Quality Cutout Image */}
-                  <div className="relative h-full w-full p-4 flex items-end justify-center">
-                    <img
-                      key={selectedJudge.id}
-                      src={selectedJudge.image}
-                      alt={selectedJudge.name}
-                      width={340}
-                      height={465}
-                      className="h-full w-full object-contain object-bottom transition-all duration-500 animate-fadeIn"
-                    />
-                  </div>
-
-                  {/* Card Bottom Tag */}
-                  <div className="pointer-events-none absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-5 pt-8">
-                    <div>
-                      <div className="font-bold text-white text-[15px]">{selectedJudge.name}</div>
-                      <div className="text-[12px] font-semibold text-[#14B8A6]">{selectedJudge.company}</div>
+                    {/* High Quality Cutout Image */}
+                    <div className="relative h-full w-full p-4 flex items-end justify-center">
+                      <img
+                        key={selectedJudge.id}
+                        src={selectedJudge.image}
+                        alt={selectedJudge.name}
+                        width={340}
+                        height={465}
+                        className="h-full w-full object-contain object-bottom transition-all duration-500 animate-fadeIn"
+                      />
                     </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Right Profile Details */}
-              <div className="flex flex-col justify-between lg:col-span-7">
-                <div>
-                  <h3 className="text-[30px] font-black tracking-tight text-white sm:text-[36px]">
-                    {selectedJudge.name}
-                  </h3>
-                  <p className="text-[16px] font-medium text-[#a1a1aa]">
-                    {selectedJudge.title} ·{" "}
-                    <span className="font-semibold text-[#14B8A6]">{selectedJudge.company}</span>
-                  </p>
-
-                  <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b]/80 px-4 py-2.5 text-xs text-[#a1a1aa]">
-                    <span className="text-[#71717a] font-medium">Hackathon Focus:</span>{" "}
-                    <span className="text-white font-semibold">{selectedJudge.track}</span>
-                  </div>
-
-                  {/* Deliberation Quote */}
-                  <div className="relative mt-6 rounded-2xl border border-[#27272a] bg-[#09090b] p-5">
-                    <div className="text-xs font-bold uppercase tracking-wider text-[#14B8A6] flex items-center gap-1.5 mb-2">
-                      <Mic className="h-3.5 w-3.5" />
-                      Evaluation Perspective:
-                    </div>
-                    <p className="text-[14.5px] italic leading-relaxed text-[#d4d4d8]">
-                      &ldquo;{selectedJudge.quote}&rdquo;
-                    </p>
-                  </div>
-
-                  {/* Verified Credentials */}
-                  <div className="mt-5 space-y-2">
-                    {selectedJudge.credentials.map((cred, i) => (
-                      <div key={i} className="flex items-center gap-2.5 text-xs text-[#a1a1aa]">
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-[#14B8A6]" />
-                        <span>{cred}</span>
+                    {/* Card Bottom Tag */}
+                    <div className="pointer-events-none absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-5 pt-8">
+                      <div>
+                        <div className="font-bold text-white text-[15px]">{selectedJudge.name}</div>
+                        <div className="text-[12px] font-semibold text-[#14B8A6]">{selectedJudge.company}</div>
                       </div>
-                    ))}
-                  </div>
-
-                  {/* Tags */}
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {selectedJudge.tags.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="rounded-lg border border-[#27272a] bg-[#121215] px-2.5 py-1 text-[11px] font-medium text-[#a1a1aa] transition-colors hover:border-[#14B8A6]/40 hover:text-white"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Social Button */}
-                <div className="mt-6 flex items-center gap-4 pt-1">
-                  {selectedJudge.linkedin ? (
-                    <a
-                      href={selectedJudge.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 rounded-xl border border-[#14B8A6]/50 bg-[#14B8A6]/10 px-5 py-2.5 text-xs font-semibold text-[#14B8A6] transition-all hover:bg-[#14B8A6]/20"
-                    >
-                      <FaLinkedin className="h-4 w-4" />
-                      <span>Connect on LinkedIn</span>
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
-                  ) : (
-                    <span className="text-xs text-[#71717a]">Executive Profile Verified</span>
-                  )}
+                {/* Right Profile Details */}
+                <div className="flex flex-col justify-between lg:col-span-7">
+                  <div>
+                    <h3 className="text-[30px] font-black tracking-tight text-white sm:text-[36px]">
+                      {selectedJudge.name}
+                    </h3>
+                    <p className="text-[16px] font-medium text-[#a1a1aa]">
+                      {selectedJudge.title} ·{" "}
+                      <span className="font-semibold text-[#14B8A6]">{selectedJudge.company}</span>
+                    </p>
+
+                    <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b]/80 px-4 py-2.5 text-xs text-[#a1a1aa]">
+                      <span className="text-[#71717a] font-medium">Hackathon Focus:</span>{" "}
+                      <span className="text-white font-semibold">{selectedJudge.track}</span>
+                    </div>
+
+                    {/* Deliberation Quote */}
+                    <div className="relative mt-6 rounded-2xl border border-[#27272a] bg-[#09090b] p-5">
+                      <div className="text-xs font-bold uppercase tracking-wider text-[#14B8A6] flex items-center gap-1.5 mb-2">
+                        <Mic className="h-3.5 w-3.5" />
+                        Evaluation Perspective:
+                      </div>
+                      <p className="text-[14.5px] italic leading-relaxed text-[#d4d4d8]">
+                        &ldquo;{selectedJudge.quote}&rdquo;
+                      </p>
+                    </div>
+
+                    {/* Verified Credentials */}
+                    <div className="mt-5 space-y-2">
+                      {selectedJudge.credentials.map((cred, i) => (
+                        <div key={i} className="flex items-center gap-2.5 text-xs text-[#a1a1aa]">
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-[#14B8A6]" />
+                          <span>{cred}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Tags */}
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {selectedJudge.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="rounded-lg border border-[#27272a] bg-[#121215] px-2.5 py-1 text-[11px] font-medium text-[#a1a1aa] transition-colors hover:border-[#14B8A6]/40 hover:text-white"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Social Button */}
+                  <div className="mt-6 flex items-center gap-4 pt-1">
+                    {selectedJudge.linkedin ? (
+                      <a
+                        href={selectedJudge.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-xl border border-[#14B8A6]/50 bg-[#14B8A6]/10 px-5 py-2.5 text-xs font-semibold text-[#14B8A6] transition-all hover:bg-[#14B8A6]/20"
+                      >
+                        <FaLinkedin className="h-4 w-4" />
+                        <span>Connect on LinkedIn</span>
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    ) : (
+                      <span className="text-xs text-[#71717a]">Executive Profile Verified</span>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Minimal Indicator Pills */}
-            <div className="mt-8 flex items-center justify-center border-t border-[#27272a] pt-5">
-              <div className="flex items-center gap-2">
-                {JUDGES.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedJudgeIdx(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === selectedJudgeIdx ? "w-8 bg-[#14B8A6]" : "w-2 bg-[#27272a] hover:bg-[#71717a]"
-                    }`}
-                    aria-label={`Switch to judge ${i + 1}`}
-                  />
-                ))}
+              {/* Bottom Navigation Strip */}
+              <div className="mt-8 flex items-center justify-between border-t border-[#27272a] pt-5">
+                <button
+                  type="button"
+                  onClick={prevJudge}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215] px-4 py-2 text-xs font-semibold text-[#a1a1aa] transition-colors hover:border-[#14B8A6]/40 hover:text-white cursor-pointer"
+                  aria-label="Previous Grand Jury Leader"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Previous</span>
+                </button>
+
+                {/* Indicator Pills */}
+                <div className="flex items-center gap-2">
+                  {JUDGES.map((j, i) => (
+                    <button
+                      key={j.id}
+                      type="button"
+                      onClick={() => setSelectedJudgeIdx(i)}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        i === selectedJudgeIdx ? "w-8 bg-[#14B8A6]" : "w-2.5 bg-[#27272a] hover:bg-[#71717a]"
+                      }`}
+                      aria-label={`Switch to ${j.name}`}
+                      title={j.name}
+                    />
+                  ))}
+                </div>
+
+                {/* Next Arrow on the Right Side */}
+                <button
+                  type="button"
+                  onClick={nextJudge}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215] px-4 py-2 text-xs font-semibold text-[#14B8A6] transition-colors hover:border-[#14B8A6] hover:bg-[#14B8A6]/10 cursor-pointer"
+                  aria-label="Next Grand Jury Leader"
+                >
+                  <span>Next Judge</span>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
               </div>
             </div>
           </div>
