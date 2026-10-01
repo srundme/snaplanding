@@ -4,27 +4,18 @@ import {
   Trophy,
   ArrowLeft,
   Calendar,
-  MapPin,
-  Users,
   CheckCircle2,
   ExternalLink,
   Code2,
-  Cpu,
   Mic,
-  Clock,
-  Flame,
-  ArrowUpRight,
   Shield,
-  Layers,
   Radio,
   ChevronRight,
-  Zap,
 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 import Seo from "../components/Seo";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
-import GlowButton from "../components/GlowButton";
 import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
 
 const JUDGES = [
@@ -602,7 +593,7 @@ export default function VoiceathonPage() {
           </div>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-3">
-            {PRIZES.map((prize, idx) => (
+            {PRIZES.map((prize) => (
               <div
                 key={prize.title}
                 className={`relative flex flex-col justify-between rounded-3xl border p-6 transition-all duration-300 ${

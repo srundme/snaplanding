@@ -303,7 +303,15 @@ export function buildFunnelGraph(page) {
 }
 
 export function getAllSitemapPaths() {
-  const staticPaths = ["/", "/blog", "/partner", "/privacy", "/terms"];
+  const staticPaths = [
+    "/",
+    "/blog",
+    "/partner",
+    "/voiceathon",
+    "/voice-a-thon",
+    "/privacy",
+    "/terms",
+  ];
   const blogPaths = blogPosts.map((p) => `/blog/${p.slug}`);
   const funnelPaths = funnelPages.map((p) => `/solutions/${p.slug}`);
   return [...staticPaths, ...blogPaths, ...funnelPaths];

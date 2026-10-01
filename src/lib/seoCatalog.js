@@ -44,6 +44,25 @@ export function buildBlogIndexGraph() {
   ]);
 }
 
+export function buildVoiceathonGraph() {
+  const url = absoluteUrl("/voiceathon");
+  return jsonLdGraph([
+    organizationSchema(),
+    websiteSchema(),
+    webPageSchema({
+      name: "Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe",
+      description:
+        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe.",
+      url,
+      pageId: "voiceathon",
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Voice-A-Thon", path: "/voiceathon" },
+    ]),
+  ]);
+}
+
 /** All crawlable routes with head + JSON-LD for static prerender. */
 export function getAllSeoDocuments() {
   const docs = [
@@ -113,6 +132,42 @@ export function getAllSeoDocuments() {
       summary:
         "Partner and migration form for SnapServe — agencies, resellers, and teams switching voice AI platforms.",
     },
+    {
+      path: "/voiceathon",
+      title: "Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe",
+      description:
+        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe.",
+      keywords: [
+        "voiceathon 2026",
+        "voice ai hackathon",
+        "snapserve voiceathon",
+        "voice agent summit india",
+        "indian speech ai hackathon",
+      ],
+      image: DEFAULT_OG_IMAGE,
+      type: "website",
+      jsonLd: buildVoiceathonGraph(),
+      summary:
+        "Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
+    },
+    {
+      path: "/voice-a-thon",
+      title: "Voice-A-Thon 2026 | India's Flagship Voice AI Hackathon | SnapServe",
+      description:
+        "Explore the Grand Jury, live telephony benchmarks, challenge tracks, and winners of Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe.",
+      keywords: [
+        "voiceathon 2026",
+        "voice ai hackathon",
+        "snapserve voiceathon",
+        "voice agent summit india",
+        "indian speech ai hackathon",
+      ],
+      image: DEFAULT_OG_IMAGE,
+      type: "website",
+      jsonLd: buildVoiceathonGraph(),
+      summary:
+        "Voice-A-Thon 2026 — India's premier Voice AI summit powered by SnapServe. Grand Jury, challenge tracks, live telephony benchmarks, and winner highlights.",
+    },
   ];
 
   for (const post of blogPosts) {
@@ -154,15 +209,19 @@ export function buildSitemapXml(docs = getAllSeoDocuments()) {
       const priority =
         doc.path === "/"
           ? "1.0"
-          : doc.path.startsWith("/solutions")
-            ? "0.7"
-            : doc.path.startsWith("/blog/")
-              ? "0.8"
-              : doc.path === "/blog"
-                ? "0.9"
-                : "0.3";
+          : doc.path === "/voiceathon" || doc.path === "/voice-a-thon"
+            ? "0.8"
+            : doc.path.startsWith("/solutions")
+              ? "0.7"
+              : doc.path.startsWith("/blog/")
+                ? "0.8"
+                : doc.path === "/blog"
+                  ? "0.9"
+                  : "0.3";
       const changefreq =
-        doc.path === "/" || doc.path === "/blog" ? "weekly" : "monthly";
+        doc.path === "/" || doc.path === "/blog" || doc.path === "/voiceathon"
+          ? "weekly"
+          : "monthly";
       const modified = lastmod ? `<lastmod>${lastmod}</lastmod>` : "";
       return `  <url><loc>${loc}</loc>${modified}<changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
     })
