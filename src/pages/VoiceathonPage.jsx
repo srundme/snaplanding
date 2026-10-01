@@ -267,29 +267,41 @@ export default function VoiceathonPage() {
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left Hero Content */}
           <div className="lg:col-span-7">
-            <div className="flex flex-wrap items-center gap-2.5 text-xs font-medium">
-              <span className="rounded-full border border-orange-500/40 bg-orange-500/10 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-orange-400">
-                Tamil Nadu Edition · Chapter 01
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
+              <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3.5 py-1 text-xs font-semibold text-orange-400 shadow-sm shadow-orange-500/5">
+                <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
+                <span>Tamil Nadu Edition</span>
+                <span className="text-orange-500/40">·</span>
+                <span className="text-orange-300/90 font-medium">Chapter 01</span>
               </span>
-              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3 py-1 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
                 <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
                 05 September 2026
               </span>
-              <span>·</span>
-              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
+
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3 py-1 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
                 <MapPin className="h-3.5 w-3.5 text-[#14B8A6]" />
                 Chennai
               </span>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-mono tracking-wider text-[#71717a]">
-              <span className="font-bold uppercase text-[#14B8A6]">Build The Voice of India</span>
-              <span>·</span>
-              <span>Powered by <span className="text-white font-semibold">vobiz</span></span>
-              <span>·</span>
-              <span>Organized by <span className="text-white font-semibold">SnapServe</span></span>
-              <span>·</span>
-              <span>Ecosystem Partner <span className="text-white font-semibold">ZenXai</span></span>
+            <div className="mt-4 flex flex-wrap items-center gap-2.5 text-xs text-[#a1a1aa]">
+              <span className="inline-flex items-center rounded-md bg-[#14B8A6]/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#14B8A6]">
+                Build The Voice of India
+              </span>
+              <span className="text-[#3f3f46]">·</span>
+              <span className="text-xs text-[#71717a]">
+                Powered by <strong className="font-semibold text-white">vobiz</strong>
+              </span>
+              <span className="text-[#3f3f46]">·</span>
+              <span className="text-xs text-[#71717a]">
+                Organized by <strong className="font-semibold text-white">SnapServe</strong>
+              </span>
+              <span className="text-[#3f3f46]">·</span>
+              <span className="text-xs text-[#71717a]">
+                Ecosystem Partner <strong className="font-semibold text-white">ZenXai</strong>
+              </span>
             </div>
 
             <h1 className="mt-5 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[60px] lg:leading-[1.08]">
@@ -361,10 +373,10 @@ export default function VoiceathonPage() {
                     <SnapServeLogo variant="mark" size="sm" />
                     <div>
                       <div className="text-[12px] font-black uppercase tracking-wider text-white">Voice-A-Thon</div>
-                      <div className="text-[9px] font-mono text-orange-400">TAMIL NADU EDITION</div>
+                      <div className="text-[9px] font-bold uppercase tracking-wider text-orange-400">TAMIL NADU EDITION</div>
                     </div>
                   </div>
-                  <div className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2.5 py-1 font-mono text-[10px] font-bold text-orange-400">
+                  <div className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-400">
                     CHAPTER 01 · CHENNAI
                   </div>
                 </div>
@@ -727,10 +739,10 @@ export default function VoiceathonPage() {
             <div className="flex flex-col items-center lg:col-span-7">
               <div className="w-full">
                 <div className="mb-3 flex items-center justify-between px-2 text-xs">
-                  <span className="font-mono text-[11px] font-bold uppercase text-orange-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-orange-400">
                     Official Edition Graphic Specification
                   </span>
-                  <span className="rounded-md border border-[#27272a] bg-[#121215] px-2 py-0.5 font-mono text-[10px] text-[#71717a]">
+                  <span className="rounded-md border border-[#27272a] bg-[#121215] px-2 py-0.5 text-[10px] font-semibold tracking-wider text-[#71717a]">
                     VECTOR SHARP · ZERO BLUR
                   </span>
                 </div>
@@ -744,9 +756,9 @@ export default function VoiceathonPage() {
                 <div className="flex items-center justify-between pb-3 border-b border-[#27272a]">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-mono text-xs font-bold uppercase text-white">Live On-Site Capture</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-white">Live On-Site Capture</span>
                   </div>
-                  <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2 py-0.5 font-mono text-[10px] text-[#14B8A6]">
+                  <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-[#14B8A6]">
                     VERIFIED
                   </span>
                 </div>
@@ -769,7 +781,7 @@ export default function VoiceathonPage() {
                   <div className="mt-0.5 text-[11px] text-[#a1a1aa]">
                     Chennai, Tamil Nadu · 05 September 2026 · Olive Public School campus
                   </div>
-                  <div className="mt-2.5 flex items-center justify-between border-t border-[#27272a] pt-2 text-[10px] font-mono text-[#71717a]">
+                  <div className="mt-2.5 flex items-center justify-between border-t border-[#27272a] pt-2 text-[10px] font-semibold text-[#71717a]">
                     <span>PHOTO RESOLUTION: NATIVE</span>
                     <span className="text-orange-400">AUTHENTIC ON-SITE</span>
                   </div>
@@ -778,11 +790,11 @@ export default function VoiceathonPage() {
                 {/* Verified Specs Pills */}
                 <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px]">
                   <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
-                    <div className="font-mono text-[9px] uppercase text-[#71717a]">Sprint Span</div>
+                    <div className="text-[9px] font-medium uppercase tracking-wider text-[#71717a]">Sprint Span</div>
                     <div className="font-bold text-white">12 Hours Build</div>
                   </div>
                   <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
-                    <div className="font-mono text-[9px] uppercase text-[#71717a]">Ecosystem</div>
+                    <div className="text-[9px] font-medium uppercase tracking-wider text-[#71717a]">Ecosystem</div>
                     <div className="font-bold text-[#14B8A6]">ZenXai Partner</div>
                   </div>
                 </div>

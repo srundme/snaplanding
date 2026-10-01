@@ -48,7 +48,7 @@ export default function VoiceathonPosterCard({ className = "" }) {
 
         {/* Chapter 01 */}
         <div className="text-right">
-          <span className="inline-block rounded-md bg-[#f4f4f5] px-2 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-[#52525b]">
+          <span className="inline-block rounded-md bg-[#f4f4f5] px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-[#52525b]">
             Chapter 01: Chennai
           </span>
         </div>
@@ -73,7 +73,7 @@ export default function VoiceathonPosterCard({ className = "" }) {
               <span className="absolute -top-1 left-1/2 -translate-x-1/2 text-[10px] text-[#f97316]">▲</span>
             </span>
             <span>-THON</span>
-            <span className="ml-1.5 flex flex-col font-mono text-[10px] font-extrabold leading-none text-[#f97316]">
+            <span className="ml-1.5 flex flex-col text-[10px] font-extrabold leading-none text-[#f97316]">
               <span>20</span>
               <span>26</span>
             </span>
@@ -88,7 +88,7 @@ export default function VoiceathonPosterCard({ className = "" }) {
           </div>
         </div>
 
-        <p className="mt-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[#52525b]">
+        <p className="mt-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#52525b]">
           Build the Voice of India
         </p>
 
@@ -100,7 +100,7 @@ export default function VoiceathonPosterCard({ className = "" }) {
         </div>
 
         {/* Date & Location */}
-        <div className="mt-3 font-mono text-[11px] font-semibold uppercase tracking-widest text-[#71717a]">
+        <div className="mt-3 text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">
           Chennai · 05 September 2026
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function VoiceathonPosterCard({ className = "" }) {
 
       {/* Footer Network Status */}
       <div className="relative z-10 mt-5 border-t border-[#e4e4e7]/80 pt-3 text-center">
-        <div className="flex items-center justify-center gap-2 font-mono text-[9px] font-bold tracking-[0.25em] text-[#a1a1aa]">
+        <div className="flex items-center justify-center gap-2 text-[9px] font-bold tracking-[0.2em] text-[#a1a1aa]">
           <span>·</span>
           <span>LIVE VOICE NETWORK</span>
           <span>·</span>
