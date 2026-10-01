@@ -225,6 +225,12 @@ export default function VoiceathonPage() {
               Grand Jury
             </a>
             <a
+              href="#showcase"
+              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
+            >
+              On-Ground Showcase
+            </a>
+            <a
               href="#prizes"
               className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
             >
@@ -260,38 +266,46 @@ export default function VoiceathonPage() {
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left Hero Content */}
           <div className="lg:col-span-7">
-            <div className="flex flex-wrap items-center gap-3 text-xs font-medium text-[#71717a]">
+            <div className="flex flex-wrap items-center gap-2.5 text-xs font-medium">
+              <span className="rounded-full border border-orange-500/40 bg-orange-500/10 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-orange-400">
+                Tamil Nadu Edition · Chapter 01
+              </span>
               <span className="flex items-center gap-1.5 text-[#a1a1aa]">
                 <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
-                Held on September 5
+                05 September 2026
               </span>
               <span>·</span>
               <span className="flex items-center gap-1.5 text-[#a1a1aa]">
                 <MapPin className="h-3.5 w-3.5 text-[#14B8A6]" />
-                Bengaluru & Chennai
-              </span>
-              <span>·</span>
-              <span className="flex items-center gap-1.5 text-[#a1a1aa]">
-                <Shield className="h-3.5 w-3.5 text-[#14B8A6]" />
-                Powered by SnapServe Engine
+                Chennai
               </span>
             </div>
 
-            <h1 className="mt-6 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[62px] lg:leading-[1.08]">
+            <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-mono tracking-wider text-[#71717a]">
+              <span className="font-bold uppercase text-[#14B8A6]">Build The Voice of India</span>
+              <span>·</span>
+              <span>Powered by <span className="text-white font-semibold">vobiz</span></span>
+              <span>·</span>
+              <span>Organized by <span className="text-white font-semibold">SnapServe</span></span>
+              <span>·</span>
+              <span>Ecosystem Partner <span className="text-white font-semibold">ZenXai</span></span>
+            </div>
+
+            <h1 className="mt-5 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[60px] lg:leading-[1.08]">
               Architecting the future of{" "}
               <span className="brand-gradient-text">Conversational Voice AI.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#a1a1aa] md:text-[18px]">
-              Held on September 5, Voice-A-Thon brought together premier engineers, speech researchers, and startup founders to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
+              Held on September 5, 2026 in Chennai, Voice-A-Thon brought together over 100 teams to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
             </p>
 
             {/* Quick Stats Grid */}
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Teams</span>
-                <div className="mt-1 text-2xl font-bold text-white">50+</div>
-                <p className="text-[11px] text-[#14B8A6]">Top Builders</p>
+                <div className="mt-1 text-2xl font-bold text-white">100</div>
+                <p className="text-[11px] text-[#14B8A6]">Top Teams</p>
               </div>
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Prize Pool</span>
@@ -299,9 +313,9 @@ export default function VoiceathonPage() {
                 <p className="text-[11px] text-[#14B8A6]">Grants & Credits</p>
               </div>
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Latency</span>
-                <div className="mt-1 text-2xl font-bold text-white">&lt; 350ms</div>
-                <p className="text-[11px] text-[#14B8A6]">Target Threshold</p>
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Live Pipeline</span>
+                <div className="mt-1 text-2xl font-bold text-white">Live AI</div>
+                <p className="text-[11px] text-[#14B8A6]">Vernacular Agents</p>
               </div>
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Grand Jury</span>
@@ -346,24 +360,24 @@ export default function VoiceathonPage() {
                     <SnapServeLogo variant="mark" size="sm" />
                     <div>
                       <div className="text-[12px] font-black uppercase tracking-wider text-white">Voice-A-Thon</div>
-                      <div className="text-[9px] font-mono text-[#14B8A6]">OFFICIAL SUMMIT PASS</div>
+                      <div className="text-[9px] font-mono text-orange-400">TAMIL NADU EDITION</div>
                     </div>
                   </div>
-                  <div className="rounded-md border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-1 font-mono text-[10px] font-bold text-[#14B8A6]">
-                    #VAT-2026-LIVE
+                  <div className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2.5 py-1 font-mono text-[10px] font-bold text-orange-400">
+                    CHAPTER 01 · CHENNAI
                   </div>
                 </div>
 
                 {/* Pass Center Content */}
                 <div className="py-6">
                   <span className="text-[10px] font-semibold uppercase tracking-widest text-[#71717a]">
-                    Accredited Tier
+                    Official Summit Delegation
                   </span>
                   <div className="mt-1 text-xl font-extrabold tracking-tight text-white">
-                    Grand Jury & Elite Builders
+                    Build The Voice of India
                   </div>
                   <p className="mt-1 text-xs text-[#a1a1aa]">
-                    Held on September 5 · Live Telephony Benchmarking · Chennai & Bengaluru
+                    Chennai · 05 September 2026 · Powered by vobiz & SnapServe
                   </p>
 
                   {/* 5 Judge Mini Avatars Floating */}
@@ -676,29 +690,113 @@ export default function VoiceathonPage() {
         </section>
 
         {/* ---------------------------------------------------------------- */}
-        {/* 9. SECTION 6: ATMOSPHERE & LIVE CALL DEMO VENUE                  */}
+        {/* 9. SECTION 6: ON-GROUND SHOWCASE & TESTING ARENA                 */}
         {/* ---------------------------------------------------------------- */}
-        <section className="mt-28 border-t border-[#27272a] pt-20">
-          <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-[#14B8A6]">
-              Venue & Execution
-            </span>
-            <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
-              The Testing Arena
-            </h2>
-            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
-              Atmosphere from the live evaluation rooms, sound check booths, and developer pits.
-            </p>
+        <section id="showcase" className="mt-28 border-t border-[#27272a] pt-20">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-orange-400">
+                <Radio className="h-3.5 w-3.5" />
+                <span>Chapter 01: Chennai · Tamil Nadu Edition</span>
+              </div>
+              <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
+                On-Ground Showcase & Testing Arena
+              </h2>
+              <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
+                Official event identity and live photos from Chennai on 05 September 2026 — where 100 teams built and benchmarked live vernacular voice agents.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2.5 text-xs">
+              <span className="rounded-full border border-orange-500/40 bg-orange-500/10 px-3.5 py-1.5 font-medium text-orange-400">
+                Powered by vobiz
+              </span>
+              <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 font-medium text-[#14B8A6]">
+                Organized by SnapServe
+              </span>
+              <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3.5 py-1.5 font-medium text-blue-400">
+                Ecosystem: ZenXai
+              </span>
+            </div>
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-[#14B8A6]/40">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14B8A6]/10 text-[#14B8A6]">
+          {/* On-ground photo & poster visual cards */}
+          <div className="mt-10 grid items-stretch gap-6 md:grid-cols-12">
+            {/* 1. Official Digital Poster */}
+            <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-5 transition-all hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] md:col-span-6 lg:col-span-5">
+              <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#09090b] flex items-center justify-center p-2">
+                <img
+                  src="/images/voiceathon/voiceathon-poster.jpg"
+                  alt="Voice-A-Thon 2026 Official Poster - Build the Voice of India, Tamil Nadu Edition"
+                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="mt-5 flex items-center justify-between border-t border-[#27272a] pt-4">
+                <div>
+                  <span className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-orange-400">
+                    Chapter 01
+                  </span>
+                  <h4 className="mt-1 text-sm font-bold text-white">Official Edition Poster</h4>
+                  <p className="mt-0.5 text-xs text-[#a1a1aa]">Build The Voice of India · Chennai · 05 Sept 2026</p>
+                </div>
+                <div className="text-right">
+                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Edition Scale</div>
+                  <div className="font-mono text-xs font-bold text-[#14B8A6]">100 Teams</div>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Venue Standee Live Photo */}
+            <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-5 transition-all hover:border-[#14B8A6]/50 hover:shadow-[0_0_30px_rgba(20,184,166,0.1)] md:col-span-6 lg:col-span-7">
+              <div className="relative aspect-square sm:aspect-auto sm:h-[400px] w-full overflow-hidden rounded-2xl bg-[#09090b]">
+                <img
+                  src="/images/voiceathon/venue-standee.jpg"
+                  alt="Voice-A-Thon 2026 On-Site Venue Easel Standee in Chennai"
+                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-black/75 p-3.5 backdrop-blur-md">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs">
+                    <div>
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-orange-400">
+                        Live On-Ground Venue Standee
+                      </span>
+                      <div className="font-bold text-white">Chennai Venue Entrance · September 5, 2026</div>
+                    </div>
+                    <span className="inline-flex self-start sm:self-auto rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/20 px-2.5 py-1 font-mono text-[10px] font-semibold text-[#14B8A6]">
+                      VERIFIED ON-SITE
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Live Venue Specs */}
+              <div className="mt-5 grid grid-cols-3 gap-2 border-t border-[#27272a] pt-4 text-center text-xs">
+                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
+                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Telephony Partner</div>
+                  <div className="mt-0.5 font-bold text-white">vobiz</div>
+                </div>
+                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
+                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Ecosystem Partner</div>
+                  <div className="mt-0.5 font-bold text-white">ZenXai</div>
+                </div>
+                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
+                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Sprint Span</div>
+                  <div className="mt-0.5 font-bold text-[#14B8A6]">12 Hours Build</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Technical Floor Highlights */}
+          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-orange-500/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 text-orange-400">
                 <Radio className="h-5 w-5" />
               </div>
-              <h4 className="mt-4 text-base font-bold text-white">Live Call Testing Floor</h4>
+              <h4 className="mt-4 text-base font-bold text-white">vobiz SIP Live Call Testing</h4>
               <p className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
-                Teams conducted real-time SIP trunk benchmarks under varied 4G/5G mobile connection latencies.
+                Live SIP trunk benchmarks under real Indian 4G/5G mobile latencies with zero audio stutter.
               </p>
             </div>
 
@@ -708,12 +806,12 @@ export default function VoiceathonPage() {
               </div>
               <h4 className="mt-4 text-base font-bold text-white">Multilingual Dialers in Action</h4>
               <p className="mt-2 text-xs leading-relaxed text-[#a1a1aa]">
-                Acoustic verification across Tamil, Hindi, and English code-mixed speech models.
+                Acoustic speech verification across Tamil, Tanglish, and Hindi code-mixed conversational models.
               </p>
             </div>
 
-            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-[#14B8A6]/40">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#14B8A6]/10 text-[#14B8A6]">
+            <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-blue-500/40">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-400">
                 <Code2 className="h-5 w-5" />
               </div>
               <h4 className="mt-4 text-base font-bold text-white">SnapServe Runtime Engine</h4>
