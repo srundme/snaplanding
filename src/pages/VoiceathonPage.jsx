@@ -17,6 +17,7 @@ import { FaLinkedin } from "react-icons/fa6";
 import Seo from "../components/Seo";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
+import VoiceathonPosterCard from "../components/VoiceathonPosterCard";
 import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
 
 const JUDGES = [
@@ -700,10 +701,10 @@ export default function VoiceathonPage() {
                 <span>Chapter 01: Chennai · Tamil Nadu Edition</span>
               </div>
               <h2 className="mt-3 text-[32px] font-extrabold tracking-[-0.03em] text-white sm:text-[44px]">
-                On-Ground Showcase & Testing Arena
+                Official Edition & On-Ground Showcase
               </h2>
               <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-[#a1a1aa]">
-                Official event identity and live photos from Chennai on 05 September 2026 — where 100 teams built and benchmarked live vernacular voice agents.
+                Official edition specification and verified on-ground field capture from Chennai on 05 September 2026.
               </p>
             </div>
 
@@ -720,76 +721,77 @@ export default function VoiceathonPage() {
             </div>
           </div>
 
-          {/* On-ground photo & poster visual cards */}
-          <div className="mt-10 grid items-stretch gap-6 md:grid-cols-12">
-            {/* 1. Official Digital Poster */}
-            <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-5 transition-all hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.1)] md:col-span-6 lg:col-span-5">
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-[#09090b] flex items-center justify-center p-2">
-                <img
-                  src="/images/voiceathon/voiceathon-poster.jpg"
-                  alt="Voice-A-Thon 2026 Official Poster - Build the Voice of India, Tamil Nadu Edition"
-                  className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="mt-5 flex items-center justify-between border-t border-[#27272a] pt-4">
-                <div>
-                  <span className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2 py-0.5 font-mono text-[10px] font-bold uppercase text-orange-400">
-                    Chapter 01
+          {/* Grid: Crisp Vector Poster Card (Left) + Natural Compact Field Photo Frame (Right) */}
+          <div className="mt-10 grid items-start gap-8 lg:grid-cols-12">
+            {/* Left: 100% Vector-Sharp Official Edition Poster Card */}
+            <div className="flex flex-col items-center lg:col-span-7">
+              <div className="w-full">
+                <div className="mb-3 flex items-center justify-between px-2 text-xs">
+                  <span className="font-mono text-[11px] font-bold uppercase text-orange-400">
+                    Official Edition Graphic Specification
                   </span>
-                  <h4 className="mt-1 text-sm font-bold text-white">Official Edition Poster</h4>
-                  <p className="mt-0.5 text-xs text-[#a1a1aa]">Build The Voice of India · Chennai · 05 Sept 2026</p>
+                  <span className="rounded-md border border-[#27272a] bg-[#121215] px-2 py-0.5 font-mono text-[10px] text-[#71717a]">
+                    VECTOR SHARP · ZERO BLUR
+                  </span>
                 </div>
-                <div className="text-right">
-                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Edition Scale</div>
-                  <div className="font-mono text-xs font-bold text-[#14B8A6]">100 Teams</div>
-                </div>
+                <VoiceathonPosterCard />
               </div>
             </div>
 
-            {/* 2. Venue Standee Live Photo */}
-            <div className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-5 transition-all hover:border-[#14B8A6]/50 hover:shadow-[0_0_30px_rgba(20,184,166,0.1)] md:col-span-6 lg:col-span-7">
-              <div className="relative aspect-square sm:aspect-auto sm:h-[400px] w-full overflow-hidden rounded-2xl bg-[#09090b]">
-                <img
-                  src="/images/voiceathon/venue-standee.jpg"
-                  alt="Voice-A-Thon 2026 On-Site Venue Easel Standee in Chennai"
-                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-black/75 p-3.5 backdrop-blur-md">
-                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs">
-                    <div>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-orange-400">
-                        Live On-Ground Venue Standee
-                      </span>
-                      <div className="font-bold text-white">Chennai Venue Entrance · September 5, 2026</div>
-                    </div>
-                    <span className="inline-flex self-start sm:self-auto rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/20 px-2.5 py-1 font-mono text-[10px] font-semibold text-[#14B8A6]">
-                      VERIFIED ON-SITE
-                    </span>
+            {/* Right: Natural Compact On-Ground Capture Frame */}
+            <div className="flex flex-col items-center lg:col-span-5">
+              <div className="w-full rounded-3xl border border-[#27272a] bg-[#121215] p-5 shadow-xl">
+                <div className="flex items-center justify-between pb-3 border-b border-[#27272a]">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="font-mono text-xs font-bold uppercase text-white">Live On-Site Capture</span>
+                  </div>
+                  <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2 py-0.5 font-mono text-[10px] text-[#14B8A6]">
+                    VERIFIED
+                  </span>
+                </div>
+
+                {/* Natural resolution photo - 260px width, no stretching, crisp natural view */}
+                <div className="mt-4 flex justify-center">
+                  <div className="relative overflow-hidden rounded-2xl border border-[#27272a] bg-[#09090b] shadow-2xl">
+                    <img
+                      src="/images/voiceathon/venue-standee.jpg"
+                      alt="Voice-A-Thon 2026 On-Site Easel Standee outside Chennai venue"
+                      width={280}
+                      height={373}
+                      className="h-auto w-[260px] sm:w-[280px] object-contain rounded-2xl"
+                    />
                   </div>
                 </div>
-              </div>
 
-              {/* Live Venue Specs */}
-              <div className="mt-5 grid grid-cols-3 gap-2 border-t border-[#27272a] pt-4 text-center text-xs">
-                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
-                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Telephony Partner</div>
-                  <div className="mt-0.5 font-bold text-white">vobiz</div>
+                <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b] p-3 text-xs">
+                  <div className="font-semibold text-white">Easel Standee at Venue Entrance</div>
+                  <div className="mt-0.5 text-[11px] text-[#a1a1aa]">
+                    Chennai, Tamil Nadu · 05 September 2026 · Olive Public School campus
+                  </div>
+                  <div className="mt-2.5 flex items-center justify-between border-t border-[#27272a] pt-2 text-[10px] font-mono text-[#71717a]">
+                    <span>PHOTO RESOLUTION: NATIVE</span>
+                    <span className="text-orange-400">AUTHENTIC ON-SITE</span>
+                  </div>
                 </div>
-                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
-                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Ecosystem Partner</div>
-                  <div className="mt-0.5 font-bold text-white">ZenXai</div>
-                </div>
-                <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-2.5">
-                  <div className="font-mono text-[10px] uppercase text-[#71717a]">Sprint Span</div>
-                  <div className="mt-0.5 font-bold text-[#14B8A6]">12 Hours Build</div>
+
+                {/* Verified Specs Pills */}
+                <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px]">
+                  <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
+                    <div className="font-mono text-[9px] uppercase text-[#71717a]">Sprint Span</div>
+                    <div className="font-bold text-white">12 Hours Build</div>
+                  </div>
+                  <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
+                    <div className="font-mono text-[9px] uppercase text-[#71717a]">Ecosystem</div>
+                    <div className="font-bold text-[#14B8A6]">ZenXai Partner</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* 3 Technical Floor Highlights */}
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
             <div className="group relative overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-6 transition-all hover:border-orange-500/40">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-500/10 text-orange-400">
                 <Radio className="h-5 w-5" />
