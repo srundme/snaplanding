@@ -6,9 +6,9 @@ import SectionLabel from "./SectionLabel";
 const JUDGE_AVATARS = [
   { name: "Bharanidharan N.", role: "CIO, ProConnect", image: "/images/voiceathon/bharanidharan.png" },
   { name: "Dharun Jayakrishnan", role: "CTO, ZenXai", image: "/images/voiceathon/dharun.png" },
+  { name: "Haarishkumar Bhaskar", role: "Founder, FounderEdge", image: "/images/voiceathon/haarishkumar.png" },
   { name: "Kannan Ganesan", role: "CTO, Smartail (Ex-VP JPMorgan)", image: "/images/voiceathon/kannan.png" },
   { name: "Prasath Sekar", role: "PM, TeleCMI", image: "/images/voiceathon/prasath.png" },
-  { name: "Haarishkumar Bhaskar", role: "Founder, Raido", image: "/images/voiceathon/haarishkumar.png" },
 ];
 
 export default function VoiceathonTeaser() {

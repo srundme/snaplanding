@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Trophy,
@@ -12,12 +12,12 @@ import {
   Shield,
   Radio,
   ChevronRight,
+  Users,
 } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 import Seo from "../components/Seo";
 import SiteFooter from "../components/SiteFooter";
 import SnapServeLogo from "../components/SnapServeLogo";
-import VoiceathonPosterCard from "../components/VoiceathonPosterCard";
 import { SIGNUP_URL, PARTNER_URL } from "../lib/links";
 
 const JUDGES = [
@@ -62,6 +62,27 @@ const JUDGES = [
     linkedin: "https://www.linkedin.com/in/dharun-jayakrishnan",
   },
   {
+    id: "haarishkumar",
+    name: "Haarishkumar Bhaskar",
+    title: "Founder",
+    company: "FounderEdge",
+    image: "/images/voiceathon/haarishkumar.png",
+    badge: "FounderEdge",
+    alum: "Product Dev · RYDDO",
+    track: "GenAI Product Innovation & Autonomous Agents",
+    quote:
+      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers. That founder edge is what moves industries forward.",
+    bio: "Founder at FounderEdge and AI Product Developer at RYDDO. Building next-generation AI-driven software with deep expertise in Generative AI, autonomous agents, and turning technical prototypes into scalable market solutions.",
+    credentials: [
+      "Founder at FounderEdge",
+      "Product Developer at RYDDO",
+      "Generative AI & Agentic Product Innovation Lead",
+      "Rapid Prototype to Enterprise Scale Specialization",
+    ],
+    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
+    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
+  },
+  {
     id: "kannan",
     name: "Kannan Ganesan",
     title: "Co-Founder & CTO",
@@ -100,26 +121,6 @@ const JUDGES = [
     ],
     tags: ["CRM Telephony", "Voice Agents", "SalesOS & SDKs", "Telephony Infrastructure"],
     linkedin: "https://www.linkedin.com/in/prasath-sekar",
-  },
-  {
-    id: "haarishkumar",
-    name: "Haarishkumar Bhaskar",
-    title: "AI Product Developer & Startup Founder",
-    company: "Raido & Founder Edge",
-    image: "/images/voiceathon/haarishkumar.png",
-    badge: "Startup Founder",
-    alum: "Founder Edge",
-    track: "GenAI Product Innovation & Autonomous Agents",
-    quote:
-      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers. That founder edge is what moves industries forward.",
-    bio: "AI Product Developer and startup founder building next-generation AI-driven software. Extensive experience in Generative AI, autonomous agents, and turning technical prototypes into scalable market solutions through customer-focused problem-solving.",
-    credentials: [
-      "Founder at Raido & Founder Edge",
-      "Generative AI & Agentic Product Innovation Lead",
-      "Rapid Prototype to Enterprise Scale Specialization",
-    ],
-    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
-    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
   },
 ];
 
@@ -163,7 +164,18 @@ const PRIZES = [
 
 export default function VoiceathonPage() {
   const [selectedJudgeIdx, setSelectedJudgeIdx] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const selectedJudge = JUDGES[selectedJudgeIdx];
+  const timerRef = useRef(null);
+
+  // Auto-advance spotlight every 3 seconds (pauses on user hover)
+  useEffect(() => {
+    if (isPaused) return;
+    timerRef.current = setInterval(() => {
+      setSelectedJudgeIdx((prev) => (prev + 1) % JUDGES.length);
+    }, 3000);
+    return () => clearInterval(timerRef.current);
+  }, [isPaused]);
 
   return (
     <div className="relative min-h-screen bg-[#070709] text-[#fafafa] selection:bg-[#14B8A6] selection:text-black">
@@ -181,7 +193,8 @@ export default function VoiceathonPage() {
           "dharun zenxai",
           "kannan smartail",
           "prasath telecmi",
-          "haarishkumar raido",
+          "haarishkumar founderedge",
+          "haarishkumar ryddo",
         ]}
       />
 
@@ -219,30 +232,6 @@ export default function VoiceathonPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <a
-              href="#jury"
-              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
-            >
-              Grand Jury
-            </a>
-            <a
-              href="#showcase"
-              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
-            >
-              On-Ground Showcase
-            </a>
-            <a
-              href="#prizes"
-              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
-            >
-              Prizes & Grants
-            </a>
-            <a
-              href="#agenda"
-              className="hidden text-xs font-medium text-[#a1a1aa] transition-colors hover:text-white sm:inline-block"
-            >
-              Day Schedule
-            </a>
             <Link
               to={PARTNER_URL}
               className="hidden rounded-full border border-[#27272a] px-3.5 py-1.5 text-xs text-[#a1a1aa] transition-colors hover:text-white md:inline-flex"
@@ -263,31 +252,24 @@ export default function VoiceathonPage() {
       {/* ------------------------------------------------------------------ */}
       {/* 3. HERO: KEYNOTE SUMMIT & HOLOGRAPHIC VIP PASS                     */}
       {/* ------------------------------------------------------------------ */}
-      <main className="relative z-10 mx-auto max-w-6xl px-6 pt-12 pb-20 md:pt-20 md:pb-28">
+      <main className="relative z-10 mx-auto max-w-6xl px-6 pt-5 pb-20 md:pt-8 md:pb-28">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
           {/* Left Hero Content */}
           <div className="lg:col-span-7">
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">
-              <span className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-3.5 py-1 text-xs font-semibold text-orange-400 shadow-sm shadow-orange-500/5">
-                <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
-                <span>Tamil Nadu Edition</span>
-                <span className="text-orange-500/40">·</span>
-                <span className="text-orange-300/90 font-medium">Chapter 01</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3 py-1 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 text-xs">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3.5 py-1.5 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
                 <Calendar className="h-3.5 w-3.5 text-[#14B8A6]" />
                 05 September 2026
               </span>
 
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3 py-1 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#27272a] bg-[#121215]/80 px-3.5 py-1.5 text-xs font-medium text-[#a1a1aa] backdrop-blur-sm">
                 <MapPin className="h-3.5 w-3.5 text-[#14B8A6]" />
                 Chennai
               </span>
             </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-2.5 text-xs text-[#a1a1aa]">
-              <span className="inline-flex items-center rounded-md bg-[#14B8A6]/10 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-[#14B8A6]">
+            <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-3.5 text-xs text-[#a1a1aa]">
+              <span className="inline-flex items-center rounded-md bg-[#14B8A6]/10 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#14B8A6]">
                 Build The Voice of India
               </span>
               <span className="text-[#3f3f46]">·</span>
@@ -298,26 +280,22 @@ export default function VoiceathonPage() {
               <span className="text-xs text-[#71717a]">
                 Organized by <strong className="font-semibold text-white">SnapServe</strong>
               </span>
-              <span className="text-[#3f3f46]">·</span>
-              <span className="text-xs text-[#71717a]">
-                Ecosystem Partner <strong className="font-semibold text-white">ZenXai</strong>
-              </span>
             </div>
 
-            <h1 className="mt-5 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[60px] lg:leading-[1.08]">
+            <h1 className="mt-6 text-[38px] font-extrabold tracking-[-0.035em] text-white sm:text-[54px] lg:text-[60px] lg:leading-[1.08]">
               Architecting the future of{" "}
               <span className="brand-gradient-text">Conversational Voice AI.</span>
             </h1>
 
             <p className="mt-6 max-w-2xl text-[16px] leading-relaxed text-[#a1a1aa] md:text-[18px]">
-              Held on September 5, 2026 in Chennai, Voice-A-Thon brought together over 100 teams to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
+              Held on September 5, 2026 in Chennai, Voice-A-Thon brought together over 50+ teams to build production-grade, low-latency voice agents for the Indian enterprise. Scored live on real telephony pipelines by executive CIOs and engineering pioneers.
             </p>
 
             {/* Quick Stats Grid */}
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Teams</span>
-                <div className="mt-1 text-2xl font-bold text-white">100</div>
+                <div className="mt-1 text-2xl font-bold text-white">50+</div>
                 <p className="text-[11px] text-[#14B8A6]">Top Teams</p>
               </div>
               <div className="rounded-2xl border border-[#27272a] bg-[#121215]/80 p-4 backdrop-blur-sm">
@@ -356,84 +334,22 @@ export default function VoiceathonPage() {
             </div>
           </div>
 
-          {/* Right Holographic VIP Event Pass */}
+          {/* Right: Official Summit Poster */}
           <div className="relative flex justify-center lg:col-span-5">
-            <div className="relative w-full max-w-[370px]">
-              {/* Decorative Glow */}
-              <div className="pointer-events-none absolute -inset-1 rounded-3xl bg-gradient-to-r from-[#14B8A6]/30 via-[#38bdf8]/20 to-[#6366f1]/30 opacity-75 blur-xl" />
+            <div className="relative w-full max-w-[450px] lg:max-w-[470px]">
+              {/* Vibrant Ambient Glow */}
+              <div className="pointer-events-none absolute -inset-2 rounded-[36px] bg-gradient-to-tr from-[#14B8A6]/30 via-orange-500/25 to-indigo-600/25 opacity-80 blur-2xl" />
 
-              {/* Holographic Pass Body */}
-              <div className="relative overflow-hidden rounded-3xl border border-[#14B8A6]/40 bg-gradient-to-br from-[#1c1c24] via-[#121217] to-[#09090b] p-6 shadow-2xl backdrop-blur-2xl">
-                {/* Holographic Sheen */}
-                <div className="pointer-events-none absolute -top-24 -left-24 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
-
-                {/* Pass Header */}
-                <div className="flex items-center justify-between border-b border-[#27272a] pb-4">
-                  <div className="flex items-center gap-2">
-                    <SnapServeLogo variant="mark" size="sm" />
-                    <div>
-                      <div className="text-[12px] font-black uppercase tracking-wider text-white">Voice-A-Thon</div>
-                      <div className="text-[9px] font-bold uppercase tracking-wider text-orange-400">TAMIL NADU EDITION</div>
-                    </div>
-                  </div>
-                  <div className="rounded-md border border-orange-500/40 bg-orange-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-orange-400">
-                    CHAPTER 01 · CHENNAI
-                  </div>
-                </div>
-
-                {/* Pass Center Content */}
-                <div className="py-6">
-                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#71717a]">
-                    Official Summit Delegation
-                  </span>
-                  <div className="mt-1 text-xl font-extrabold tracking-tight text-white">
-                    Build The Voice of India
-                  </div>
-                  <p className="mt-1 text-xs text-[#a1a1aa]">
-                    Chennai · 05 September 2026 · Powered by vobiz & SnapServe
-                  </p>
-
-                  {/* 5 Judge Mini Avatars Floating */}
-                  <div className="mt-5 rounded-2xl border border-[#27272a] bg-[#09090b]/80 p-3.5">
-                    <div className="flex items-center justify-between text-[11px] text-[#71717a]">
-                      <span>Grand Jury Panel:</span>
-                      <span className="font-semibold text-[#14B8A6]">5 Leaders</span>
-                    </div>
-                    <div className="mt-2.5 flex -space-x-2 overflow-hidden">
-                      {JUDGES.map((j) => (
-                        <img
-                          key={j.id}
-                          src={j.image}
-                          alt={j.name}
-                          width={36}
-                          height={36}
-                          className="inline-block h-9 w-9 rounded-full border-2 border-[#121217] object-cover object-top"
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Pass Telemetry Footer */}
-                <div className="border-t border-[#27272a] pt-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-[10px] uppercase tracking-wider text-[#71717a]">Evaluation Protocol</div>
-                      <div className="font-mono text-xs font-semibold text-[#14B8A6]">Zero-Drop Stateful Voice</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-[10px] uppercase tracking-wider text-[#71717a]">Latency Threshold</div>
-                      <div className="font-mono text-xs font-semibold text-white">P95 &lt; 350ms</div>
-                    </div>
-                  </div>
-                  <div className="mt-3 flex items-center justify-between border-t border-[#27272a]/60 pt-2.5 text-[10px] font-mono text-[#71717a]">
-                    <span>STATUS: DELIBERATION COMPLETE</span>
-                    <span className="flex items-center gap-1.5 font-semibold text-[#14B8A6]">
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#14B8A6] animate-pulse" />
-                      AUDITED
-                    </span>
-                  </div>
-                </div>
+              {/* Edge-to-Edge Clean Poster Card */}
+              <div className="group relative overflow-hidden rounded-[28px] border border-white/20 bg-[#FAF9F6] shadow-2xl transition-all duration-300 hover:shadow-[0_25px_60px_rgba(249,115,22,0.25)]">
+                <img
+                  src="/images/voiceathon/voiceathon-poster.jpg?v=4"
+                  alt="Official Voice-A-Thon 2026 Summit Poster"
+                  width={2048}
+                  height={2560}
+                  className="block h-auto w-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                  loading="eager"
+                />
               </div>
             </div>
           </div>
@@ -464,12 +380,16 @@ export default function VoiceathonPage() {
           </div>
 
           {/* Interactive Grand Jury Stage (Senior UI/UX Spotlight) */}
-          <div className="mt-12 overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#141419] via-[#0d0d10] to-[#070709] p-6 shadow-2xl md:p-10">
+          <div
+            className="mt-12 overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#141419] via-[#0d0d10] to-[#070709] p-6 shadow-2xl md:p-10"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             {/* Split Stage: High Resolution Portrait + Deep Executive Profile */}
             <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
               {/* Left Portrait Stage Column */}
               <div className="flex justify-center lg:col-span-5">
-                <div className="relative h-[380px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#1a1a22] to-[#09090b] shadow-2xl sm:h-[420px]">
+                <div className="relative h-[390px] w-full max-w-[340px] overflow-hidden rounded-3xl border border-[#27272a] bg-gradient-to-b from-[#1a1a22] to-[#09090b] shadow-2xl sm:h-[450px] lg:h-[465px]">
                   {/* Halo Aura */}
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.25)_0%,transparent_75%)]" />
 
@@ -480,21 +400,16 @@ export default function VoiceathonPage() {
                       src={selectedJudge.image}
                       alt={selectedJudge.name}
                       width={340}
-                      height={420}
+                      height={465}
                       className="h-full w-full object-contain object-bottom transition-all duration-500 animate-fadeIn"
                     />
                   </div>
 
                   {/* Card Bottom Tag */}
                   <div className="pointer-events-none absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/85 to-transparent p-5 pt-8">
-                    <div className="flex items-center justify-between text-xs">
-                      <div>
-                        <div className="font-bold text-white text-[15px]">{selectedJudge.name}</div>
-                        <div className="text-[12px] font-semibold text-[#14B8A6]">{selectedJudge.company}</div>
-                      </div>
-                      <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-0.5 font-mono text-[11px] text-[#14B8A6]">
-                        JURY #{selectedJudgeIdx + 1}
-                      </span>
+                    <div>
+                      <div className="font-bold text-white text-[15px]">{selectedJudge.name}</div>
+                      <div className="text-[12px] font-semibold text-[#14B8A6]">{selectedJudge.company}</div>
                     </div>
                   </div>
                 </div>
@@ -511,9 +426,9 @@ export default function VoiceathonPage() {
                     <span className="font-semibold text-[#14B8A6]">{selectedJudge.company}</span>
                   </p>
 
-                  <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b]/80 px-4 py-2 font-mono text-xs text-[#a1a1aa]">
-                    <span className="text-[#71717a]">Hackathon Focus:</span>{" "}
-                    <span className="text-white font-medium">{selectedJudge.track}</span>
+                  <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b]/80 px-4 py-2.5 text-xs text-[#a1a1aa]">
+                    <span className="text-[#71717a] font-medium">Hackathon Focus:</span>{" "}
+                    <span className="text-white font-semibold">{selectedJudge.track}</span>
                   </div>
 
                   {/* Deliberation Quote */}
@@ -542,7 +457,7 @@ export default function VoiceathonPage() {
                     {selectedJudge.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="rounded-md border border-[#27272a] bg-[#121215] px-2.5 py-1 font-mono text-[11px] text-[#71717a]"
+                        className="rounded-lg border border-[#27272a] bg-[#121215] px-2.5 py-1 text-[11px] font-medium text-[#a1a1aa] transition-colors hover:border-[#14B8A6]/40 hover:text-white"
                       >
                         {tag}
                       </span>
@@ -551,7 +466,7 @@ export default function VoiceathonPage() {
                 </div>
 
                 {/* Social Button */}
-                <div className="mt-8 flex items-center gap-4 border-t border-[#27272a] pt-6">
+                <div className="mt-6 flex items-center gap-4 pt-1">
                   {selectedJudge.linkedin ? (
                     <a
                       href={selectedJudge.linkedin}
@@ -570,37 +485,18 @@ export default function VoiceathonPage() {
               </div>
             </div>
 
-            {/* Quick Switch Judge Ribbon (All 5 Judges visible) */}
-            <div className="mt-10 border-t border-[#27272a] pt-6">
-              <div className="mb-3 flex items-center justify-between text-xs text-[#71717a]">
-                <span className="font-semibold text-[#a1a1aa]">Switch Grand Jury Spotlight:</span>
-                <span>Click any judge to view details</span>
-              </div>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-                {JUDGES.map((judge, idx) => (
+            {/* Minimal Indicator Pills */}
+            <div className="mt-8 flex items-center justify-center border-t border-[#27272a] pt-5">
+              <div className="flex items-center gap-2">
+                {JUDGES.map((_, i) => (
                   <button
-                    key={judge.id}
-                    onClick={() => setSelectedJudgeIdx(idx)}
-                    className={`group relative flex items-center gap-3 rounded-2xl border p-3 text-left transition-all duration-300 ${
-                      idx === selectedJudgeIdx
-                        ? "border-[#14B8A6] bg-[#14B8A6]/10 shadow-[0_0_20px_rgba(20,184,166,0.2)]"
-                        : "border-[#27272a] bg-[#121215] hover:border-[#14B8A6]/40 hover:bg-[#16161b]"
+                    key={i}
+                    onClick={() => setSelectedJudgeIdx(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === selectedJudgeIdx ? "w-8 bg-[#14B8A6]" : "w-2 bg-[#27272a] hover:bg-[#71717a]"
                     }`}
-                  >
-                    <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border border-[#27272a] bg-[#070709]">
-                      <img
-                        src={judge.image}
-                        alt={judge.name}
-                        width={48}
-                        height={48}
-                        className="h-full w-full object-cover object-top"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="truncate text-xs font-bold text-white">{judge.name}</div>
-                      <div className="truncate text-[11px] text-[#14B8A6]">{judge.company}</div>
-                    </div>
-                  </button>
+                    aria-label={`Switch to judge ${i + 1}`}
+                  />
                 ))}
               </div>
             </div>
@@ -719,84 +615,128 @@ export default function VoiceathonPage() {
                 Official edition specification and verified on-ground field capture from Chennai on 05 September 2026.
               </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-2.5 text-xs">
-              <span className="rounded-full border border-orange-500/40 bg-orange-500/10 px-3.5 py-1.5 font-medium text-orange-400">
-                Powered by vobiz
-              </span>
-              <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-3.5 py-1.5 font-medium text-[#14B8A6]">
-                Organized by SnapServe
-              </span>
-              <span className="rounded-full border border-blue-500/40 bg-blue-500/10 px-3.5 py-1.5 font-medium text-blue-400">
-                Ecosystem: ZenXai
-              </span>
-            </div>
           </div>
 
-          {/* Grid: Crisp Vector Poster Card (Left) + Natural Compact Field Photo Frame (Right) */}
+          {/* Main Showcase Grid: Left Spotlight (HD Photo) + Right Technical Summit Console */}
           <div className="mt-10 grid items-start gap-8 lg:grid-cols-12">
-            {/* Left: 100% Vector-Sharp Official Edition Poster Card */}
-            <div className="flex flex-col items-center lg:col-span-7">
-              <div className="w-full">
-                <div className="mb-3 flex items-center justify-between px-2 text-xs">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-orange-400">
-                    Official Edition Graphic Specification
-                  </span>
-                  <span className="rounded-md border border-[#27272a] bg-[#121215] px-2 py-0.5 text-[10px] font-semibold tracking-wider text-[#71717a]">
-                    VECTOR SHARP · ZERO BLUR
-                  </span>
+            {/* Left: HD Photo Spotlight with Ambient Backdrop Glow */}
+            <div className="relative flex flex-col items-center lg:col-span-5">
+              {/* Dual-color ambient lighting aura */}
+              <div className="pointer-events-none absolute -inset-2 rounded-[36px] bg-gradient-to-tr from-orange-500/15 via-[#14B8A6]/10 to-blue-500/10 blur-2xl opacity-75" />
+
+              <div className="relative w-full overflow-hidden rounded-3xl border border-[#27272a] bg-[#121215] p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:border-[#14B8A6]/40">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src="/images/voiceathon/voiceathon-chennai-venue-hd.jpg?v=2"
+                    alt="Voice-A-Thon 2026 On-Site Easel Standee outside Chennai venue"
+                    width={1544}
+                    height={2048}
+                    className="h-auto w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+                  />
                 </div>
-                <VoiceathonPosterCard />
               </div>
             </div>
 
-            {/* Right: Natural Compact On-Ground Capture Frame */}
-            <div className="flex flex-col items-center lg:col-span-5">
-              <div className="w-full rounded-3xl border border-[#27272a] bg-[#121215] p-5 shadow-xl">
-                <div className="flex items-center justify-between pb-3 border-b border-[#27272a]">
+            {/* Right: Rich Interactive Summit Experience & Highlights Console */}
+            <div className="flex flex-col gap-5 lg:col-span-7">
+              {/* Summit Overview Banner Card */}
+              <div className="rounded-3xl border border-[#27272a] bg-[#121215] p-6 shadow-xl">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#27272a] pb-4">
                   <div className="flex items-center gap-2">
                     <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-white">Live On-Site Capture</span>
+                    <span className="text-xs font-bold uppercase tracking-wider text-white">Event Telemetry & Specifications</span>
                   </div>
-                  <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-0.5 text-[10px] font-bold tracking-wider text-[#14B8A6]">
-                    VERIFIED
+                  <span className="rounded-md border border-[#27272a] bg-[#09090b] px-2.5 py-1 text-[11px] font-bold text-orange-400">
+                    CHAPTER 01 · CHENNAI
                   </span>
                 </div>
 
-                {/* Natural resolution photo - 260px width, no stretching, crisp natural view */}
-                <div className="mt-4 flex justify-center">
-                  <div className="relative overflow-hidden rounded-2xl border border-[#27272a] bg-[#09090b] shadow-2xl">
-                    <img
-                      src="/images/voiceathon/venue-standee.jpg"
-                      alt="Voice-A-Thon 2026 On-Site Easel Standee outside Chennai venue"
-                      width={280}
-                      height={373}
-                      className="h-auto w-[260px] sm:w-[280px] object-contain rounded-2xl"
-                    />
+                {/* 4 Interactive Telemetry Metrics */}
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  <div className="rounded-2xl border border-[#27272a] bg-[#09090b] p-4 transition-all hover:border-[#14B8A6]/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Competition Cohort</span>
+                      <Users className="h-4 w-4 text-[#14B8A6]" />
+                    </div>
+                    <div className="mt-2 text-2xl font-black text-white">50+ Teams</div>
+                    <p className="mt-1 text-xs text-[#a1a1aa]">150+ Top AI Engineers & Researchers</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-[#27272a] bg-[#09090b] p-4 transition-all hover:border-orange-500/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Build Sprint</span>
+                      <Calendar className="h-4 w-4 text-orange-400" />
+                    </div>
+                    <div className="mt-2 text-2xl font-black text-white">12 Hours</div>
+                    <p className="mt-1 text-xs text-[#a1a1aa]">From Zero to Live Production Caller</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-[#27272a] bg-[#09090b] p-4 transition-all hover:border-emerald-500/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Prize Pool</span>
+                      <Trophy className="h-4 w-4 text-emerald-400" />
+                    </div>
+                    <div className="mt-2 text-2xl font-black text-white">₹ 1,00,000</div>
+                    <p className="mt-1 text-xs text-[#a1a1aa]">Grants, APIs & Enterprise Credits</p>
+                  </div>
+
+                  <div className="rounded-2xl border border-[#27272a] bg-[#09090b] p-4 transition-all hover:border-sky-500/40">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-[#71717a]">Latency Target</span>
+                      <Radio className="h-4 w-4 text-sky-400" />
+                    </div>
+                    <div className="mt-2 text-2xl font-black text-white">P95 &lt; 350ms</div>
+                    <p className="mt-1 text-xs text-[#a1a1aa]">Zero-Drop Audio over Real PSTN</p>
                   </div>
                 </div>
 
-                <div className="mt-4 rounded-xl border border-[#27272a] bg-[#09090b] p-3 text-xs">
-                  <div className="font-semibold text-white">Easel Standee at Venue Entrance</div>
-                  <div className="mt-0.5 text-[11px] text-[#a1a1aa]">
-                    Chennai, Tamil Nadu · 05 September 2026 · Olive Public School campus
-                  </div>
-                  <div className="mt-2.5 flex items-center justify-between border-t border-[#27272a] pt-2 text-[10px] font-semibold text-[#71717a]">
-                    <span>PHOTO RESOLUTION: NATIVE</span>
-                    <span className="text-orange-400">AUTHENTIC ON-SITE</span>
+                {/* Live Jury Evaluation Strip */}
+                <div className="mt-5 rounded-2xl border border-[#27272a] bg-[#09090b] p-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-white">Grand Jury Panel</span>
+                        <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2 py-0.5 text-[10px] font-semibold text-[#14B8A6]">
+                          5 Leaders
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xs text-[#a1a1aa]">
+                        Scored live by CIOs, Heads of AI & VP Engineering leaders.
+                      </p>
+                    </div>
+
+                    <div className="flex -space-x-2 overflow-hidden">
+                      {JUDGES.map((j) => (
+                        <img
+                          key={j.id}
+                          src={j.image}
+                          alt={j.name}
+                          width={36}
+                          height={36}
+                          className="inline-block h-9 w-9 rounded-full border-2 border-[#121217] object-cover object-top"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                {/* Verified Specs Pills */}
-                <div className="mt-3 grid grid-cols-2 gap-2 text-center text-[11px]">
-                  <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
-                    <div className="text-[9px] font-medium uppercase tracking-wider text-[#71717a]">Sprint Span</div>
-                    <div className="font-bold text-white">12 Hours Build</div>
+                {/* Multilingual Voice Pipeline Badges */}
+                <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-[#27272a] pt-4 text-xs">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[#71717a] font-medium">Evaluation Dialects:</span>
+                    <span className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-0.5 text-[11px] font-medium text-white">Tamil</span>
+                    <span className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-0.5 text-[11px] font-medium text-white">Tanglish</span>
+                    <span className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-0.5 text-[11px] font-medium text-white">Hindi</span>
+                    <span className="rounded-md border border-[#27272a] bg-[#09090b] px-2 py-0.5 text-[11px] font-medium text-white">English</span>
                   </div>
-                  <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-2">
-                    <div className="text-[9px] font-medium uppercase tracking-wider text-[#71717a]">Ecosystem</div>
-                    <div className="font-bold text-[#14B8A6]">ZenXai Partner</div>
-                  </div>
+
+                  <a
+                    href="#judges"
+                    className="inline-flex items-center gap-1 font-semibold text-[#14B8A6] hover:underline"
+                  >
+                    <span>Meet the Jury</span>
+                    <ChevronRight className="h-3.5 w-3.5" />
+                  </a>
                 </div>
               </div>
             </div>

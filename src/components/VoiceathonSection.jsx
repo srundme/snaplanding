@@ -50,6 +50,22 @@ const JUDGES = [
     linkedin: "https://www.linkedin.com/in/dharun-jayakrishnan",
   },
   {
+    id: "haarishkumar",
+    name: "Haarishkumar Bhaskar",
+    title: "Founder",
+    company: "FounderEdge",
+    image: "/images/voiceathon/haarishkumar.png",
+    badge: "FounderEdge",
+    alum: "Product Dev · RYDDO",
+    focus: "GenAI Product Innovation",
+    quote:
+      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers.",
+    credentials:
+      "Founder at FounderEdge and Product Developer at RYDDO specializing in Generative AI, autonomous agent products, and rapidly transforming early-stage prototypes into scalable market solutions.",
+    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
+    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
+  },
+  {
     id: "kannan",
     name: "Kannan Ganesan",
     title: "Co-Founder & CTO",
@@ -81,22 +97,6 @@ const JUDGES = [
     tags: ["CRM Telephony", "Voice Agents", "SalesOS & SDKs", "Telephony Infrastructure"],
     linkedin: "https://www.linkedin.com/in/prasath-sekar",
   },
-  {
-    id: "haarishkumar",
-    name: "Haarishkumar Bhaskar",
-    title: "AI Product Developer & Founder",
-    company: "Raido & Founder Edge",
-    image: "/images/voiceathon/haarishkumar.png",
-    badge: "Startup Founder",
-    alum: "Founder Edge",
-    focus: "GenAI Product Innovation",
-    quote:
-      "The rapid experimentation on display was incredible. Builders took raw speech models and turned them into commercially viable, empathetic voice products ready for real customers.",
-    credentials:
-      "AI Product Developer and startup founder specializing in Generative AI, autonomous agent products, and rapidly transforming early-stage prototypes into scalable market solutions.",
-    tags: ["Generative AI", "AI Agents", "Product Innovation", "Startup Growth"],
-    linkedin: "https://www.linkedin.com/in/haarishkumar-kathavarayan-bhaskar-11b9b2249",
-  },
 ];
 
 const METRICS = [
@@ -117,7 +117,7 @@ export default function VoiceathonSection() {
     if (isPaused) return undefined;
     timerRef.current = setInterval(() => {
       setActiveIdx((prev) => (prev + 1) % JUDGES.length);
-    }, 6000);
+    }, 3000);
     return () => clearInterval(timerRef.current);
   }, [isPaused]);
 
@@ -346,14 +346,9 @@ export default function VoiceathonSection() {
 
                   {/* Card Bottom Tag */}
                   <div className="pointer-events-none absolute bottom-0 inset-x-0 bg-gradient-to-t from-black via-black/80 to-transparent p-5 pt-10">
-                    <div className="flex items-center justify-between text-xs">
-                      <div>
-                        <div className="font-bold text-white">{activeJudge.name}</div>
-                        <div className="text-[11px] text-[#14B8A6] font-medium">{activeJudge.company}</div>
-                      </div>
-                      <span className="rounded-full border border-[#14B8A6]/40 bg-[#14B8A6]/10 px-2.5 py-0.5 font-mono text-[10px] text-[#14B8A6]">
-                        JURY #{activeIdx + 1}
-                      </span>
+                    <div>
+                      <div className="font-bold text-white">{activeJudge.name}</div>
+                      <div className="text-[11px] text-[#14B8A6] font-medium">{activeJudge.company}</div>
                     </div>
                   </div>
                 </div>

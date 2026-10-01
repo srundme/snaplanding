@@ -107,12 +107,12 @@ export default function VoiceathonPosterCard({ className = "" }) {
 
       {/* 3 Metric Columns */}
       <div className="relative z-10 grid grid-cols-3 divide-x divide-[#e4e4e7] border-y border-[#e4e4e7] py-4 text-center">
-        {/* 100 Teams */}
+        {/* 50+ Teams */}
         <div className="px-2">
           <div className="mx-auto flex h-7 w-7 items-center justify-center rounded-lg bg-[#f4f4f5] text-[#18181b]">
             <Users className="h-4 w-4" />
           </div>
-          <div className="mt-1.5 font-extrabold text-[17px] text-[#09090b]">100</div>
+          <div className="mt-1.5 font-extrabold text-[17px] text-[#09090b]">50+</div>
           <div className="text-[10px] font-bold uppercase tracking-wider text-[#71717a]">Teams</div>
         </div>
 
