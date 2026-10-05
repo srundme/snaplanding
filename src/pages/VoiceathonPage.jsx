@@ -27,7 +27,7 @@ const JUDGES = [
     name: "Haarishkumar Bhaskar",
     title: "Founder",
     company: "FounderEdge",
-    image: "/images/voiceathon/haarishkumar.png",
+    image: "/images/voiceathon/haarishkumar-bhaskar.png",
     badge: "FounderEdge",
     alum: "AI Product Dev · RAIDO",
     track: "GenAI Product Innovation & Autonomous Agents",

@@ -4,7 +4,7 @@ import { Reveal } from "./motion/Reveal";
 import SectionLabel from "./SectionLabel";
 
 const JUDGE_AVATARS = [
-  { name: "Haarishkumar Bhaskar", role: "Founder, FounderEdge", image: "/images/voiceathon/haarishkumar.png" },
+  { name: "Haarishkumar Bhaskar", role: "Founder, FounderEdge", image: "/images/voiceathon/haarishkumar-bhaskar.png" },
   { name: "Dharun Jayakrishnan", role: "CTO, ZenXai", image: "/images/voiceathon/dharun.png" },
   { name: "Bharanidharan N.", role: "CIO, ProConnect", image: "/images/voiceathon/bharanidharan.png" },
   { name: "Kannan Ganesan", role: "CTO, Smartail (Ex-VP JPMorgan)", image: "/images/voiceathon/kannan.png" },
